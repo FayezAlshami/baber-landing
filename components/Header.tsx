@@ -3,16 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import { useI18n } from "./I18nProvider";
 import Icon from "./ui/Icon";
+import Logo from "./ui/Logo";
+import { setScrollLock } from "./SmoothScroll";
 import { LOCALES, localeHref } from "@/src/i18n";
-import { whatsappLink } from "@/src/config/site";
+import { BRAND, whatsappLink } from "@/src/config/site";
 
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
-    <span className={`inline-flex items-baseline gap-2 ${className}`} dir="ltr">
-      <span className="text-[22px] font-medium tracking-[-0.04em] text-bone">
-        Baber<span className="text-brand">.</span>
+    <span className={`inline-flex items-center gap-3 ${className}`} dir="ltr" lang="en">
+      <Logo className="h-auto w-[132px] sm:w-[150px]" />
+      <span className="hidden border-s border-white/10 ps-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-bone/35 xl:inline">
+        by {BRAND.company}
       </span>
-      <span className="hidden text-[10px] font-medium uppercase tracking-[0.3em] text-bone/35 sm:inline">by Nivx</span>
     </span>
   );
 }
@@ -67,7 +69,7 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    setScrollLock(open, "menu");
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {

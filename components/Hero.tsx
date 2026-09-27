@@ -37,7 +37,7 @@ function PhoneMock() {
     <div ref={ref} className="relative mx-auto w-[280px] sm:w-[300px]" aria-hidden="true">
       <div className="glow absolute -inset-16 -z-10 opacity-80" />
       <div className="relative rounded-[46px] border border-white/15 bg-neutral-950 p-[10px] shadow-[0_60px_120px_-30px_rgba(0,0,0,0.9),inset_0_0_0_1px_rgba(255,255,255,0.04)]">
-        <div className="relative overflow-hidden rounded-[37px] bg-[#0c0c0d]">
+        <div className="relative overflow-hidden rounded-[37px] bg-neutral-900">
           <div className="absolute start-1/2 top-2.5 z-20 h-[22px] w-[88px] -translate-x-1/2 rounded-full bg-black rtl:translate-x-1/2" />
           <div className="flex items-center justify-between px-6 pb-2 pt-3.5 text-[11px] font-medium text-bone/80" dir="ltr">
             <span>9:41</span>
@@ -80,7 +80,7 @@ function PhoneMock() {
                       <span
                         key={time}
                         className={`rounded-xl border py-2.5 text-center text-[12px] transition-all duration-500 ${
-                          on ? "border-brand bg-brand text-white shadow-[0_8px_24px_-8px_rgba(230,5,13,.8)]" : "border-white/10 text-bone/70"
+                          on ? "border-brand bg-brand text-ink shadow-[0_8px_24px_-8px_rgba(255,169,133,.8)]" : "border-white/10 text-bone/70"
                         } ${i === 1 ? "opacity-35 line-through" : ""}`}
                       >
                         {time}
@@ -91,7 +91,7 @@ function PhoneMock() {
 
                 <div
                   className={`mt-6 flex h-12 items-center justify-center rounded-2xl text-[13px] font-medium transition-all duration-500 ${
-                    stage >= 2 ? "bg-brand text-white" : "bg-white/[0.06] text-bone/40"
+                    stage >= 2 ? "bg-brand text-ink" : "bg-white/[0.06] text-bone/40"
                   }`}
                 >
                   {p.confirm}

@@ -2,10 +2,10 @@ import type { Dict } from "./en";
 
 const nl: Dict = {
   meta: {
-    title: "Baber — Website met online boekingen voor barbershops | Nivx",
+    title: "Trimio — Website met online boekingen voor barbershops | Nivx",
     description:
       "Een eigen website met online afspraken, speciaal voor barbershops. Klanten kiezen dienst, barber, vestiging en tijd — zonder bellen, zonder account. Inclusief personeel, vestigingen, herinneringen, aanbetalingen, lokale SEO en statistieken.",
-    ogAlt: "Donker, premium barbershop-interieur met leren barberstoelen",
+    ogAlt: "Warm verlichte premium barbershop met zwarte leren stoelen en een messing schaar-embleem",
     keywords: [
       "barbershop website",
       "online afspraken barbier",
@@ -31,11 +31,13 @@ const nl: Dict = {
     close: "Menu sluiten",
     language: "Taal",
     skip: "Naar de inhoud",
-    home: "Baber home",
+    home: "Trimio home",
   },
 
+  intro: { skip: "Intro overslaan" },
+
   hero: {
-    eyebrow: "Baber door Nivx · Gemaakt voor barbershops",
+    eyebrow: "Trimio door Nivx · Gemaakt voor barbershops",
     titleA: "Elke stoel geboekt.",
     titleB: "Elke klant van",
     titleAccent: "jou.",
@@ -43,7 +45,7 @@ const nl: Dict = {
     ctaPrimary: "Plan een gratis demo",
     ctaSecondary: "Probeer het boeken",
     trust: ["Je eigen domeinnaam", "Boeken zonder account", "Wij bouwen en onderhouden het"],
-    imageAlt: "Donker premium barbershop-interieur met een zwarte leren barberstoel",
+    imageAlt: "Warm verlichte premium barbershop met zwarte leren barberstoelen",
     phone: {
       shop: "Studio Noir",
       greeting: "Klaar voor een fresh cut?",
@@ -104,7 +106,7 @@ const nl: Dict = {
       },
     ],
     beforeLabel: "Nu",
-    afterLabel: "Met Baber",
+    afterLabel: "Met Trimio",
     before: [
       "Afspraken via DM's en telefoon",
       "Een agenda op papier of in je hoofd",
@@ -126,7 +128,7 @@ const nl: Dict = {
     title: "Geen losse website.",
     titleAccent: "Je complete balie.",
     intro:
-      "Baber brengt je etalage, je boekingssysteem en je bedrijfsinzicht samen — ontworpen rond hoe een barbershop echt draait, niet rond een standaard template.",
+      "Trimio brengt je etalage, je boekingssysteem en je bedrijfsinzicht samen — ontworpen rond hoe een barbershop echt draait, niet rond een standaard template.",
     pillars: [
       {
         title: "Een site die voelt als je shop",
@@ -145,7 +147,7 @@ const nl: Dict = {
         body: "Herinneringen, aanbetalingen, cadeaubonnen, abonnementen en lokale SEO — alles om rustige uren te vullen en vaste klanten vast te houden.",
       },
     ],
-    imageAlt: "Barber werkt een skin fade af met de tondeuse",
+    imageAlt: "Klant boekt zijn volgende knipbeurt op zijn telefoon in de lounge van een barbershop",
   },
 
   demo: {
@@ -317,7 +319,7 @@ const nl: Dict = {
       { name: "Marco", role: "Barber", specialty: "Baarden" },
       { name: "Sami", role: "Junior barber", specialty: "Kinderen" },
     ],
-    imageAlts: ["Sfeervolle barbershop met bakstenen muur en drie stoelen", "Luxe leren barberstoel in een donkere zaak", "Barber verzorgt de baard van een klant"],
+    imageAlts: ["Gevel van een barbershop in de avond met een verlicht schaar-logo", "Zwarte leren barberstoel aan een marmeren werkplek", "Barber modelleert de baard van een klant met de schaar"],
   },
 
   showcase: {
@@ -327,12 +329,12 @@ const nl: Dict = {
     intro:
       "Een verzorgde galerij laat klanten precies zien waarmee ze naar buiten lopen. Koppel Instagram en TikTok, en zet je Google-reviews er direct naast.",
     alts: {
-      fade: "Close-up van een verse skin fade",
+      fade: "Klant boekt een afspraak op zijn telefoon",
       cut: "Barber knipt met schaar en kam",
-      shave: "Hot-towel scheerbeurt met een scheermes",
-      beard: "Baard trimmen met de tondeuse",
-      craft: "Barber föhnt het haar van een klant",
-      razor: "Scheerbeurt met open scheermes in een donkere zaak",
+      shave: "Scheerbeurt met open scheermes en verse scheerschuim",
+      beard: "Baard in model geknipt met de schaar",
+      craft: "Barbers aan het werk in een drukke, warm verlichte zaak",
+      razor: "Open scheermes en schaar op donker marmer",
     },
     social: [
       { title: "Instagram", body: "Je nieuwste posts, live op je site." },
@@ -346,7 +348,7 @@ const nl: Dict = {
     title: "Gevonden door mensen",
     titleAccent: "om de hoek.",
     intro:
-      "De meeste nieuwe klanten beginnen met zoeken: “barber in de buurt”, “skin fade Rotterdam”. Baber-sites zijn zo gebouwd dat Google — en AI-assistenten — je diensten, prijzen, tijden en vestigingen helder kunnen lezen.",
+      "De meeste nieuwe klanten beginnen met zoeken: “barber in de buurt”, “skin fade Rotterdam”. Trimio-sites zijn zo gebouwd dat Google — en AI-assistenten — je diensten, prijzen, tijden en vestigingen helder kunnen lezen.",
     points: [
       { title: "Lokale SEO per vestiging", body: "Elke locatie een eigen pagina, adres en openingstijden." },
       { title: "Gestructureerde data", body: "Diensten, prijzen en reviews in een vorm die zoekmachines begrijpen." },
@@ -430,7 +432,7 @@ const nl: Dict = {
       "Je klantenbestand blijft van jou",
     ],
     swatchLabel: "Probeer een stijl",
-    swatches: ["Noir", "Messing", "Woud", "Ivoor"],
+    swatches: ["Middernacht", "Messing", "Woud", "Ivoor"],
     mock: { nav: ["Diensten", "Team", "Vestigingen"], title: "Scherpe coupes.", sub: "Sinds 2014 · Rotterdam", cta: "Boek nu" },
   },
 
@@ -452,8 +454,8 @@ const nl: Dict = {
     title: "Waarom shops kiezen voor",
     titleAccent: "een eigen platform.",
     intro:
-      "Instagram, marktplaats-apps en websitebouwers lossen elk een deel van het probleem op. Baber lost het geheel op — onder jouw naam.",
-    cols: ["Baber", "Instagram + WhatsApp", "Marktplaats-boekingsapps", "Zelfbouw-websitebouwer"],
+      "Instagram, marktplaats-apps en websitebouwers lossen elk een deel van het probleem op. Trimio lost het geheel op — onder jouw naam.",
+    cols: ["Trimio", "Instagram + WhatsApp", "Marktplaats-boekingsapps", "Zelfbouw-websitebouwer"],
     rows: [
       "Eigen merk en domein",
       "Klanten boeken 24/7 zonder bellen",
@@ -576,7 +578,7 @@ const nl: Dict = {
     titleAccent: "Eerlijke antwoorden.",
     intro: "Twijfel je nog? Stuur ons een bericht — er antwoordt een echt mens.",
     items: [
-      { q: "Kan ik mijn eigen huisstijl gebruiken?", a: "Ja. Elke Baber-site wordt ontworpen rond jouw zaak: je logo, kleuren, foto's en toon. Het ziet er niet uit als een template, omdat het er geen is." },
+      { q: "Kan ik mijn eigen huisstijl gebruiken?", a: "Ja. Elke Trimio-site wordt ontworpen rond jouw zaak: je logo, kleuren, foto's en toon. Het ziet er niet uit als een template, omdat het er geen is." },
       { q: "Kunnen klanten zelf hun barber kiezen?", a: "Ja. Klanten kiezen een specifieke barber of gewoon de eerste die vrij is. Elke barber heeft een eigen profiel en rooster." },
       { q: "Kan ik meerdere vestigingen beheren?", a: "Ja. Elke vestiging krijgt een eigen adres, openingstijden, team, diensten en prijzen — allemaal vanuit één dashboard. Klanten kiezen hun locatie bij het boeken." },
       { q: "Kan ik diensten en prijzen zelf aanpassen?", a: "Ja, op elk moment vanuit je dashboard. Wijzigingen staan direct live. Liever dat wij het doen? Stuur een bericht." },
@@ -606,7 +608,7 @@ const nl: Dict = {
       note: "Opent WhatsApp met je gegevens ingevuld. Er wordt niets opgeslagen op deze pagina.",
     },
     or: "Liever mailen?",
-    imageAlt: "Barbergereedschap — tondeuse, schaar, kam en scheermes op donkere leisteen",
+    imageAlt: "Barbergereedschap — tondeuse, schaar, open scheermes en scheerkwast op donker marmer",
   },
 
   footer: {
@@ -614,16 +616,16 @@ const nl: Dict = {
     product: "Product",
     company: "Bedrijf",
     contact: "Contact",
-    byNivx: "Baber is een product van Nivx",
+    byNivx: "Trimio is een product van Nivx",
     rights: "Alle rechten voorbehouden.",
-    imageCredit: "Fotografie: Unsplash",
+    imageCredit: "Beelden zijn ter illustratie.",
   },
 
   wa: {
-    general: "Hoi Baber! Ik wil graag een demo van de boekingswebsite voor mijn barbershop.",
-    pkg: "Hoi Baber! Ik heb interesse in het {pkg}-pakket ({period}) — {price}. Kunnen we even schakelen?",
-    custom: "Hoi Baber! We hebben meer dan vijf vestigingen of zoeken iets op maat. Kunnen we even praten?",
-    form: "Hoi Baber! Ik ben {name} van {shop} in {city} ({branches}). Ik wil graag een persoonlijke demo.",
+    general: "Hoi Trimio! Ik wil graag een demo van de boekingswebsite voor mijn barbershop.",
+    pkg: "Hoi Trimio! Ik heb interesse in het {pkg}-pakket ({period}) — {price}. Kunnen we even schakelen?",
+    custom: "Hoi Trimio! We hebben meer dan vijf vestigingen of zoeken iets op maat. Kunnen we even praten?",
+    form: "Hoi Trimio! Ik ben {name} van {shop} in {city} ({branches}). Ik wil graag een persoonlijke demo.",
   },
 
   mobileCta: { primary: "Plan een demo", secondary: "Prijzen" },

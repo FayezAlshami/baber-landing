@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
-import { dirOf, loaders, localeHref, type Dict, type Locale } from "@/src/i18n";
+import { DEFAULT_LOCALE, dirOf, loaders, localeHref, type Dict, type Locale } from "@/src/i18n";
 import { CURRENCIES, type CurrencyId } from "@/src/config/site";
 import { track } from "@/src/lib/track";
 
@@ -23,14 +23,23 @@ export function useI18n() {
   return ctx;
 }
 
-const LOCALE_KEY = "baber-locale";
-const CURRENCY_KEY = "baber-currency";
+const LOCALE_KEY = "trimio-locale";
+const CURRENCY_KEY = "trimio-currency";
 
 function store(key: string, value?: string) {
   try {
     if (value === undefined) return localStorage.getItem(key);
     localStorage.setItem(key, value);
   } catch {}
+  return null;
+}
+
+function browserLocale(): Locale | null {
+  if (typeof navigator === "undefined") return null;
+  for (const tag of navigator.languages ?? [navigator.language]) {
+    const base = tag.toLowerCase().split("-")[0];
+    if (base in loaders) return base as Locale;
+  }
   return null;
 }
 
@@ -93,9 +102,11 @@ export default function I18nProvider({
   useEffect(() => {
     const savedCur = store(CURRENCY_KEY) as CurrencyId | null;
     if (savedCur && CURRENCIES.some((c) => c.id === savedCur)) setCurrencyState(savedCur);
+    // On the root page, honour a saved choice first, then the browser's language on a first visit.
+    if (initialLocale !== DEFAULT_LOCALE) return;
     const savedLocale = store(LOCALE_KEY) as Locale | null;
-    const onRoot = initialLocale === "nl";
-    if (onRoot && savedLocale && savedLocale !== "nl" && savedLocale in loaders) apply(savedLocale, true);
+    const preferred = savedLocale ?? browserLocale();
+    if (preferred && preferred !== DEFAULT_LOCALE && preferred in loaders) apply(preferred, true);
   }, [apply, initialLocale]);
 
   // Scroll reveal, conversion tracking, scroll depth, section views.
