@@ -204,38 +204,42 @@ html[data-intro="off"] .intro {
 }
 .intro {
   /* Failsafe: never block the page if scripts fail to run. */
-  animation: intro-failsafe 0.4s ease 6s forwards;
+  animation: intro-failsafe 0.4s ease 7s forwards;
 }
-.intro-panel {
+/* The barber cape: ink backdrop that lifts away at the end */
+.intro-cape {
   background:
-    radial-gradient(120% 80% at 50% 50%, rgba(255, 169, 133, 0.07), transparent 60%),
+    radial-gradient(120% 80% at 50% 45%, rgba(255, 169, 133, 0.08), transparent 60%),
     #202338;
 }
-.intro-left {
-  background-position: right center;
+/* Barber-pole stripe along the cape's bottom edge */
+.intro-cape-edge {
+  background: repeating-linear-gradient(-45deg, #ffa985 0 8px, #fff8ef 8px 16px, #202338 16px 24px);
 }
-/* Barber-pole stripe on the inner edge of each curtain */
-.intro-pole {
-  background: repeating-linear-gradient(-45deg, #ffa985 0 7px, #fff8ef 7px 14px, #202338 14px 21px);
-  opacity: 0;
+/* Hanging hair; sways gently from the top (starts on first paint, before hydration) */
+.intro-hair {
+  transform-origin: 50% 0;
+  animation: intro-sway 2.6s ease-in-out infinite alternate;
 }
-/* Dashed "cut here" line: dashes with spacing */
-.intro-dash {
-  background: repeating-linear-gradient(to bottom, rgba(255, 248, 239, 0.55) 0 12px, transparent 12px 24px);
-  /* Drawn by CSS so it starts on first paint, before hydration. */
-  animation: intro-draw 0.6s cubic-bezier(0.65, 0, 0.35, 1) both;
+.intro-strand {
+  fill: none;
+  /* Butt caps so the kept and cut halves meet without a visible seam */
+  stroke-linecap: butt;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.intro-comb {
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
 }
 .intro-scissors {
   opacity: 0;
 }
-.intro-cut {
-  background: #ffa985;
-  box-shadow: 0 0 18px 2px rgba(255, 169, 133, 0.55);
-  transform: scaleY(0);
-}
-@keyframes intro-draw {
+@keyframes intro-sway {
   from {
-    transform: scaleY(0);
+    transform: skewX(-0.8deg);
+  }
+  to {
+    transform: skewX(0.8deg);
   }
 }
 @keyframes intro-failsafe {

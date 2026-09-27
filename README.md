@@ -64,10 +64,12 @@ gerenderd door `components/ui/Logo.tsx`; de schaar is een los component
 
 ## Intro & interacties
 
-- **Intro** (`components/Intro.tsx`): een gestippelde "knip hier"-lijn door het
-  midden, de schaar knipt zich omhoog en het scherm opent als gordijnen met een
-  barber-pole-rand. Speelt bij elke paginalading, overslaan met klik of Esc, en
-  automatisch uit bij `prefers-reduced-motion`.
+- **Intro** (`components/Intro.tsx`): een knipbeurt. Haarlokken hangen over het
+  scherm, een kam glijdt erdoor, de schaar knipt ze op één lijn af en het
+  afgeknipte haar valt naar beneden. Daarna verschijnt het logo en wordt de
+  "kapmantel" weggetrokken (met barber-pole-zoom). Speelt bij elke
+  paginalading, overslaan met klik of Esc, en automatisch uit bij
+  `prefers-reduced-motion`.
 - **FAQ**: open schaar = antwoord tonen, gesloten schaar = antwoord sluiten.
 - **Smooth scroll** met Lenis (`components/SmoothScroll.tsx`), uit bij
   reduced motion.
