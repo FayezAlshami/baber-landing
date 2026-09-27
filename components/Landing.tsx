@@ -5,6 +5,8 @@ import Header from "./Header";
 import Hero from "./Hero";
 import BookingDemo from "./BookingDemo";
 import Pricing from "./Pricing";
+import Intro from "./Intro";
+import SmoothScroll from "./SmoothScroll";
 import {
   Brand,
   Compare,
@@ -30,6 +32,8 @@ function Page() {
   const { switching } = useI18n();
   return (
     <div className={`locale-fade ${switching ? "is-switching" : ""}`}>
+      <SmoothScroll />
+      <Intro />
       <Header />
       <main id="main">
         <Hero />

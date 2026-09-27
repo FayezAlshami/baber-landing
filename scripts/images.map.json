@@ -1,0 +1,12 @@
+{
+  "hero": { "file": "img-2.png" },
+  "fade": { "file": "img-9.png" },
+  "interior": { "file": "img-10.png" },
+  "chair": { "file": "img-6.png" },
+  "beard": { "file": "img-4.png" },
+  "cut": { "file": "img-3.png", "crop": { "left": 520, "top": 0, "width": 627, "height": 941 } },
+  "shave": { "file": "img-8.png" },
+  "craft": { "file": "img-7.png" },
+  "razor": { "file": "img-5.png", "crop": { "left": 0, "top": 300, "width": 1050, "height": 700 } },
+  "tools": { "file": "img-5.png" }
+}

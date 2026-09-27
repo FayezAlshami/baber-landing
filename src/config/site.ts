@@ -1,18 +1,18 @@
 /**
- * BABER — central configuration.
+ * TRIMIO — central configuration.
  * Everything that changes often lives here: WhatsApp number, prices, currencies, brand.
- * All visible copy lives in src/i18n/{nl,en,ar}.ts.
+ * All visible copy lives in src/i18n/{nl,en,tr,ar}.ts.
  */
 
 /** WhatsApp number in international format WITHOUT "+" or spaces, e.g. "31612345678". */
 export const WHATSAPP_NUMBER = "31600000000";
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://baber.nivx.nl").replace(/\/$/, "");
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://trimio.nivx.nl").replace(/\/$/, "");
 
 export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export const BRAND = {
-  product: "Baber",
+  product: "Trimio",
   company: "Nivx",
   companyUrl: "https://nivx.nl",
   email: "hello@nivx.nl",
@@ -42,13 +42,14 @@ export const PACKAGE_PRICES_EUR: Record<PackageId, Record<PeriodId, number>> = {
 
 export const POPULAR_PACKAGE: PackageId = "professional";
 
-export type CurrencyId = "EUR" | "USD" | "GBP" | "AED" | "SAR";
+export type CurrencyId = "EUR" | "USD" | "GBP" | "TRY" | "AED" | "SAR";
 
 /** Indicative rates from EUR. Update when needed. */
 export const CURRENCIES: { id: CurrencyId; symbol: string; rate: number }[] = [
   { id: "EUR", symbol: "€", rate: 1 },
   { id: "USD", symbol: "$", rate: 1.1 },
   { id: "GBP", symbol: "£", rate: 0.85 },
+  { id: "TRY", symbol: "₺", rate: 50 },
   { id: "AED", symbol: "AED", rate: 4.0 },
   { id: "SAR", symbol: "SAR", rate: 4.1 },
 ];
@@ -63,7 +64,7 @@ export function convertPrice(eur: number, currency: CurrencyId): number {
 }
 
 export function formatPrice(value: number, currency: CurrencyId, locale: string): string {
-  const intlLocale = locale === "ar" ? "ar-u-nu-latn" : locale === "nl" ? "nl-NL" : "en-GB";
+  const intlLocale = locale === "ar" ? "ar-u-nu-latn" : locale === "nl" ? "nl-NL" : locale === "tr" ? "tr-TR" : "en-GB";
   return new Intl.NumberFormat(intlLocale, {
     style: "currency",
     currency,

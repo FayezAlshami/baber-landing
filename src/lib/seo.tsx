@@ -1,26 +1,45 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Instrument_Serif, IBM_Plex_Sans_Arabic, Amiri } from "next/font/google";
+import localFont from "next/font/local";
 import { BRAND, PACKAGE_PRICES_EUR, SITE_URL, BASE_PATH } from "@/src/config/site";
 import { LOCALES, dirOf, localePath, type Dict, type Locale } from "@/src/i18n";
 import nl from "@/src/i18n/nl";
 import en from "@/src/i18n/en";
 import ar from "@/src/i18n/ar";
+import tr from "@/src/i18n/tr";
 import "@/app/globals.css";
 
-export const DICTS: Record<Locale, Dict> = { nl, en, ar };
+export const DICTS: Record<Locale, Dict> = { nl, en, ar, tr };
 
-const sans = Inter({ subsets: ["latin"], weight: ["300", "400", "500", "600"], variable: "--font-sans", display: "swap" });
-const serif = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-serif", display: "swap" });
-const arabic = IBM_Plex_Sans_Arabic({ subsets: ["arabic"], weight: ["300", "400", "500", "600"], variable: "--font-ar", display: "swap", preload: false });
-const arabicDisplay = Amiri({ subsets: ["arabic"], weight: ["400", "700"], variable: "--font-ar-display", display: "swap", preload: false });
+/* Trimio typefaces (SIL OFL): Manrope for Latin (incl. Turkish), Alexandria for Arabic. */
+const manrope = localFont({
+  src: [
+    { path: "../../app/fonts/manrope-400.woff", weight: "400" },
+    { path: "../../app/fonts/manrope-600.woff", weight: "600" },
+    { path: "../../app/fonts/manrope-700.woff", weight: "700" },
+  ],
+  variable: "--font-sans",
+  display: "swap",
+  fallback: ["system-ui", "sans-serif"],
+});
+const alexandria = localFont({
+  src: [
+    { path: "../../app/fonts/alexandria-400.woff", weight: "400" },
+    { path: "../../app/fonts/alexandria-600.woff", weight: "600" },
+    { path: "../../app/fonts/alexandria-700.woff", weight: "700" },
+  ],
+  variable: "--font-ar",
+  display: "swap",
+  preload: false,
+  fallback: ["system-ui", "sans-serif"],
+});
 
 const url = (l: Locale) => `${SITE_URL}${localePath(l)}`;
 
-export const viewport: Viewport = { themeColor: "#070707", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#202338", width: "device-width", initialScale: 1 };
 
 export function buildMetadata(locale: Locale): Metadata {
   const t = DICTS[locale].meta;
-  const og = `${SITE_URL}/img/hero-1536.webp`;
+  const og = `${SITE_URL}/img/og.jpg`;
   return {
     metadataBase: new URL(SITE_URL + "/"),
     title: t.title,
@@ -30,7 +49,7 @@ export function buildMetadata(locale: Locale): Metadata {
     authors: [{ name: BRAND.company, url: BRAND.companyUrl }],
     alternates: {
       canonical: url(locale),
-      languages: { nl: url("nl"), en: url("en"), ar: url("ar"), "x-default": url("nl") },
+      languages: { nl: url("nl"), en: url("en"), tr: url("tr"), ar: url("ar"), "x-default": url("nl") },
     },
     robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
     openGraph: {
@@ -41,10 +60,10 @@ export function buildMetadata(locale: Locale): Metadata {
       description: t.description,
       locale: LOCALES.find((l) => l.id === locale)!.og,
       alternateLocale: LOCALES.filter((l) => l.id !== locale).map((l) => l.og),
-      images: [{ url: og, width: 1536, height: 1024, alt: t.ogAlt }],
+      images: [{ url: og, width: 1200, height: 630, alt: t.ogAlt }],
     },
     twitter: { card: "summary_large_image", title: t.title, description: t.description, images: [og] },
-    icons: { icon: [{ url: `${BASE_PATH}/brand/nivx-color.svg`, type: "image/svg+xml" }] },
+    icons: { icon: [{ url: `${BASE_PATH}/brand/trimio-favicon.svg`, type: "image/svg+xml" }] },
   };
 }
 
@@ -59,7 +78,12 @@ function jsonLd(locale: Locale) {
         name: BRAND.company,
         url: BRAND.companyUrl,
         email: BRAND.email,
-        logo: `${SITE_URL}/brand/nivx-color.svg`,
+      },
+      {
+        "@type": "Brand",
+        "@id": `${SITE_URL}/#brand`,
+        name: BRAND.product,
+        logo: `${SITE_URL}/brand/trimio-logo.svg`,
       },
       {
         "@type": "SoftwareApplication",
@@ -70,6 +94,7 @@ function jsonLd(locale: Locale) {
         applicationSubCategory: "Barbershop booking software",
         operatingSystem: "Web",
         description: t.meta.description,
+        brand: { "@id": `${SITE_URL}/#brand` },
         publisher: { "@id": `${SITE_URL}/#org` },
         featureList: t.features.tabs.flatMap((x) => x.items).join(", "),
         offers: t.pricing.packages.map((p) => ({
@@ -93,17 +118,22 @@ function jsonLd(locale: Locale) {
   };
 }
 
+const INTRO_GATE = `try{if(sessionStorage.getItem("trimio-intro")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.intro="off"}catch(e){}`;
+
 export function Document({ locale, children }: { locale: Locale; children: React.ReactNode }) {
   return (
     <html
+      suppressHydrationWarning
       lang={locale}
       dir={dirOf(locale)}
-      className={`${sans.variable} ${serif.variable} ${arabic.variable} ${arabicDisplay.variable}`}
+      className={`${manrope.variable} ${alexandria.variable}`}
     >
       <body>
+        {/* Skip the intro before first paint for repeat visits and reduced-motion users. */}
+        <script dangerouslySetInnerHTML={{ __html: INTRO_GATE }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(locale)) }} />
         <noscript>
-          <style>{`.reveal{opacity:1!important;transform:none!important}`}</style>
+          <style>{`.reveal{opacity:1!important;transform:none!important}.intro{display:none!important}`}</style>
         </noscript>
         {children}
       </body>

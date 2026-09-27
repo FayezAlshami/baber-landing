@@ -6,6 +6,8 @@ import SectionHeading from "./ui/SectionHeading";
 import Icon, { type IconName } from "./ui/Icon";
 import Img, { type ImageName } from "./ui/Img";
 import { Wordmark } from "./Header";
+import Logo from "./ui/Logo";
+import Scissors from "./ui/Scissors";
 import { fill } from "@/src/i18n";
 import { track } from "@/src/lib/track";
 import { BRAND, whatsappLink } from "@/src/config/site";
@@ -59,7 +61,7 @@ export function Problem() {
           ))}
         </div>
         <div className="mt-6 grid gap-4 lg:grid-cols-2">
-          <div className="reveal rounded-[28px] border border-white/[0.07] p-8">
+          <div className="reveal rounded-card border border-white/[0.07] p-8">
             <p className="text-[12px] uppercase tracking-[0.2em] text-bone/40">{p.beforeLabel}</p>
             <ul className="mt-6 space-y-4">
               {p.before.map((b) => (
@@ -70,7 +72,7 @@ export function Problem() {
               ))}
             </ul>
           </div>
-          <div style={d(120)} className="reveal rounded-[28px] border border-brand/30 bg-gradient-to-br from-brand/[0.1] to-transparent p-8">
+          <div style={d(120)} className="reveal rounded-card border border-brand/30 bg-gradient-to-br from-brand/[0.1] to-transparent p-8">
             <p className="text-[12px] uppercase tracking-[0.2em] text-brand">{p.afterLabel}</p>
             <ul className="mt-6 space-y-4">
               {p.after.map((b, i) => (
@@ -101,7 +103,7 @@ export function Platform() {
           <Img name="fade" alt={p.imageAlt} sizes="(min-width:1024px) 45vw, 100vw" className="h-full w-full" />
           <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
           <div className="surface absolute inset-x-5 bottom-5 flex items-center gap-4 p-4 backdrop-blur-xl">
-            <span className="grid h-11 w-11 place-items-center rounded-full bg-brand text-white">
+            <span className="grid h-11 w-11 place-items-center rounded-full bg-brand text-ink">
               <Icon name="calendar" className="h-5 w-5" />
             </span>
             <span className="text-[13px] leading-snug">
@@ -197,7 +199,7 @@ export function Team() {
       <div className="container-x">
         <SectionHeading id="team-title" eyebrow={m.eyebrow} title={m.title} accent={m.titleAccent} intro={m.intro} />
         <div className="reveal mt-12 grid gap-5 lg:grid-cols-[1.3fr_1fr]">
-          <div className="relative min-h-[360px] overflow-hidden rounded-[28px]">
+          <div className="relative min-h-[360px] overflow-hidden rounded-card">
             {branchImgs.map((img, i) => (
               <div key={img} className={`absolute inset-0 transition-opacity duration-700 ${i === b ? "opacity-100" : "opacity-0"}`}>
                 <Img name={img} alt={m.imageAlts[i]} sizes="(min-width:1024px) 55vw, 100vw" className="h-full w-full" />
@@ -317,7 +319,7 @@ export function Seo() {
         </div>
         <div className="reveal relative" aria-hidden>
           <span className="tag-sample absolute -top-9 end-0">{r.demo}</span>
-          <div className="rounded-[28px] bg-[#f7f5f2] p-5 text-[#202124] shadow-[0_50px_120px_-40px_rgba(0,0,0,.9)] md:p-7">
+          <div className="rounded-card bg-[#f7f5f2] p-5 text-[#202124] shadow-[0_50px_120px_-40px_rgba(0,0,0,.9)] md:p-7">
             <div className="flex items-center gap-3 rounded-full border border-black/10 bg-white px-5 py-3 shadow-sm">
               <Icon name="search" className="h-4 w-4 text-black/40" />
               <span className="text-[14px]">{r.query}</span>
@@ -327,7 +329,7 @@ export function Seo() {
               <div className="relative bg-[#e9ece4]">
                 <svg viewBox="0 0 200 160" className="h-full w-full" preserveAspectRatio="xMidYMid slice">
                   <path d="M0 110 L200 70 M40 0 L90 160 M130 0 L150 160 M0 40 L200 55" stroke="#fff" strokeWidth="8" fill="none" />
-                  <circle cx="98" cy="72" r="9" fill="#E6050D" />
+                  <circle cx="98" cy="72" r="9" fill="#EA4335" />
                   <circle cx="98" cy="72" r="3.5" fill="#fff" />
                   <circle cx="150" cy="115" r="6" fill="#9aa0a6" />
                   <circle cx="45" cy="40" r="6" fill="#9aa0a6" />
@@ -434,7 +436,7 @@ export function Insights() {
                 {HEAT.map((row, r) => (
                   <div key={r} className="grid grid-cols-10 gap-1.5">
                     {row.map((v, c) => (
-                      <span key={c} className="aspect-square rounded-[5px]" style={{ background: `rgba(230,5,13,${0.08 + v * 0.17})` }} />
+                      <span key={c} className="aspect-square rounded-[5px]" style={{ background: `rgba(255,169,133,${0.08 + v * 0.17})` }} />
                     ))}
                   </div>
                 ))}
@@ -476,7 +478,7 @@ export function Growth() {
     <section id="growth" aria-labelledby="growth-title" className="section border-t border-white/[0.05] bg-neutral-950">
       <div className="container-x">
         <SectionHeading id="growth-title" align="center" eyebrow={g.eyebrow} title={g.title} accent={g.titleAccent} intro={g.intro} />
-        <div className="mt-14 grid gap-px overflow-hidden rounded-[28px] border border-white/[0.07] bg-white/[0.07] sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 grid gap-px overflow-hidden rounded-card border border-white/[0.07] bg-white/[0.07] sm:grid-cols-2 lg:grid-cols-4">
           {g.items.map((x, i) => (
             <article key={x.title} style={d((i % 4) * 70)} className="reveal group bg-neutral-950 p-7 transition-colors duration-500 hover:bg-neutral-900">
               <Icon name={growthIcons[i]} className="h-6 w-6 text-bone/70 transition-colors group-hover:text-brand" />
@@ -492,10 +494,10 @@ export function Growth() {
 
 /* ------------------------------------------------------------------ Brand */
 const SWATCHES = [
-  { accent: "#E6050D", bg: "#0b0b0c", fg: "#EDE8E1" },
-  { accent: "#C9A46A", bg: "#15120e", fg: "#F1E9DC" },
-  { accent: "#3F8F6B", bg: "#0d1411", fg: "#E6EFE9" },
-  { accent: "#1c1c1c", bg: "#F3EEE6", fg: "#1c1c1c" },
+  { accent: "#FFA985", bg: "#202338", fg: "#FFF8EF", on: "#202338" },
+  { accent: "#C9A46A", bg: "#15120e", fg: "#F1E9DC", on: "#15120e" },
+  { accent: "#3F8F6B", bg: "#0d1411", fg: "#E6EFE9", on: "#fff" },
+  { accent: "#1c1c1c", bg: "#F3EEE6", fg: "#1c1c1c", on: "#F3EEE6" },
 ];
 export function Brand() {
   const { t } = useI18n();
@@ -541,13 +543,13 @@ export function Brand() {
               <div className="absolute inset-0" style={{ background: `linear-gradient(90deg, ${sw.bg} 30%, transparent)` }} />
               <div className="relative flex h-full flex-col p-7">
                 <div className="flex items-center justify-between text-[11px] opacity-80">
-                  <span className="text-[15px] font-semibold tracking-tight" dir="ltr">YOURSHOP<span style={{ color: sw.accent === "#1c1c1c" ? "#E6050D" : sw.accent }}>.</span></span>
+                  <span className="text-[15px] font-semibold tracking-tight" dir="ltr">YOURSHOP<span style={{ color: sw.accent === "#1c1c1c" ? "#AD4522" : sw.accent }}>.</span></span>
                   <span className="hidden gap-4 sm:flex">{b.mock.nav.map((n) => <span key={n}>{n}</span>)}</span>
                 </div>
                 <div className="mt-auto">
-                  <p className="font-serif text-5xl italic">{b.mock.title}</p>
+                  <p className="text-5xl font-semibold tracking-[-0.03em]">{b.mock.title}</p>
                   <p className="mt-2 text-[12px] opacity-60">{b.mock.sub}</p>
-                  <span className="mt-6 inline-block rounded-full px-5 py-2.5 text-[12px] font-medium transition-colors duration-700" style={{ background: sw.accent, color: s === 3 ? "#F3EEE6" : "#fff" }}>
+                  <span className="mt-6 inline-block rounded-full px-5 py-2.5 text-[12px] font-medium transition-colors duration-700" style={{ background: sw.accent, color: sw.on }}>
                     {b.mock.cta}
                   </span>
                 </div>
@@ -606,7 +608,7 @@ function Mark({ v, first }: { v: V; first?: boolean }) {
     <span className="inline-grid place-items-center" title={label}>
       <span className="sr-only">{label}</span>
       {v === "y" ? (
-        <span className={`grid h-7 w-7 place-items-center rounded-full ${first ? "bg-brand text-white" : "bg-white/10 text-bone"}`}>
+        <span className={`grid h-7 w-7 place-items-center rounded-full ${first ? "bg-brand text-ink" : "bg-white/10 text-bone"}`}>
           <Icon name="check" className="h-4 w-4" strokeWidth={2.2} />
         </span>
       ) : v === "p" ? (
@@ -626,7 +628,7 @@ export function Compare() {
     <section id="compare" aria-labelledby="compare-title" className="section border-t border-white/[0.05]">
       <div className="container-x">
         <SectionHeading id="compare-title" align="center" eyebrow={c.eyebrow} title={c.title} accent={c.titleAccent} intro={c.intro} />
-        <div className="reveal no-scrollbar -mx-5 mt-14 overflow-x-auto px-5">
+        <div className="reveal no-scrollbar relative -mx-5 mt-14 overflow-x-auto px-5">
           <table className="w-full min-w-[760px] border-separate border-spacing-0 text-[14px]">
             <caption className="sr-only">{c.title} {c.titleAccent}</caption>
             <thead>
@@ -634,7 +636,7 @@ export function Compare() {
                 <th scope="col" className="w-[34%]" />
                 {c.cols.map((col, i) => (
                   <th key={col} scope="col" className={`px-3 pb-5 text-center align-bottom text-[13px] font-medium ${i === 0 ? "rounded-t-2xl bg-brand/[0.1] pt-5 text-bone" : "text-bone/50"}`}>
-                    {i === 0 ? <Wordmark className="justify-center" /> : col}
+                    {i === 0 ? <Logo className="mx-auto h-auto w-[104px]" title={col} /> : col}
                   </th>
                 ))}
               </tr>
@@ -740,11 +742,12 @@ export function Faq() {
                       setOpen(isOpen ? null : i);
                       if (!isOpen) track("faq_open", { index: i });
                     }}
-                    className="flex w-full items-center justify-between gap-6 py-5 text-start text-[16px] text-bone transition-colors hover:text-white"
+                    className="group/faq flex w-full items-center justify-between gap-6 py-5 text-start text-[16px] text-bone transition-colors hover:text-brand-300"
                   >
                     {x.q}
-                    <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border transition-all duration-300 ${isOpen ? "rotate-45 border-brand bg-brand text-white" : "border-white/15 text-bone/60"}`}>
-                      <Icon name="plus" className="h-4 w-4" />
+                    {/* Open scissors = "open me"; closed scissors = "close" */}
+                    <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full border transition-colors duration-300 ${isOpen ? "border-brand bg-brand" : "border-white/15 group-hover/faq:border-brand/60"}`}>
+                      <Scissors open={isOpen ? 0 : 1.1} fill={isOpen ? "#202338" : "#FFA985"} className="h-6 w-6 rotate-[33deg] transition-transform duration-500 group-hover/faq:scale-110" />
                     </span>
                   </button>
                 </h3>

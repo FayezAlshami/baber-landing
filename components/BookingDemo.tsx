@@ -55,7 +55,7 @@ export default function BookingDemo() {
                 <li key={s.title} className={`flex gap-5 rounded-2xl p-4 transition-all duration-500 ${state === "active" ? "bg-white/[0.04]" : ""}`}>
                   <span
                     className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border text-[13px] transition-all duration-500 ${
-                      state === "done" ? "border-brand bg-brand text-white" : state === "active" ? "border-brand text-brand" : "border-white/15 text-bone/40"
+                      state === "done" ? "border-brand bg-brand text-ink" : state === "active" ? "border-brand text-brand" : "border-white/15 text-bone/40"
                     }`}
                   >
                     {state === "done" ? <Icon name="check" className="h-4 w-4" strokeWidth={2.2} /> : i + 1}
@@ -74,7 +74,7 @@ export default function BookingDemo() {
           <div className="glow absolute -inset-20 -z-10" />
           <p className="tag-sample mb-4 w-fit">{d.demoBadge}</p>
           <div className="rounded-[44px] border border-white/15 bg-neutral-950 p-[10px] shadow-[0_60px_120px_-30px_rgba(0,0,0,.9)]">
-            <div className="min-h-[560px] overflow-hidden rounded-[35px] bg-[#0c0c0d] p-5" aria-live="polite">
+            <div className="min-h-[560px] overflow-hidden rounded-[35px] bg-neutral-900 p-5" aria-live="polite">
               <div className="flex items-center justify-between">
                 <span className="text-[13px] font-medium text-bone" dir="ltr">Studio Noir</span>
                 <span className="text-[11px] text-bone/40">{fill(t.a11y.currentStep, { n: Math.min(step + 1, 4), total: 4 })}</span>
@@ -146,7 +146,7 @@ export default function BookingDemo() {
                               setStep(4);
                               track("demo_complete", { service: service?.name });
                             }}
-                            className="rounded-xl border border-white/10 py-3 text-[13px] text-bone/80 transition-all hover:border-brand hover:bg-brand hover:text-white disabled:cursor-not-allowed disabled:opacity-25 disabled:line-through disabled:hover:border-white/10 disabled:hover:bg-transparent"
+                            className="rounded-xl border border-white/10 py-3 text-[13px] text-bone/80 transition-all hover:border-brand hover:bg-brand hover:text-ink disabled:cursor-not-allowed disabled:opacity-25 disabled:line-through disabled:hover:border-white/10 disabled:hover:bg-transparent"
                           >
                             {time}
                           </button>

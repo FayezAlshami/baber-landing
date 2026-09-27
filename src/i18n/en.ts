@@ -1,9 +1,9 @@
 const en = {
   meta: {
-    title: "Baber — Booking website for barbershops | Nivx",
+    title: "Trimio — Booking website for barbershops | Nivx",
     description:
       "A custom-branded website with online booking, built only for barbershops. Clients choose service, barber, branch and time — no calls, no accounts. Staff, branches, reminders, deposits, local SEO and analytics included.",
-    ogAlt: "Dark, premium barbershop interior with leather barber chairs",
+    ogAlt: "Warm-lit premium barbershop with black leather chairs and a brass scissors emblem",
     keywords: [
       "barbershop website",
       "barber booking system",
@@ -29,11 +29,13 @@ const en = {
     close: "Close menu",
     language: "Language",
     skip: "Skip to content",
-    home: "Baber home",
+    home: "Trimio home",
   },
 
+  intro: { skip: "Skip intro" },
+
   hero: {
-    eyebrow: "Baber by Nivx · Built for barbershops",
+    eyebrow: "Trimio by Nivx · Built for barbershops",
     titleA: "Every chair booked.",
     titleB: "Every client",
     titleAccent: "yours.",
@@ -41,7 +43,7 @@ const en = {
     ctaPrimary: "Book a free demo",
     ctaSecondary: "Try the booking flow",
     trust: ["Your own domain", "No account needed to book", "Set up and maintained for you"],
-    imageAlt: "Dark premium barbershop interior with a black leather barber chair",
+    imageAlt: "Warm-lit premium barbershop with black leather barber chairs",
     phone: {
       shop: "Studio Noir",
       greeting: "Ready for a fresh cut?",
@@ -102,7 +104,7 @@ const en = {
       },
     ],
     beforeLabel: "Today",
-    afterLabel: "With Baber",
+    afterLabel: "With Trimio",
     before: [
       "Bookings through DMs and phone calls",
       "A schedule on paper or in your head",
@@ -124,7 +126,7 @@ const en = {
     title: "Not just a website.",
     titleAccent: "Your whole front desk.",
     intro:
-      "Baber brings your storefront, your booking system and your business insight together — designed around how a barbershop actually runs, not around a generic template.",
+      "Trimio brings your storefront, your booking system and your business insight together — designed around how a barbershop actually runs, not around a generic template.",
     pillars: [
       {
         title: "A site that looks like your shop",
@@ -143,7 +145,7 @@ const en = {
         body: "Reminders, deposits, gift cards, memberships and local SEO — the tools that fill quiet hours and keep regulars regular.",
       },
     ],
-    imageAlt: "Barber finishing a skin fade with clippers",
+    imageAlt: "Client booking his next cut on his phone in a barbershop lounge",
   },
 
   demo: {
@@ -315,7 +317,7 @@ const en = {
       { name: "Marco", role: "Barber", specialty: "Beards" },
       { name: "Sami", role: "Junior barber", specialty: "Kids' cuts" },
     ],
-    imageAlts: ["Warm brick-walled barbershop with three chairs", "Luxury leather barber chair in a dark shop", "Barber styling a client's beard"],
+    imageAlts: ["Barbershop storefront at dusk with a lit scissors sign", "Black leather barber chair at a marble station", "Barber shaping a client's beard with scissors"],
   },
 
   showcase: {
@@ -325,12 +327,12 @@ const en = {
     intro:
       "A curated gallery shows clients exactly what they'll walk out with. Link it to Instagram and TikTok, and put your Google reviews right next to it.",
     alts: {
-      fade: "Close-up of a fresh skin fade",
+      fade: "Client booking an appointment on his phone",
       cut: "Barber cutting hair with scissors and comb",
-      shave: "Hot-towel shave with a straight razor",
-      beard: "Beard trim with clippers",
-      craft: "Barber blow-drying a client's hair",
-      razor: "Straight-razor shave in a dark shop",
+      shave: "Straight-razor shave with fresh lather",
+      beard: "Beard shaped with scissors",
+      craft: "Barbers at work in a busy, warm-lit shop",
+      razor: "Straight razor and shears on dark marble",
     },
     social: [
       { title: "Instagram", body: "Your latest posts, live on your site." },
@@ -344,7 +346,7 @@ const en = {
     title: "Found by people",
     titleAccent: "around the corner.",
     intro:
-      "Most new clients start with a search: “barber near me”, “skin fade Rotterdam”. Baber sites are built so Google — and AI assistants — can read your services, prices, hours and locations clearly.",
+      "Most new clients start with a search: “barber near me”, “skin fade Rotterdam”. Trimio sites are built so Google — and AI assistants — can read your services, prices, hours and locations clearly.",
     points: [
       { title: "Local SEO per branch", body: "Each location gets its own page, address and opening hours." },
       { title: "Structured data", body: "Services, prices and reviews in a format search engines understand." },
@@ -428,7 +430,7 @@ const en = {
       "Your client list stays yours",
     ],
     swatchLabel: "Try a style",
-    swatches: ["Noir", "Brass", "Forest", "Ivory"],
+    swatches: ["Midnight", "Brass", "Forest", "Ivory"],
     mock: { nav: ["Services", "Team", "Locations"], title: "Sharp cuts.", sub: "Since 2014 · Rotterdam", cta: "Book now" },
   },
 
@@ -450,8 +452,8 @@ const en = {
     title: "Why shops choose",
     titleAccent: "their own platform.",
     intro:
-      "Instagram, marketplace apps and DIY builders each solve part of the problem. Baber is built to solve all of it — under your name.",
-    cols: ["Baber", "Instagram + WhatsApp", "Marketplace booking apps", "DIY website builder"],
+      "Instagram, marketplace apps and DIY builders each solve part of the problem. Trimio is built to solve all of it — under your name.",
+    cols: ["Trimio", "Instagram + WhatsApp", "Marketplace booking apps", "DIY website builder"],
     rows: [
       "Your own brand and domain",
       "Clients book 24/7 without calling",
@@ -574,7 +576,7 @@ const en = {
     titleAccent: "Straight answers.",
     intro: "Still unsure? Send us a message — a real person replies.",
     items: [
-      { q: "Can I use my own branding?", a: "Yes. Every Baber site is designed around your shop: your logo, colours, photos and tone of voice. It won't look like a template, because it isn't one." },
+      { q: "Can I use my own branding?", a: "Yes. Every Trimio site is designed around your shop: your logo, colours, photos and tone of voice. It won't look like a template, because it isn't one." },
       { q: "Can clients choose their barber?", a: "Yes. Clients can pick a specific barber or simply the first one available. Each barber has their own profile and schedule." },
       { q: "Can I manage multiple branches?", a: "Yes. Each branch gets its own address, opening hours, team, services and prices, all managed from one dashboard. Clients choose their location when booking." },
       { q: "Can I update services and prices myself?", a: "Yes, any time from your dashboard. Changes are live immediately. Prefer we do it? Send us a message." },
@@ -604,7 +606,7 @@ const en = {
       note: "Opens WhatsApp with your details filled in. Nothing is stored on this page.",
     },
     or: "Prefer email?",
-    imageAlt: "Barber tools — clippers, scissors, comb and straight razor on dark slate",
+    imageAlt: "Barber tools — clippers, shears, straight razor and shaving brush on dark marble",
   },
 
   footer: {
@@ -612,16 +614,16 @@ const en = {
     product: "Product",
     company: "Company",
     contact: "Contact",
-    byNivx: "Baber is a product of Nivx",
+    byNivx: "Trimio is a product of Nivx",
     rights: "All rights reserved.",
-    imageCredit: "Photography: Unsplash",
+    imageCredit: "Imagery is illustrative.",
   },
 
   wa: {
-    general: "Hi Baber! I'd like a demo of the booking website for my barbershop.",
-    pkg: "Hi Baber! I'm interested in the {pkg} plan ({period}) — {price}. Can we talk?",
-    custom: "Hi Baber! We have more than five locations or need something bespoke. Can we talk?",
-    form: "Hi Baber! My name is {name}, from {shop} in {city} ({branches}). I'd like a personal demo.",
+    general: "Hi Trimio! I'd like a demo of the booking website for my barbershop.",
+    pkg: "Hi Trimio! I'm interested in the {pkg} plan ({period}) — {price}. Can we talk?",
+    custom: "Hi Trimio! We have more than five locations or need something bespoke. Can we talk?",
+    form: "Hi Trimio! My name is {name}, from {shop} in {city} ({branches}). I'd like a personal demo.",
   },
 
   mobileCta: { primary: "Book a demo", secondary: "Pricing" },

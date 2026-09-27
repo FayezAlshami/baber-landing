@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 184 168" role="img" aria-label="Trimio scissors"><title>Trimio scissors</title><g fill="#FFA985">
+    <defs><mask id="trimio-icon" maskUnits="userSpaceOnUse" x="0" y="0" width="184" height="168"><path fill="white" d="M0 0H184V168H0Z"/><ellipse fill="black" cx="32" cy="101" rx="13" ry="8.7" transform="rotate(-34 32 101)"/><ellipse fill="black" cx="72" cy="142" rx="11.3" ry="8.2" transform="rotate(-34 72 142)"/><circle fill="black" cx="83.3" cy="89.2" r="3.15"/></mask></defs>
+    <g mask="url(#trimio-icon)">
+      <path d="M47 88C61 82 70 82 85 85L173 66C164 77 154 83 140 86L49 105Z"/>
+      <path d="M66 131L75 95C79 84 82 75 93 64L146 9C145 25 139 37 129 49L87 100L82 135Z"/>
+      <ellipse cx="32" cy="101" rx="22" ry="17" transform="rotate(-34 32 101)"/>
+      <ellipse cx="72" cy="142" rx="20" ry="15.8" transform="rotate(-34 72 142)"/>
+    </g>
+    </g></svg>

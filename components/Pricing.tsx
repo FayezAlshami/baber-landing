@@ -87,12 +87,12 @@ export default function Pricing() {
               <article
                 key={id}
                 style={{ ["--d" as string]: `${i * 90}ms` }}
-                className={`reveal relative flex flex-col rounded-[28px] border p-8 transition-transform duration-500 hover:-translate-y-1 ${
-                  popular ? "border-brand/50 bg-gradient-to-b from-brand/[0.12] to-white/[0.02] shadow-[0_40px_100px_-40px_rgba(230,5,13,.6)]" : "border-white/[0.08] bg-white/[0.025]"
+                className={`reveal relative flex flex-col rounded-card border p-8 transition-transform duration-500 hover:-translate-y-1 ${
+                  popular ? "border-brand/50 bg-gradient-to-b from-brand/[0.12] to-white/[0.02] shadow-[0_40px_100px_-40px_rgba(255,169,133,.6)]" : "border-white/[0.08] bg-white/[0.025]"
                 }`}
               >
                 {popular && (
-                  <span className="absolute -top-3 start-8 rounded-full bg-brand px-3 py-1 text-[11px] font-medium text-white">{p.popular}</span>
+                  <span className="absolute -top-3 start-8 rounded-full bg-brand px-3 py-1 text-[11px] font-medium text-ink">{p.popular}</span>
                 )}
                 <h3 className="text-xl font-medium text-bone">{pkg.name}</h3>
                 <p className="mt-2 min-h-[48px] text-[14px] leading-relaxed text-bone/55">{pkg.desc}</p>

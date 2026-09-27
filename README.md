@@ -1,11 +1,12 @@
-# Baber — landingspagina
+# Trimio — landingspagina
 
-**Baber** is een product van **[Nivx](https://nivx.nl)**: premium websites met
-directe online boekingen voor barbershops. Dit is de Nederlandstalige
-marketing-landingspagina.
+**Trimio** is een product van **[Nivx](https://nivx.nl)**: premium websites met
+directe online boekingen voor barbershops. Dit is de meertalige
+marketing-landingspagina (NL · EN · TR · AR).
 
-Gebouwd met **Next.js (App Router)**, **TypeScript** en **Tailwind CSS**.
-Volledig statisch, mobile-first, toegankelijk en snel.
+Gebouwd met **Next.js (App Router)**, **TypeScript**, **Tailwind CSS**,
+**Motion** (animaties) en **Lenis** (smooth scroll). Volledig statisch,
+mobile-first, toegankelijk en snel.
 
 ---
 
@@ -16,128 +17,90 @@ npm install
 npm run dev      # ontwikkelserver op http://localhost:3000
 npm run build    # productie-build
 npm run start    # productieserver (na build)
+npm run images -- <map-met-foto's>   # beelden opnieuw genereren (zie hieronder)
 ```
-
-`npm install && npm run build` moet zonder fouten slagen.
 
 ---
 
 ## Aanpassen — alles op één plek
 
-Bijna alle inhoud die je wilt wijzigen staat in **één bestand**:
+- `src/config/site.ts` — WhatsApp-nummer, prijzen, valuta (incl. TRY), merk.
+- `src/i18n/{nl,en,tr,ar}.ts` — alle zichtbare teksten per taal.
 
-```
-src/config/site.ts
-```
-
-### 1. WhatsApp-nummer wijzigen
-
-Aankopen en contact verlopen via WhatsApp. Pas de constante `WHATSAPP_NUMBER`
-aan (internationaal formaat, **zonder** `+` of spaties):
+### WhatsApp-nummer
 
 ```ts
-// src/config/site.ts
-export const WHATSAPP_NUMBER = "31600000000"; // 31 = NL landcode
+export const WHATSAPP_NUMBER = "31600000000"; // internationaal, zonder + of spaties
 ```
 
-Alle knoppen (elke pakketkeuze én de hoofd-CTA's) gebruiken dit nummer
-automatisch via `https://wa.me/<nummer>?text=<bericht>` met een vooraf
-ingevuld Nederlands bericht.
+### Prijzen & pakketten
 
-### 2. Prijzen & pakketten wijzigen
+`PACKAGE_PRICES_EUR` in `src/config/site.ts`. Andere valuta worden indicatief
+omgerekend via `CURRENCIES`.
 
-De pakketten (**Basis / Plus / Pro**) en periodes
-(**1 maand / 6 maanden / 1 jaar**) staan in dezelfde config:
+---
 
-```ts
-// src/config/site.ts
-export const PACKAGES = [
-  {
-    id: "basis",
-    name: "Basis",
-    prices: { maand: 29, halfjaar: 149, jaar: 279 }, // <- bedragen in hele euro's
-    features: [ /* ... */ ],
-  },
-  // Plus (mostPopular: true), Pro ...
-];
-```
+## Huisstijl (Trimio brand kit)
 
-- Wijzig de bedragen in `prices`.
-- Zet `mostPopular: true` op het pakket dat je wilt uitlichten.
-- Pas de periode-labels aan in `BILLING_PERIODS`.
+| Rol                         | Kleur     | Tailwind      |
+| --------------------------- | --------- | ------------- |
+| Achtergrond / tekst op licht | `#202338` | `ink`         |
+| Accent, knoppen, schaar     | `#FFA985` | `brand`       |
+| Licht / tekst op donker     | `#FFF8EF` | `bone`        |
+| Kaarten op donker           | `#2D314B` | `neutral-800` |
+| Secundaire tekst op donker  | `#B9B9C7` | `muted`       |
+| Oranje tekst op licht       | `#AD4522` | `brand-700`   |
 
-De prijzen in de JSON-LD (SEO) staan in `app/layout.tsx` en kun je daar
-gelijktrekken.
+Op apricot-knoppen staat altijd **navy** tekst (`text-ink`), niet wit.
 
-### 3. Logo verwisselen
+Lettertypen (SIL OFL, lokaal via `next/font/local` uit `app/fonts/`):
+**Manrope** voor Latijns schrift (ook Turks) en **Alexandria** voor Arabisch.
 
-De officiële Nivx-logo's staan in:
+Logo's en favicon staan in `public/brand/`. In de UI wordt het logo inline
+gerenderd door `components/ui/Logo.tsx`; de schaar is een los component
+(`components/ui/Scissors.tsx`) waarvan de twee bladen kunnen openen en sluiten.
 
-```
-public/brand/nivx-white.svg   # wit — voor donkere achtergronden (gebruikt in de UI)
-public/brand/nivx-white.png   # wit — PNG-variant
-public/brand/nivx-color.svg   # kleur/zwart — voor lichte achtergronden
-```
+---
 
-Vervang deze bestanden (behoud de bestandsnamen) om het logo te wisselen. De
-component `components/Logo.tsx` kiest automatisch de juiste variant. Wil je een
-andere standaardvariant of grootte, pas dan de `variant`/`width`/`height`-props
-aan waar `<Logo />` wordt gebruikt (`Header.tsx`, `Footer.tsx`).
+## Intro & interacties
+
+- **Intro** (`components/Intro.tsx`): een gestippelde "knip hier"-lijn door het
+  midden, de schaar knipt zich omhoog en het scherm opent als gordijnen met een
+  barber-pole-rand. Eén keer per sessie, overslaan met klik of Esc, en
+  automatisch uit bij `prefers-reduced-motion`.
+- **FAQ**: open schaar = antwoord tonen, gesloten schaar = antwoord sluiten.
+- **Smooth scroll** met Lenis (`components/SmoothScroll.tsx`), uit bij
+  reduced motion.
+
+---
+
+## Talen
+
+`nl` staat op `/`, de andere talen op `/en/`, `/tr/` en `/ar/` (RTL). Bij een
+eerste bezoek aan `/` wordt de browsertaal gekozen; een handmatige keuze wordt
+onthouden. Een taal toevoegen: dictionary in `src/i18n/`, `LOCALES` en
+`loaders` in `src/i18n/index.ts`, `generateStaticParams` in
+`app/(intl)/[locale]/layout.tsx`, en de hreflang-lijsten in `src/lib/seo.tsx` en
+`app/sitemap.ts`.
 
 ---
 
 ## Afbeeldingen
 
-De sfeerbeelden staan in `public/`:
+`scripts/build-images.mjs` (sharp) maakt van bronfoto's responsive WebP's
+(`public/img/<slot>-<breedte>.webp`), een OpenGraph-beeld (`public/img/og.jpg`)
+en `src/lib/images.json` met afmetingen en blur-placeholders.
 
-| Bestand              | Gebruik                          |
-| -------------------- | -------------------------------- |
-| `nawa-hero.png`      | Hero-achtergrond (luxe salon)    |
-| `nawa-cut.png`       | Vakmanschap / close-up knippen   |
-| `nawa-tools.png`     | Gereedschap flat-lay             |
-| `booking-phone.png`  | Boekings-UI op telefoon          |
-
-Vervang een bestand (zelfde naam) om het beeld te wisselen. Alle afbeeldingen
-hebben Nederlandse `alt`-teksten voor toegankelijkheid en SEO.
-
----
-
-## Projectstructuur
-
-```
-app/
-  layout.tsx      # SEO-metadata, Open Graph, Twitter, JSON-LD, lang="nl"
-  page.tsx        # samenstelling van alle secties
-  globals.css     # Tailwind + basisstijlen
-  robots.ts       # /robots.txt
-  sitemap.ts      # /sitemap.xml
-components/        # Header, Hero, About, Values, Process, BookingHighlight,
-                  # Features, Showcase, Trust, Pricing, Contact, Footer, Logo, Reveal
-src/config/site.ts # WhatsApp-nummer, prijzen, merk, navigatie
-public/           # afbeeldingen + public/brand/ (logo's)
-```
-
----
-
-## Merk & kleuren (Nivx)
-
-| Rol             | Kleur      |
-| --------------- | ---------- |
-| Zwart           | `#000000`  |
-| Wit             | `#FFFFFF`  |
-| Primair (rood)  | `#E6050D`  |
-
-Kleuren zijn gedefinieerd in `tailwind.config.ts` (`brand`, `ink`, `paper`).
+Welke foto in welk slot komt (en eventuele uitsnede) staat in
+`scripts/images.map.json`. Nieuwe beelden: pas de map aan en draai
+`npm run images -- <map-met-foto's>`.
 
 ---
 
 ## SEO
 
-- Nederlandse `title`, `description`, `keywords`
-- Open Graph + Twitter Cards
-- Canonical, robots, sitemap
-- JSON-LD: `SoftwareApplication` + `Organization`
-- Semantische headings en Nederlandse `alt`-teksten
-- `lang="nl"` op `<html>`
+- Titels, beschrijvingen en keywords per taal
+- Open Graph + Twitter Cards, canonical, hreflang (nl/en/tr/ar), sitemap
+- JSON-LD: `Organization`, `Brand`, `SoftwareApplication` en `FAQPage`
 
-Stel de publieke URL in via `SITE_URL` in `src/config/site.ts`.
+Stel de publieke URL in via `NEXT_PUBLIC_SITE_URL` (zie `src/config/site.ts`).

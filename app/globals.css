@@ -4,12 +4,11 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
     scroll-padding-top: 88px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    background: #070707;
+    background: #202338;
   }
 
   body {
@@ -22,13 +21,18 @@
     font-feature-settings: normal;
   }
 
+  /* Native smooth scrolling only when Lenis is not driving the page. */
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+
   ::selection {
-    background: #e6050d;
-    color: #fff;
+    background: #ffa985;
+    color: #202338;
   }
 
   :focus-visible {
-    outline: 2px solid #e6050d;
+    outline: 2px solid #ffa985;
     outline-offset: 3px;
     border-radius: 6px;
   }
@@ -48,25 +52,25 @@
   }
 
   .h-display {
-    @apply font-light leading-[1.04] tracking-[-0.03em];
+    @apply font-normal leading-[1.06] tracking-[-0.035em];
   }
 
   .accent {
-    @apply font-serif font-normal italic tracking-[-0.01em] text-brand;
+    @apply font-semibold tracking-[-0.035em] text-brand;
   }
 
   .lead {
-    @apply max-w-2xl text-[1.0625rem] font-light leading-relaxed text-bone/60 md:text-lg;
+    @apply max-w-2xl text-[1.0625rem] font-normal leading-relaxed text-bone/60 md:text-lg;
   }
 
   .btn {
-    @apply relative inline-flex min-h-[48px] items-center justify-center gap-2.5 rounded-full px-7 text-[13px] font-medium tracking-[0.01em]
+    @apply relative inline-flex min-h-[48px] items-center justify-center gap-2.5 rounded-button px-7 text-[14px] font-semibold tracking-[0.005em]
       transition-[transform,background-color,border-color,color,box-shadow] duration-300 ease-out active:scale-[0.98];
   }
 
   .btn-primary {
-    @apply btn bg-brand text-white shadow-[0_18px_50px_-18px_rgba(230,5,13,0.85)] hover:-translate-y-0.5 hover:bg-brand-600
-      hover:shadow-[0_22px_60px_-18px_rgba(230,5,13,0.95)];
+    @apply btn bg-brand text-ink shadow-[0_18px_50px_-18px_rgba(255,169,133,0.7)] hover:-translate-y-0.5 hover:bg-brand-400
+      hover:shadow-[0_22px_60px_-18px_rgba(255,169,133,0.85)];
   }
 
   .btn-ghost {
@@ -74,7 +78,7 @@
   }
 
   .surface {
-    @apply rounded-[28px] border border-white/[0.07] bg-gradient-to-b from-white/[0.045] to-white/[0.015];
+    @apply rounded-card border border-white/[0.07] bg-gradient-to-b from-white/[0.045] to-white/[0.015];
   }
 
   .chip {
@@ -99,13 +103,12 @@ html[lang="ar"] .tag-sample {
 }
 html[lang="ar"] .h-display {
   letter-spacing: 0;
-  line-height: 1.25;
-  font-weight: 500;
+  line-height: 1.45;
+  font-weight: 400;
 }
 html[lang="ar"] .accent {
-  font-family: var(--font-ar-display), var(--font-ar), serif;
-  font-style: normal;
-  font-weight: 700;
+  font-family: var(--font-ar), sans-serif;
+  font-weight: 600;
   letter-spacing: 0;
 }
 html[lang="ar"] .btn {
@@ -158,7 +161,7 @@ html[lang="ar"] .lead {
 }
 
 .glow {
-  background: radial-gradient(closest-side, rgba(230, 5, 13, 0.22), transparent);
+  background: radial-gradient(closest-side, rgba(255, 169, 133, 0.2), transparent);
 }
 
 .mask-fade-x {
@@ -192,5 +195,52 @@ html[lang="ar"] .lead {
   .reveal {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------ Intro */
+html[data-intro="off"] .intro {
+  display: none;
+}
+.intro {
+  /* Failsafe: never block the page if scripts fail to run. */
+  animation: intro-failsafe 0.4s ease 6s forwards;
+}
+.intro-panel {
+  background:
+    radial-gradient(120% 80% at 50% 50%, rgba(255, 169, 133, 0.07), transparent 60%),
+    #202338;
+}
+.intro-left {
+  background-position: right center;
+}
+/* Barber-pole stripe on the inner edge of each curtain */
+.intro-pole {
+  background: repeating-linear-gradient(-45deg, #ffa985 0 7px, #fff8ef 7px 14px, #202338 14px 21px);
+  opacity: 0;
+}
+/* Dashed "cut here" line: dashes with spacing */
+.intro-dash {
+  background: repeating-linear-gradient(to bottom, rgba(255, 248, 239, 0.55) 0 12px, transparent 12px 24px);
+  /* Drawn by CSS so it starts on first paint, before hydration. */
+  animation: intro-draw 0.6s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+.intro-scissors {
+  opacity: 0;
+}
+.intro-cut {
+  background: #ffa985;
+  box-shadow: 0 0 18px 2px rgba(255, 169, 133, 0.55);
+  transform: scaleY(0);
+}
+@keyframes intro-draw {
+  from {
+    transform: scaleY(0);
+  }
+}
+@keyframes intro-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
   }
 }
