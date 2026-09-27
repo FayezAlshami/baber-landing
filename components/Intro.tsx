@@ -7,7 +7,6 @@ import Logo from "./ui/Logo";
 import { ScissorsShape } from "./ui/Scissors";
 import { setScrollLock } from "./SmoothScroll";
 
-export const INTRO_KEY = "trimio-intro";
 const EASE_CUT: [number, number, number, number] = [0.65, 0, 0.35, 1];
 const EASE_CURTAIN: [number, number, number, number] = [0.76, 0, 0.24, 1];
 
@@ -16,8 +15,8 @@ const EASE_CURTAIN: [number, number, number, number] = [0.76, 0, 0.24, 1];
  * scissors waiting at its foot. They snip, cut their way up the line, and the two halves
  * part like the curtains of a barbershop window to reveal the page.
  *
- * Shown once per session. An inline script in <Document> hides it before first paint for
- * repeat visits and reduced-motion users, and a CSS failsafe hides it if JS never runs.
+ * Shown on every page load. An inline script in <Document> hides it before first paint for
+ * reduced-motion users, and a CSS failsafe hides it if JS never runs.
  */
 export default function Intro() {
   const { t } = useI18n();
@@ -30,10 +29,6 @@ export default function Intro() {
       setDone(true);
       return;
     }
-    try {
-      sessionStorage.setItem(INTRO_KEY, "1");
-    } catch {}
-
     setScrollLock(true);
     const timers = [setTimeout(() => setSnip(true), 380), setTimeout(() => setSnip(false), 1780)];
     const q = (s: string) => scope.current!.querySelector<HTMLElement>(s)!;

@@ -118,7 +118,7 @@ function jsonLd(locale: Locale) {
   };
 }
 
-const INTRO_GATE = `try{if(sessionStorage.getItem("trimio-intro")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.intro="off"}catch(e){}`;
+const INTRO_GATE = `try{if(matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.intro="off"}catch(e){}`;
 
 export function Document({ locale, children }: { locale: Locale; children: React.ReactNode }) {
   return (
@@ -129,7 +129,7 @@ export function Document({ locale, children }: { locale: Locale; children: React
       className={`${manrope.variable} ${alexandria.variable}`}
     >
       <body>
-        {/* Skip the intro before first paint for repeat visits and reduced-motion users. */}
+        {/* Skip the intro before first paint for reduced-motion users. */}
         <script dangerouslySetInnerHTML={{ __html: INTRO_GATE }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(locale)) }} />
         <noscript>
