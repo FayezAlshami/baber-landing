@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { motion, useMotionTemplate, useMotionValue, useSpring } from "motion/react";
 import { useI18n } from "./I18nProvider";
+import { useMediaQuery, usePrefersReducedMotion } from "@/src/lib/stores";
 import Img from "./ui/Img";
+import SplitWords from "./ui/SplitWords";
 import Icon from "./ui/Icon";
 import { whatsappLink } from "@/src/config/site";
 
@@ -11,25 +14,25 @@ const TIMES = ["10:30", "11:15", "13:00", "14:30", "15:45", "17:00"];
 function PhoneMock() {
   const { t } = useI18n();
   const p = t.hero.phone;
-  const [stage, setStage] = useState(0);
+  const [step, setStep] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
+  const reduced = usePrefersReducedMotion();
+  // Reduced motion: hold the booking flow on its "time picked" frame.
+  const stage = reduced ? 2 : step;
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setStage(2);
-      return;
-    }
+    if (reduced) return;
     let timer: ReturnType<typeof setInterval> | undefined;
     const io = new IntersectionObserver(([e]) => {
       clearInterval(timer);
-      if (e.isIntersecting) timer = setInterval(() => setStage((s) => (s + 1) % 4), 2200);
+      if (e.isIntersecting) timer = setInterval(() => setStep((s) => (s + 1) % 4), 2200);
     });
     if (ref.current) io.observe(ref.current);
     return () => {
       io.disconnect();
       clearInterval(timer);
     };
-  }, []);
+  }, [reduced]);
 
   const confirmed = stage === 3;
 
@@ -38,12 +41,12 @@ function PhoneMock() {
       <div className="glow absolute -inset-16 -z-10 opacity-80" />
       <div className="relative rounded-[46px] border border-white/15 bg-neutral-950 p-[10px] shadow-[0_60px_120px_-30px_rgba(0,0,0,0.9),inset_0_0_0_1px_rgba(255,255,255,0.04)]">
         <div className="relative overflow-hidden rounded-[37px] bg-neutral-900">
-          <div className="absolute start-1/2 top-2.5 z-20 h-[22px] w-[88px] -translate-x-1/2 rounded-full bg-black rtl:translate-x-1/2" />
+          <div className="absolute inset-s-1/2 top-2.5 z-20 h-[22px] w-[88px] -translate-x-1/2 rounded-full bg-black rtl:translate-x-1/2" />
           <div className="flex items-center justify-between px-6 pb-2 pt-3.5 text-[11px] font-medium text-bone/80" dir="ltr">
             <span>9:41</span>
             <span className="flex gap-1">
-              <span className="h-2 w-3 rounded-sm bg-bone/70" />
-              <span className="h-2 w-4 rounded-sm border border-bone/60" />
+              <span className="h-2 w-3 rounded-xs bg-bone/70" />
+              <span className="h-2 w-4 rounded-xs border border-bone/60" />
             </span>
           </div>
 
@@ -59,20 +62,20 @@ function PhoneMock() {
             <div className="relative mt-5 min-h-[330px]">
               {/* Booking */}
               <div className={`absolute inset-0 transition-all duration-500 ${confirmed ? "pointer-events-none scale-95 opacity-0" : "opacity-100"}`}>
-                <div className={`rounded-2xl border p-3.5 transition-colors duration-500 ${stage >= 1 ? "border-brand/60 bg-brand/[0.08]" : "border-white/10 bg-white/[0.03]"}`}>
+                <div className={`rounded-2xl border p-3.5 transition-colors duration-500 ${stage >= 1 ? "border-brand/60 bg-brand/8" : "border-white/10 bg-white/3"}`}>
                   <div className="flex items-center gap-3">
-                    <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/[0.06]">
+                    <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/6">
                       <Icon name="scissors" className="h-4 w-4 text-bone" />
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="text-[13px] font-medium text-bone">{p.service}</p>
-                      <p className="text-[11px] text-bone/50">{p.barber} · 40 min</p>
+                      <p className="text-[11px] text-bone/60">{p.barber} · 40 min</p>
                     </div>
                     <span className="text-[13px] font-medium text-bone" dir="ltr">€35</span>
                   </div>
                 </div>
 
-                <p className="mt-5 text-[11px] uppercase tracking-[0.2em] text-bone/40">{p.today}</p>
+                <p className="mt-5 text-[11px] uppercase tracking-[0.2em] text-bone/55">{p.today}</p>
                 <div className="mt-2.5 grid grid-cols-3 gap-2" dir="ltr">
                   {TIMES.map((time, i) => {
                     const on = stage >= 2 && i === 3;
@@ -91,7 +94,7 @@ function PhoneMock() {
 
                 <div
                   className={`mt-6 flex h-12 items-center justify-center rounded-2xl text-[13px] font-medium transition-all duration-500 ${
-                    stage >= 2 ? "bg-brand text-ink" : "bg-white/[0.06] text-bone/40"
+                    stage >= 2 ? "bg-brand text-ink" : "bg-white/6 text-bone/55"
                   }`}
                 >
                   {p.confirm}
@@ -106,7 +109,7 @@ function PhoneMock() {
                   </svg>
                 </span>
                 <p className="mt-5 text-xl font-light text-bone">{p.confirmed}</p>
-                <p className="mt-2 text-[12px] text-bone/50" dir="auto">
+                <p className="mt-2 text-[12px] text-bone/60" dir="auto">
                   {p.service} · 14:30
                 </p>
                 <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-1.5 text-[11px] text-bone/60">
@@ -119,6 +122,58 @@ function PhoneMock() {
         </div>
       </div>
     </div>
+  );
+}
+
+/**
+ * Pointer-driven 3D tilt for the hero's phone and floating chips, with a soft glare that
+ * follows the pointer. Chips sit on their own depth layers (translateZ) for parallax.
+ * Precise pointers only; still for touch and reduced motion.
+ */
+function TiltStage({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduced = usePrefersReducedMotion();
+  const fine = useMediaQuery("(pointer: fine)");
+  const rx = useSpring(0, { stiffness: 110, damping: 18, mass: 0.8 });
+  const ry = useSpring(0, { stiffness: 110, damping: 18, mass: 0.8 });
+  const gx = useMotionValue(50);
+  const gy = useMotionValue(30);
+  const glare = useMotionTemplate`radial-gradient(380px circle at ${gx}% ${gy}%, rgba(255,248,239,0.16), transparent 55%)`;
+
+  useEffect(() => {
+    const stage = ref.current;
+    const section = stage?.closest("section");
+    if (reduced || !fine || !stage || !section) return;
+    const onMove = (e: PointerEvent) => {
+      const r = stage.getBoundingClientRect();
+      const px = Math.min(1.2, Math.max(-0.2, (e.clientX - r.left) / r.width));
+      const py = Math.min(1.2, Math.max(-0.2, (e.clientY - r.top) / r.height));
+      ry.set((px - 0.5) * 16);
+      rx.set(-(py - 0.5) * 12);
+      gx.set(px * 100);
+      gy.set(py * 100);
+    };
+    const onLeave = () => {
+      rx.set(0);
+      ry.set(0);
+    };
+    section.addEventListener("pointermove", onMove);
+    section.addEventListener("pointerleave", onLeave);
+    return () => {
+      section.removeEventListener("pointermove", onMove);
+      section.removeEventListener("pointerleave", onLeave);
+    };
+  }, [reduced, fine, rx, ry, gx, gy]);
+
+  return (
+    <motion.div ref={ref} style={{ rotateX: rx, rotateY: ry, transformPerspective: 1100, transformStyle: "preserve-3d" }} className="relative">
+      {children}
+      <motion.div
+        aria-hidden
+        style={{ background: glare }}
+        className="pointer-events-none absolute inset-y-0 left-1/2 w-[280px] -translate-x-1/2 rounded-[46px] mix-blend-screen sm:w-[300px]"
+      />
+    </motion.div>
   );
 }
 
@@ -136,10 +191,10 @@ export default function Hero() {
           <Img name="hero" alt={h.imageAlt} sizes="100vw" priority className="h-full w-full" imgClassName="hero-kenburns opacity-60" />
         </div>
       </div>
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink/80 via-ink/60 to-ink" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/70 to-ink/10 rtl:bg-gradient-to-l" />
+      <div className="absolute inset-0 -z-10 bg-linear-to-b from-ink/80 via-ink/60 to-ink" />
+      <div className="absolute inset-0 -z-10 bg-linear-to-r from-ink via-ink/70 to-ink/10 rtl:bg-linear-to-l" />
 
-      <div className="container-x grid min-h-[100svh] items-center gap-14 pb-20 pt-32 lg:grid-cols-[1.25fr_1fr] lg:gap-10 lg:pb-24 lg:pt-36">
+      <div className="container-x grid min-h-svh items-center gap-14 pb-20 pt-32 lg:grid-cols-[1.25fr_1fr] lg:gap-10 lg:pb-24 lg:pt-36">
         <div>
           <p className="eyebrow hero-in" style={at(150)}>
             <span className="relative flex h-2 w-2">
@@ -150,17 +205,15 @@ export default function Hero() {
           </p>
 
           <h1 id="hero-title" className="h-display mt-7 text-[clamp(2.9rem,7.6vw,6.6rem)] text-bone">
-            <span className="line-mask">
-              <span className="hero-line" style={at(250)}>{h.titleA}</span>
+            <span className="block">
+              <SplitWords parts={[{ text: h.titleA }]} mode="hero" start={250} step={80} />
             </span>
-            <span className="line-mask">
-              <span className="hero-line" style={at(420)}>
-                {h.titleB} <span className="accent">{h.titleAccent}</span>
-              </span>
+            <span className="block">
+              <SplitWords parts={[{ text: h.titleB }, { text: h.titleAccent, accent: true }]} mode="hero" start={480} step={80} />
             </span>
           </h1>
 
-          <p className="lead hero-in mt-7" style={at(700)}>{h.sub}</p>
+          <p className="lead hero-sub hero-in mt-7" style={at(700)}>{h.sub}</p>
 
           <div className="hero-in mt-10 flex flex-col gap-3 sm:flex-row sm:items-center" style={at(850)}>
             <a
@@ -176,7 +229,7 @@ export default function Hero() {
             </a>
             <a href="#demo" data-track="cta_secondary" data-label="hero_demo" className="btn-ghost group">
               {h.ctaSecondary}
-              <Icon name="arrow" className="h-4 w-4 transition-transform group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1" />
+              <Icon name="arrow" className="h-4 w-4 transition-transform group-hover:translate-x-1 rtl:-scale-x-100 group-hover:rtl:-translate-x-1" />
             </a>
           </div>
 
@@ -191,24 +244,26 @@ export default function Hero() {
         </div>
 
         <div className="hero-in relative" style={at(900)}>
-          <div className="lg:animate-float">
-            <PhoneMock />
-          </div>
-          <div className="surface absolute -start-2 top-16 hidden items-center gap-3 px-4 py-3 backdrop-blur-xl sm:flex lg:-start-10">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-brand/15">
-              <Icon name="calendar" className="h-4 w-4 text-brand" />
-            </span>
-            <span className="text-[12px] leading-tight">
-              <span className="block text-bone">+1 · {h.phone.service}</span>
-              <span className="text-bone/45">{h.phone.today} · 14:30</span>
-            </span>
-          </div>
-          <div className="surface absolute -end-1 bottom-20 hidden items-center gap-3 px-4 py-3 backdrop-blur-xl sm:flex lg:-end-4">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-white/[0.06]">
-              <Icon name="bell" className="h-4 w-4 text-bone" />
-            </span>
-            <span className="max-w-[150px] text-[12px] leading-tight text-bone/70">{h.phone.reminder}</span>
-          </div>
+          <TiltStage>
+            <div className="lg:animate-float">
+              <PhoneMock />
+            </div>
+            <div className="surface absolute -inset-s-2 top-16 hidden items-center gap-3 px-4 py-3 backdrop-blur-xl [transform:translateZ(70px)] sm:flex lg:-inset-s-10">
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-brand/15">
+                <Icon name="calendar" className="h-4 w-4 text-brand" />
+              </span>
+              <span className="text-[12px] leading-tight">
+                <span className="block text-bone">+1 · {h.phone.service}</span>
+                <span className="text-bone/55">{h.phone.today} · 14:30</span>
+              </span>
+            </div>
+            <div className="surface absolute -inset-e-1 bottom-20 hidden items-center gap-3 px-4 py-3 backdrop-blur-xl [transform:translateZ(110px)] sm:flex lg:-inset-e-4">
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-white/6">
+                <Icon name="bell" className="h-4 w-4 text-bone" />
+              </span>
+              <span className="max-w-[150px] text-[12px] leading-tight text-bone/70">{h.phone.reminder}</span>
+            </div>
+          </TiltStage>
         </div>
       </div>
     </section>

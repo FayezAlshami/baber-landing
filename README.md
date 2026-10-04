@@ -4,9 +4,10 @@
 directe online boekingen voor barbershops. Dit is de meertalige
 marketing-landingspagina (NL · EN · TR · AR).
 
-Gebouwd met **Next.js (App Router)**, **TypeScript**, **Tailwind CSS**,
-**Motion** (animaties) en **Lenis** (smooth scroll). Volledig statisch,
-mobile-first, toegankelijk en snel.
+Gebouwd met **Next.js 16 (App Router, Turbopack)**, **React 19**,
+**TypeScript**, **Tailwind CSS 4**, **Motion** (animaties), **Lenis** (smooth
+scroll) en **Phosphor Icons**. Volledig statisch, mobile-first, toegankelijk en
+snel.
 
 ---
 
@@ -17,7 +18,9 @@ npm install
 npm run dev      # ontwikkelserver op http://localhost:3000
 npm run build    # productie-build
 npm run start    # productieserver (na build)
+npm run lint     # ESLint 9 (flat config, eslint.config.mjs)
 npm run images -- <map-met-foto's>   # beelden opnieuw genereren (zie hieronder)
+npm run icons    # app-iconen (PNG, maskable, apple-touch) uit de favicon
 ```
 
 ---
@@ -52,6 +55,15 @@ omgerekend via `CURRENCIES`.
 | Oranje tekst op licht       | `#AD4522` | `brand-700`   |
 
 Op apricot-knoppen staat altijd **navy** tekst (`text-ink`), niet wit.
+Kleine gedempte tekst op navy gebruikt minimaal `text-bone/55`, zodat alles
+aan WCAG AA voldoet.
+
+De kleuren, lettertypen, radii en animaties staan als tokens in `@theme` in
+`app/globals.css` (Tailwind 4 heeft geen `tailwind.config.ts` meer).
+
+Iconen komen uit **Phosphor** via `components/ui/Icon.tsx`: `light` voor de UI,
+`duotone` voor de feature-tegels, de merklogo's voor WhatsApp, Instagram, TikTok
+en Google. De schaar is ons eigen merkteken.
 
 Lettertypen (SIL OFL, lokaal via `next/font/local` uit `app/fonts/`):
 **Manrope** voor Latijns schrift (ook Turks) en **Alexandria** voor Arabisch.
@@ -72,6 +84,8 @@ gerenderd door `components/ui/Logo.tsx`; de schaar is een los component
   (logo + tagline `intro.tagline`) en de "kapmantel" wordt weggetrokken.
   Speelt bij elke paginalading, overslaan met klik of Esc, uit bij
   `prefers-reduced-motion`. De hero-entree wacht via `html[data-stage]`.
+  Onder de intro staat de hero al klaar (zodra de webfonts binnen zijn), zodat
+  de intro de LCP niet ophoudt; bij de overdracht speelt de entree gewoon af.
 - **Smooth scroll** (`components/SmoothScroll.tsx`): Lenis, traag en zacht
   (duration 1.6, expo-ease), plus parallax via `data-parallax` en de
   voortgangslijn bovenaan.
@@ -79,6 +93,16 @@ gerenderd door `components/ui/Logo.tsx`; de schaar is een los component
   site, cursor-ring, magnetische knoppen en een spotlight op kaarten (alleen
   bij muis/trackpad). Koppen rijzen op uit een masker, secties zijn genummerd
   ("01"), beelden openen met een wipe (`<Img wipe parallax={0.08} />`).
+- **Galerij** (`components/Showcase.tsx`): op desktop pint de sectie en
+  schuift een filmstrip met 8 genummerde beelden horizontaal mee met de scroll;
+  op mobiel een swipe-carrousel met scroll-snap.
+- **Afwerking**: koppen komen woord voor woord uit een masker
+  (`components/ui/SplitWords.tsx`), accentwoorden hebben een trage metalen
+  glans, de populaire prijskaart en het formulier een draaiende rand
+  (`@property --angle`), de cursor toont labels uit `data-cursor`, de telefoon
+  in de hero kantelt mee met de muis, taalwissel via de View Transitions API,
+  een barbierspaal als voortgangslijn en een groot "trimio" in de footer dat
+  zich vult tijdens het scrollen (`animation-timeline: view()`).
 - **FAQ**: open schaar = antwoord tonen, gesloten schaar = antwoord sluiten.
 
 ---
@@ -88,17 +112,22 @@ gerenderd door `components/ui/Logo.tsx`; de schaar is een los component
 `nl` staat op `/`, de andere talen op `/en/`, `/tr/` en `/ar/` (RTL). Bij een
 eerste bezoek aan `/` wordt de browsertaal gekozen; een handmatige keuze wordt
 onthouden. Een taal toevoegen: dictionary in `src/i18n/`, `LOCALES` en
-`loaders` in `src/i18n/index.ts`, `generateStaticParams` in
-`app/(intl)/[locale]/layout.tsx`, en de hreflang-lijsten in `src/lib/seo.tsx` en
-`app/sitemap.ts`.
+`loaders` in `src/i18n/index.ts`, `DICTS` in `src/lib/content.ts` en
+`generateStaticParams` in `app/(intl)/[locale]/layout.tsx`. Hreflang, sitemap,
+llms.txt en de social cards volgen `LOCALES` vanzelf.
+
+De teksten zijn geschreven als een kleine studio die met barbiers werkt: concreet
+("de avond ervoor een herinnering"), weinig gedachtestreepjes, geen
+marketingvulling. Houd dat zo bij nieuwe teksten.
 
 ---
 
 ## Afbeeldingen
 
 `scripts/build-images.mjs` (sharp) maakt van bronfoto's responsive WebP's
-(`public/img/<slot>-<breedte>.webp`), een OpenGraph-beeld (`public/img/og.jpg`)
-en `src/lib/images.json` met afmetingen en blur-placeholders.
+(`public/img/<slot>-<breedte>.webp`), een basisbeeld voor de social cards
+(`public/img/og.jpg`) en `src/lib/images.json` met afmetingen en
+blur-placeholders. Het hero-beeld wordt via React 19 `preload()` vooraf geladen.
 
 Welke foto in welk slot komt (en eventuele uitsnede) staat in
 `scripts/images.map.json`. Nieuwe beelden: pas de map aan en draai
@@ -106,10 +135,47 @@ Welke foto in welk slot komt (en eventuele uitsnede) staat in
 
 ---
 
-## SEO
+## SEO & GEO
 
-- Titels, beschrijvingen en keywords per taal
-- Open Graph + Twitter Cards, canonical, hreflang (nl/en/tr/ar), sitemap
-- JSON-LD: `Organization`, `Brand`, `SoftwareApplication` en `FAQPage`
+Gericht op Google én op AI-assistenten (ChatGPT, Claude, Perplexity, Gemini).
+
+- **Metadata per taal**: titel, beschrijving, lokale keywords, canonical,
+  hreflang (nl/en/tr/ar + x-default), Open Graph en Twitter Cards.
+- **Social cards**: `app/og/[image]/route.tsx` rendert bij de build per taal een
+  1200×630 JPEG met `next/og` (`/og/nl.jpg`, `/og/en.jpg`, …).
+- **Structured data** (`src/lib/seo.tsx`): één verbonden `@graph` per pagina met
+  `Organization`, `Brand`, `WebSite`, `WebPage` (met `speakable` en
+  `dateModified`), `SoftwareApplication` en `Service` met een `Offer` per pakket
+  en periode, `HowTo` (de vier stappen), `FAQPage` en `BreadcrumbList`. Er
+  worden geen beoordelingen of reviews geclaimd.
+- **llms.txt** en **llms-full.txt** (`src/lib/llms.ts`): een korte en een
+  volledige briefing voor AI-assistenten, gegenereerd uit dezelfde dictionaries.
+- **robots.txt** laat zoekmachines en AI-crawlers (GPTBot, OAI-SearchBot,
+  ClaudeBot, PerplexityBot, Google-Extended, …) expliciet toe.
+- **Sitemap** met builddatum, x-default en beelden; **manifest** met PNG- en
+  maskable-iconen.
+- **Antwoord eerst**: elke FAQ begint met een direct antwoord, en de sectie
+  "Wat is Trimio?" (`#about`) geeft een korte definitie die AI-assistenten
+  letterlijk kunnen overnemen.
 
 Stel de publieke URL in via `NEXT_PUBLIC_SITE_URL` (zie `src/config/site.ts`).
+
+---
+
+## Publiceren (GitHub Pages)
+
+`.github/workflows/pages.yml` bouwt bij elke push naar `main` een statische
+export en zet die op GitHub Pages. `actions/configure-pages` levert het
+basispad en de publieke URL, dus de build past zich vanzelf aan:
+
+- zonder eigen domein: `https://fayezalshami.github.io/baber-landing/`
+- met eigen domein: `https://barber.fayezalshami.com/`
+
+Eigen domein koppelen:
+
+1. DNS bij Hostinger (fayezalshami.com): `CNAME` record `barber` →
+   `fayezalshami.github.io` (TTL 300).
+2. GitHub → repo **Settings → Pages → Custom domain**:
+   `barber.fayezalshami.com`, en daarna **Enforce HTTPS** aanvinken.
+3. De workflow opnieuw draaien (Actions → *Deploy GitHub Pages* → *Run
+   workflow*), zodat canonical, sitemap en llms.txt het nieuwe domein gebruiken.

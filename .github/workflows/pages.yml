@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -27,15 +27,17 @@ jobs:
 
       - run: npm ci
 
+      # Reads the Pages settings: base_path is "/<repo>" on github.io and "" once a custom
+      # domain (barber.fayezalshami.com) is set, and base_url follows suit. The build adapts by itself.
+      - id: pages
+        uses: actions/configure-pages@v5
+
       - name: Prepare static export
-        env:
-          REPO: ${{ github.event.repository.name }}
         run: |
           python3 <<'PY'
           import os
           from pathlib import Path
 
-          repo = os.environ["REPO"].strip("/")
           Path("src").mkdir(exist_ok=True)
           Path("src/image-loader.js").write_text(
               """export default function imageLoader({ src }) {
@@ -49,19 +51,19 @@ jobs:
               encoding="utf-8",
           )
           Path("next.config.mjs").write_text(
-              f"""const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "/{repo}";
-          export default {{
+              """const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+          export default {
             reactStrictMode: true,
             output: "export",
             trailingSlash: true,
-            images: {{
+            images: {
               unoptimized: true,
               loader: "custom",
               loaderFile: "./src/image-loader.js",
-            }},
+            },
             basePath,
             assetPrefix: basePath,
-          }};
+          };
           """,
               encoding="utf-8",
           )
@@ -70,13 +72,13 @@ jobs:
       - name: Static export
         env:
           GITHUB_PAGES: "true"
-          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
-          NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
         run: npm run build
 
       - name: Prefix leftover public assets
         env:
-          BASE: /${{ github.event.repository.name }}
+          BASE: ${{ steps.pages.outputs.base_path }}
         run: |
           python3 <<'PY'
           import os
@@ -98,11 +100,6 @@ jobs:
         with:
           path: out
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: site
-          path: out
-
   deploy-pages:
     needs: build
     runs-on: ubuntu-latest
@@ -112,18 +109,3 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
-
-  deploy-branch:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with:
-          name: site
-          path: out
-      - uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out
-          force_orphan: true

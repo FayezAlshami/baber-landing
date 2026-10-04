@@ -1,11 +1,15 @@
 import { Document, buildMetadata } from "@/src/lib/seo";
-import type { Locale } from "@/src/i18n";
+import { asLocale } from "@/src/i18n";
 
 export { viewport } from "@/src/lib/seo";
 export const dynamicParams = false;
 export const generateStaticParams = () => [{ locale: "en" }, { locale: "tr" }, { locale: "ar" }];
-export const generateMetadata = ({ params }: { params: { locale: Locale } }) => buildMetadata(params.locale);
 
-export default function Layout({ children, params }: { children: React.ReactNode; params: { locale: Locale } }) {
-  return <Document locale={params.locale}>{children}</Document>;
+export async function generateMetadata({ params }: LayoutProps<"/[locale]">) {
+  return buildMetadata(asLocale((await params).locale));
+}
+
+export default async function Layout({ children, params }: LayoutProps<"/[locale]">) {
+  const locale = asLocale((await params).locale);
+  return <Document locale={locale}>{children}</Document>;
 }

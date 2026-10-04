@@ -6,6 +6,7 @@ import { useI18n } from "./I18nProvider";
 import Logo from "./ui/Logo";
 import { ScissorsShape } from "./ui/Scissors";
 import { setScrollLock } from "./SmoothScroll";
+import { useIntroOff } from "@/src/lib/stores";
 
 type Bezier = [number, number, number, number];
 const EASE_SWEEP: Bezier = [0.45, 0, 0.25, 1];
@@ -146,16 +147,14 @@ export default function Intro() {
   const [scope, animate] = useAnimate<HTMLDivElement>();
   const [done, setDone] = useState(false);
   const [snip, setSnip] = useState(false);
+  const introOff = useIntroOff();
 
   useEffect(() => {
     const html = document.documentElement;
-    if (html.dataset.intro === "off") {
-      setDone(true);
-      return;
-    }
+    const root = scope.current;
+    if (introOff || html.dataset.intro === "off" || !root) return;
     setScrollLock(true);
     const timers = [setTimeout(() => setSnip(true), 1950), setTimeout(() => setSnip(false), 3250)];
-    const root = scope.current!;
     const q = (s: string) => root.querySelector<HTMLElement>(s)!;
     const all = (s: string) => root.querySelectorAll<HTMLElement>(s);
     const clips = root.querySelectorAll<SVGPathElement>(".intro-clip");
@@ -221,12 +220,12 @@ export default function Intro() {
       controls.stop();
       setScrollLock(false);
     };
-  }, [animate, scope]);
+  }, [animate, scope, introOff]);
 
-  if (done) return null;
+  if (done || introOff) return null;
 
   return (
-    <div ref={scope} className="intro fixed inset-0 z-[100] cursor-pointer overflow-hidden" aria-hidden="true">
+    <div ref={scope} className="intro fixed inset-0 z-100 cursor-pointer overflow-hidden" aria-hidden="true">
       {/* The cape: backdrop + the hair that stays, lifted away at the end */}
       <div className="intro-cape absolute inset-0">
         <div className="intro-scene absolute inset-0" style={{ transform: "scale(1.07)" }}>
@@ -270,7 +269,7 @@ export default function Intro() {
       {/* Scissors riding along the cut line, blades forward */}
       <div className="intro-travel pointer-events-none absolute left-0 top-[44vh]" style={{ transform: "translateX(-12vw)" }}>
         <div className="intro-scissors relative">
-          <svg viewBox="0 0 184 168" className="h-[80px] w-[88px] -translate-x-[45.3%] -translate-y-[53.1%] rotate-[33deg] [transform-origin:45.3%_53.1%] sm:h-[110px] sm:w-[120px]">
+          <svg viewBox="0 0 184 168" className="h-[80px] w-[88px] translate-x-[-45.3%] translate-y-[-53.1%] rotate-33 origin-[45.3%_53.1%] sm:h-[110px] sm:w-[120px]">
             <ScissorsShape open={1.15} snip={snip} />
           </svg>
           <span className="absolute left-[44px] top-[-18px] sm:left-[64px]">
@@ -298,7 +297,7 @@ export default function Intro() {
       <button
         type="button"
         tabIndex={-1}
-        className="absolute bottom-6 end-6 z-10 text-[11px] font-semibold uppercase tracking-[0.24em] text-bone/45 transition-colors hover:text-bone"
+        className="absolute bottom-6 inset-e-6 z-10 text-[11px] font-semibold uppercase tracking-[0.24em] text-bone/55 transition-colors hover:text-bone"
       >
         {t.intro.skip}
       </button>

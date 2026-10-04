@@ -32,11 +32,11 @@ export default function BookingDemo() {
       key={key}
       type="button"
       onClick={onClick}
-      className="group flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-3.5 text-start transition-all hover:border-brand/60 hover:bg-brand/[0.06]"
+      className="group flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/3 p-3.5 text-start transition-all hover:border-brand/60 hover:bg-brand/6"
     >
       <span className="min-w-0 flex-1">
         <span className="block text-[14px] font-medium text-bone">{title}</span>
-        <span className="block text-[12px] text-bone/50">{sub}</span>
+        <span className="block text-[12px] text-bone/60">{sub}</span>
       </span>
       {right && <span className="text-[13px] text-bone" dir="ltr">{right}</span>}
       <Icon name="chevron" className="h-4 w-4 text-bone/30 transition-transform group-hover:translate-x-0.5 rtl:-scale-x-100" />
@@ -52,17 +52,17 @@ export default function BookingDemo() {
             {d.steps.map((s, i) => {
               const state = done || i < step ? "done" : i === step ? "active" : "idle";
               return (
-                <li key={s.title} className={`flex gap-5 rounded-2xl p-4 transition-all duration-500 ${state === "active" ? "bg-white/[0.04]" : ""}`}>
+                <li key={s.title} className={`flex gap-5 rounded-2xl p-4 transition-all duration-500 ${state === "active" ? "bg-white/4" : ""}`}>
                   <span
                     className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border text-[13px] transition-all duration-500 ${
-                      state === "done" ? "border-brand bg-brand text-ink" : state === "active" ? "border-brand text-brand" : "border-white/15 text-bone/40"
+                      state === "done" ? "border-brand bg-brand text-ink" : state === "active" ? "border-brand text-brand" : "border-white/15 text-bone/55"
                     }`}
                   >
                     {state === "done" ? <Icon name="check" className="h-4 w-4" strokeWidth={2.2} /> : i + 1}
                   </span>
                   <span>
-                    <span className={`block text-[15px] font-medium ${state === "idle" ? "text-bone/50" : "text-bone"}`}>{s.title}</span>
-                    <span className="mt-1 block text-[14px] leading-relaxed text-bone/50">{s.body}</span>
+                    <span className={`block text-[15px] font-medium ${state === "idle" ? "text-bone/60" : "text-bone"}`}>{s.title}</span>
+                    <span className="mt-1 block text-[14px] leading-relaxed text-bone/60">{s.body}</span>
                   </span>
                 </li>
               );
@@ -73,11 +73,11 @@ export default function BookingDemo() {
         <div className="reveal relative mx-auto w-full max-w-[380px]">
           <div className="glow absolute -inset-20 -z-10" />
           <p className="tag-sample mb-4 w-fit">{d.demoBadge}</p>
-          <div className="rounded-[44px] border border-white/15 bg-neutral-950 p-[10px] shadow-[0_60px_120px_-30px_rgba(0,0,0,.9)]">
+          <div data-cursor="try" className="living-border relative rounded-[44px] border border-white/15 bg-neutral-950 p-[10px] shadow-[0_60px_120px_-30px_rgba(0,0,0,.9)]">
             <div className="min-h-[560px] overflow-hidden rounded-[35px] bg-neutral-900 p-5" aria-live="polite">
               <div className="flex items-center justify-between">
                 <span className="text-[13px] font-medium text-bone" dir="ltr">Studio Noir</span>
-                <span className="text-[11px] text-bone/40">{fill(t.a11y.currentStep, { n: Math.min(step + 1, 4), total: 4 })}</span>
+                <span className="text-[11px] text-bone/55">{fill(t.a11y.currentStep, { n: Math.min(step + 1, 4), total: 4 })}</span>
               </div>
               <div className="mt-4 grid grid-cols-4 gap-1.5">
                 {u.stepLabels.map((l, i) => (
@@ -87,7 +87,7 @@ export default function BookingDemo() {
 
               <div key={step} className="animate-fade-up">
                 {step > 0 && !done && (
-                  <button type="button" onClick={() => setStep((s) => s - 1)} className="mt-5 inline-flex items-center gap-1 text-[12px] text-bone/50 hover:text-bone">
+                  <button type="button" onClick={() => setStep((s) => s - 1)} className="mt-5 inline-flex items-center gap-1 text-[12px] text-bone/60 hover:text-bone">
                     <Icon name="chevron" className="h-3.5 w-3.5 -scale-x-100 rtl:scale-x-100" />
                     {u.back}
                   </button>
@@ -153,7 +153,7 @@ export default function BookingDemo() {
                         );
                       })}
                     </div>
-                    <p className="mt-5 inline-flex items-center gap-2 text-[12px] text-bone/45">
+                    <p className="mt-5 inline-flex items-center gap-2 text-[12px] text-bone/55">
                       <Icon name="user" className="h-3.5 w-3.5" />
                       {u.noAccount}
                     </p>
@@ -168,7 +168,7 @@ export default function BookingDemo() {
                     </span>
                     <p className="mt-6 text-2xl font-light text-bone">{u.confirmedTitle}</p>
                     <p className="mt-2 max-w-[240px] text-[13px] text-bone/55">{u.confirmedBody}</p>
-                    <dl className="mt-7 w-full space-y-2 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-[13px]">
+                    <dl className="mt-7 w-full space-y-2 rounded-2xl border border-white/10 bg-white/3 p-4 text-[13px]">
                       {[
                         [u.stepLabels[0], u.branches[pick.b ?? 0].name],
                         [u.stepLabels[1], `${service.name} · €${service.price}`],
@@ -176,7 +176,7 @@ export default function BookingDemo() {
                         [u.stepLabels[3], `${pick.day ? u.tomorrow : u.today} · ${pick.time}`],
                       ].map(([k, v]) => (
                         <div key={k} className="flex justify-between gap-4">
-                          <dt className="text-bone/45">{k}</dt>
+                          <dt className="text-bone/55">{k}</dt>
                           <dd className="text-end text-bone">{v}</dd>
                         </div>
                       ))}

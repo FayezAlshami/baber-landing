@@ -1,3 +1,4 @@
+import { preload } from "react-dom";
 import manifest from "@/src/lib/images.json";
 import { BASE_PATH } from "@/src/config/site";
 
@@ -21,6 +22,8 @@ export default function Img({ name, alt, sizes, className = "", imgClassName = "
   const m = manifest[name];
   const srcSet = m.widths.map((w) => `${BASE_PATH}/img/${name}-${w}.webp ${w}w`).join(", ");
   const fallback = `${BASE_PATH}/img/${name}-${m.widths[Math.min(1, m.widths.length - 1)]}.webp`;
+  // React 19 hoists this into <head> as <link rel="preload">, so the LCP image starts before the CSS settles.
+  if (priority) preload(fallback, { as: "image", imageSrcSet: srcSet, imageSizes: sizes, fetchPriority: "high" });
   return (
     <div
       className={`relative overflow-hidden bg-neutral-900 bg-cover bg-center ${wipe ? "wipe" : ""} ${className}`}
@@ -36,7 +39,7 @@ export default function Img({ name, alt, sizes, className = "", imgClassName = "
         height={m.h}
         loading={priority ? "eager" : "lazy"}
         decoding={priority ? "sync" : "async"}
-        {...(priority ? { fetchpriority: "high" } : {})}
+        {...(priority ? { fetchPriority: "high" as const } : {})}
         {...(parallax ? { "data-parallax": parallax, style: { transform: "scale(1.14)" } } : {})}
         className={`h-full w-full object-cover ${imgClassName}`}
       />

@@ -5,10 +5,12 @@ import Header from "./Header";
 import Hero from "./Hero";
 import BookingDemo from "./BookingDemo";
 import Pricing from "./Pricing";
+import Showcase from "./Showcase";
 import Intro from "./Intro";
 import SmoothScroll from "./SmoothScroll";
 import Atmosphere from "./Atmosphere";
 import {
+  About,
   Brand,
   Compare,
   Faq,
@@ -23,7 +25,6 @@ import {
   Process,
   Proof,
   Seo,
-  Showcase,
   Team,
   Testimonials,
 } from "./Sections";
@@ -57,6 +58,7 @@ function Page() {
           <Pricing />
           <Faq />
           <FinalCta />
+          <About />
         </main>
         <Footer />
         <MobileCta />

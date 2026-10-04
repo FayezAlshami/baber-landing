@@ -2,15 +2,17 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useI18n } from "./I18nProvider";
+import { usePrefersReducedMotion } from "@/src/lib/stores";
 import SectionHeading from "./ui/SectionHeading";
 import Icon, { type IconName } from "./ui/Icon";
 import Img, { type ImageName } from "./ui/Img";
 import { Wordmark } from "./Header";
 import Logo from "./ui/Logo";
 import Scissors from "./ui/Scissors";
+import Signature from "./ui/Signature";
 import { fill } from "@/src/i18n";
 import { track } from "@/src/lib/track";
-import { BRAND, whatsappLink } from "@/src/config/site";
+import { BRAND, PACKAGE_PRICES_EUR, formatPrice, whatsappLink } from "@/src/config/site";
 
 const d = (ms: number) => ({ ["--d" as string]: `${ms}ms` });
 
@@ -19,16 +21,16 @@ export function Proof() {
   const { t, locale } = useI18n();
   const items = [...t.proof.marquee, ...t.proof.marquee];
   return (
-    <section aria-label="Highlights" className="border-y border-white/[0.06] bg-neutral-950">
-      <div className="container-x grid grid-cols-2 gap-px bg-white/[0.06] lg:grid-cols-4">
+    <section aria-label="Highlights" className="border-y border-white/6 bg-neutral-950">
+      <div className="container-x grid grid-cols-2 gap-px bg-white/6 lg:grid-cols-4">
         {t.proof.items.map((p, i) => (
           <div key={p.v} style={d(i * 80)} className="reveal bg-neutral-950 px-2 py-8 sm:px-6">
             <p className="text-4xl font-light tracking-tight text-bone" dir="ltr">{p.k}</p>
-            <p className="mt-2 text-[13px] leading-snug text-bone/50">{p.v}</p>
+            <p className="mt-2 text-[13px] leading-snug text-bone/60">{p.v}</p>
           </div>
         ))}
       </div>
-      <div className="mask-fade-x overflow-hidden border-t border-white/[0.06] py-8 md:py-10" aria-hidden>
+      <div className="mask-fade-x overflow-hidden border-t border-white/6 py-8 md:py-10" aria-hidden>
         <div className={`flex w-max gap-12 ${locale === "ar" ? "animate-marquee-rtl" : "animate-marquee"} hover:[animation-play-state:paused]`}>
           {items.map((m, i) => (
             <span
@@ -59,7 +61,7 @@ export function Problem() {
         <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {p.pains.map((x, i) => (
             <article key={x.title} style={d(i * 80)} className="reveal surface p-7">
-              <Icon name={painIcons[i]} className="h-6 w-6 text-brand" />
+              <Icon name={painIcons[i]} weight="duotone" className="h-6 w-6 text-brand" />
               <h3 className="mt-6 text-[17px] font-medium text-bone">{x.title}</h3>
               <p className="mt-3 text-[14px] leading-relaxed text-bone/55">{x.body}</p>
             </article>
@@ -67,17 +69,17 @@ export function Problem() {
         </div>
         <div className="mt-6 grid gap-4 lg:grid-cols-2">
           <div className="reveal rounded-card border border-white/[0.07] p-8">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-bone/40">{p.beforeLabel}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-bone/55">{p.beforeLabel}</p>
             <ul className="mt-6 space-y-4">
               {p.before.map((b) => (
-                <li key={b} className="flex gap-3 text-[15px] text-bone/45">
+                <li key={b} className="flex gap-3 text-[15px] text-bone/55">
                   <Icon name="x" className="mt-0.5 h-4 w-4 shrink-0 text-bone/30" />
                   {b}
                 </li>
               ))}
             </ul>
           </div>
-          <div style={d(120)} className="reveal rounded-card border border-brand/30 bg-gradient-to-br from-brand/[0.1] to-transparent p-8">
+          <div style={d(120)} className="reveal rounded-card border border-brand/30 bg-linear-to-br from-brand/10 to-transparent p-8">
             <p className="text-[12px] uppercase tracking-[0.2em] text-brand">{p.afterLabel}</p>
             <ul className="mt-6 space-y-4">
               {p.after.map((b, i) => (
@@ -102,18 +104,18 @@ export function Platform() {
   const { t } = useI18n();
   const p = t.platform;
   return (
-    <section id="platform" aria-labelledby="platform-title" className="section border-t border-white/[0.05] bg-neutral-950">
+    <section id="platform" aria-labelledby="platform-title" className="section border-t border-white/5 bg-neutral-950">
       <div className="container-x grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:items-center">
-        <div className="reveal relative order-2 aspect-[4/5] overflow-hidden rounded-[32px] lg:order-1">
+        <div className="reveal relative order-2 aspect-4/5 overflow-hidden rounded-[32px] lg:order-1">
           <Img name="fade" alt={p.imageAlt} sizes="(min-width:1024px) 45vw, 100vw" className="h-full w-full" wipe parallax={0.08} />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-ink/80 via-transparent to-transparent" />
           <div className="surface absolute inset-x-5 bottom-5 flex items-center gap-4 p-4 backdrop-blur-xl">
             <span className="grid h-11 w-11 place-items-center rounded-full bg-brand text-ink">
               <Icon name="calendar" className="h-5 w-5" />
             </span>
             <span className="text-[13px] leading-snug">
               <span className="block text-bone">{t.hero.phone.confirmed}</span>
-              <span className="text-bone/50">{t.hero.phone.service} · 14:30</span>
+              <span className="text-bone/60">{t.hero.phone.service} · 14:30</span>
             </span>
           </div>
         </div>
@@ -122,8 +124,8 @@ export function Platform() {
           <div className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2">
             {p.pillars.map((x, i) => (
               <div key={x.title} style={d(i * 90)} className="reveal">
-                <span className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-white/[0.04]">
-                  <Icon name={pillarIcons[i]} className="h-5 w-5 text-brand" />
+                <span className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-white/4">
+                  <Icon name={pillarIcons[i]} weight="duotone" className="h-5 w-5 text-brand" />
                 </span>
                 <h3 className="mt-5 text-[17px] font-medium text-bone">{x.title}</h3>
                 <p className="mt-2 text-[14px] leading-relaxed text-bone/55">{x.body}</p>
@@ -144,7 +146,7 @@ export function Features() {
   const [active, setActive] = useState(0);
   const tab = f.tabs[active];
   return (
-    <section id="features" aria-labelledby="features-title" className="section border-t border-white/[0.05]">
+    <section id="features" aria-labelledby="features-title" className="section border-t border-white/5">
       <div className="container-x">
         <SectionHeading id="features-title" align="center" eyebrow={f.eyebrow} title={f.title} accent={f.titleAccent} intro={f.intro} />
         <div role="tablist" aria-label={f.eyebrow} className="no-scrollbar reveal -mx-5 mt-12 flex gap-2 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:justify-center sm:px-0">
@@ -161,7 +163,7 @@ export function Features() {
                 active === i ? "border-bone bg-bone text-ink" : "border-white/10 text-bone/60 hover:border-white/25 hover:text-bone"
               }`}
             >
-              <Icon name={tabIcons[i]} className="h-4 w-4" />
+              <Icon name={tabIcons[i]} weight="duotone" className="h-4 w-4" />
               {x.label}
             </button>
           ))}
@@ -170,14 +172,14 @@ export function Features() {
           <div key={tab.id} className="grid animate-fade-up gap-10 p-8 md:p-12 lg:grid-cols-[1fr_1.2fr]">
             <div>
               <span className="grid h-14 w-14 place-items-center rounded-2xl bg-brand/10 ring-1 ring-brand/30">
-                <Icon name={tabIcons[active]} className="h-6 w-6 text-brand" />
+                <Icon name={tabIcons[active]} weight="duotone" className="h-6 w-6 text-brand" />
               </span>
               <h3 className="mt-7 text-2xl font-light leading-snug text-bone md:text-3xl">{tab.title}</h3>
               <p className="mt-4 text-[15px] leading-relaxed text-bone/55">{tab.body}</p>
             </div>
             <ul className="grid content-start gap-3 sm:grid-cols-2">
               {tab.items.map((it, i) => (
-                <li key={it} className="flex items-start gap-3 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 text-[14px] text-bone/80">
+                <li key={it} className="flex items-start gap-3 rounded-2xl border border-white/6 bg-white/2 p-4 text-[14px] text-bone/80">
                   <svg viewBox="0 0 24 24" style={d(i * 70)} className="check-draw is-on mt-0.5 h-4 w-4 shrink-0 text-brand" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                     <path d="M5 12.5l4.2 4.2L19 7" />
                   </svg>
@@ -200,7 +202,7 @@ export function Team() {
   const [b, setB] = useState(0);
   const br = m.branches[b];
   return (
-    <section id="team" aria-labelledby="team-title" className="section border-t border-white/[0.05] bg-neutral-950">
+    <section id="team" aria-labelledby="team-title" className="section border-t border-white/5 bg-neutral-950">
       <div className="container-x">
         <SectionHeading id="team-title" eyebrow={m.eyebrow} title={m.title} accent={m.titleAccent} intro={m.intro} />
         <div className="reveal mt-12 grid gap-5 lg:grid-cols-[1.3fr_1fr]">
@@ -210,9 +212,9 @@ export function Team() {
                 <Img name={img} alt={m.imageAlts[i]} sizes="(min-width:1024px) 55vw, 100vw" className="h-full w-full" parallax={0.06} />
               </div>
             ))}
-            <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/30 to-transparent" />
             <div className="absolute inset-x-0 top-0 flex items-center justify-between p-5">
-              <div role="tablist" aria-label={m.branchLabel} className="flex gap-1 rounded-full border border-white/10 bg-ink/60 p-1 backdrop-blur">
+              <div role="tablist" aria-label={m.branchLabel} className="flex gap-1 rounded-full border border-white/10 bg-ink/60 p-1 backdrop-blur-sm">
                 {m.branches.map((x, i) => (
                   <button key={x.name} role="tab" type="button" aria-selected={i === b} onClick={() => setB(i)} className={`rounded-full px-3.5 py-1.5 text-[12px] transition-colors ${i === b ? "bg-bone text-ink" : "text-bone/70 hover:text-bone"}`}>
                     {x.name}
@@ -232,18 +234,18 @@ export function Team() {
             </div>
           </div>
           <div className="surface p-6 md:p-7">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-bone/40">{m.teamLabel}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-bone/55">{m.teamLabel}</p>
             <ul key={b} className="mt-5 space-y-2.5">
               {m.staff.slice(0, 4 - (b === 2 ? 1 : 0)).map((s, i) => (
-                <li key={s.name} style={{ animationDelay: `${i * 70}ms` }} className="group flex animate-fade-up items-center gap-4 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-3.5 transition-colors hover:border-brand/40">
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gradient-to-br from-neutral-600 to-neutral-800 text-[14px] font-medium text-bone ring-1 ring-white/10 transition-all group-hover:ring-brand/60">
+                <li key={s.name} style={{ animationDelay: `${i * 70}ms` }} className="group flex animate-fade-up items-center gap-4 rounded-2xl border border-white/6 bg-white/2 p-3.5 transition-colors hover:border-brand/40">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-linear-to-br from-neutral-600 to-neutral-800 text-[14px] font-medium text-bone ring-1 ring-white/10 transition-all group-hover:ring-brand/60">
                     {s.name.slice(0, 1)}
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-[14px] font-medium text-bone">{s.name}</span>
-                    <span className="block text-[12px] text-bone/45">{s.role} · {s.specialty}</span>
+                    <span className="block text-[12px] text-bone/55">{s.role} · {s.specialty}</span>
                   </span>
-                  <span className="text-end text-[11px] text-bone/40">
+                  <span className="text-end text-[11px] text-bone/55">
                     {m.nextFree}
                     <span className="block text-[13px] text-bone" dir="ltr">{["13:30", "14:15", "15:00", "16:45"][(i + b) % 4]}</span>
                   </span>
@@ -257,59 +259,13 @@ export function Team() {
   );
 }
 
-/* --------------------------------------------------------------- Showcase */
-const gallery: { n: ImageName; k: "fade" | "cut" | "shave" | "beard" | "craft" | "razor"; c: string }[] = [
-  { n: "cut", k: "cut", c: "row-span-2" },
-  { n: "shave", k: "shave", c: "" },
-  { n: "craft", k: "craft", c: "" },
-  { n: "razor", k: "razor", c: "col-span-2 md:col-span-1" },
-  { n: "beard", k: "beard", c: "hidden md:block" },
-];
-const socialIcons: IconName[] = ["instagram", "tiktok", "google"];
-export function Showcase() {
-  const { t } = useI18n();
-  const s = t.showcase;
-  return (
-    <section id="gallery" aria-labelledby="gallery-title" className="section border-t border-white/[0.05]">
-      <div className="container-x">
-        <SectionHeading id="gallery-title" eyebrow={s.eyebrow} title={s.title} accent={s.titleAccent} intro={s.intro} />
-        <div className="mt-12 grid auto-rows-[180px] grid-cols-2 gap-3 md:auto-rows-[230px] md:grid-cols-3">
-          {gallery.map((g, i) => (
-            <figure key={g.n} style={d(i * 70)} className={`reveal group relative overflow-hidden rounded-3xl ${g.c}`}>
-              <Img name={g.n} alt={s.alts[g.k]} sizes="(min-width:768px) 33vw, 50vw" className="h-full w-full" wipe imgClassName="transition-transform duration-[1.6s] ease-out group-hover:scale-105" />
-            </figure>
-          ))}
-        </div>
-        <div className="mt-4 grid gap-3 md:grid-cols-3">
-          {s.social.map((x, i) => (
-            <div key={x.title} style={d(i * 80)} className="reveal surface flex items-center gap-4 p-5">
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white/[0.06]">
-                <Icon name={socialIcons[i]} className="h-5 w-5 text-bone" />
-              </span>
-              <span>
-                <span className="block text-[15px] font-medium text-bone">{x.title}</span>
-                <span className="block text-[13px] text-bone/50">{x.body}</span>
-              </span>
-              {i === 2 && (
-                <span className="ms-auto flex text-brand" aria-hidden>
-                  {[0, 1, 2, 3, 4].map((k) => <Icon key={k} name="star" className="h-3.5 w-3.5 fill-current" />)}
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* -------------------------------------------------------------------- SEO */
 export function Seo() {
   const { t } = useI18n();
   const s = t.seo;
   const r = s.serp;
   return (
-    <section id="seo" aria-labelledby="seo-title" className="section border-t border-white/[0.05] bg-neutral-950">
+    <section id="seo" aria-labelledby="seo-title" className="section border-t border-white/5 bg-neutral-950">
       <div className="container-x grid items-center gap-14 lg:grid-cols-2">
         <div>
           <SectionHeading id="seo-title" eyebrow={s.eyebrow} title={s.title} accent={s.titleAccent} intro={s.intro} />
@@ -317,15 +273,15 @@ export function Seo() {
             {s.points.map((p, i) => (
               <div key={p.title} style={d(i * 80)} className="reveal border-s border-white/10 ps-5">
                 <dt className="text-[15px] font-medium text-bone">{p.title}</dt>
-                <dd className="mt-1.5 text-[14px] leading-relaxed text-bone/50">{p.body}</dd>
+                <dd className="mt-1.5 text-[14px] leading-relaxed text-bone/60">{p.body}</dd>
               </div>
             ))}
           </dl>
         </div>
         <div className="reveal relative" aria-hidden>
-          <span className="tag-sample absolute -top-9 end-0">{r.demo}</span>
+          <span className="tag-sample absolute -top-9 inset-e-0">{r.demo}</span>
           <div className="rounded-card bg-[#f7f5f2] p-5 text-[#202124] shadow-[0_50px_120px_-40px_rgba(0,0,0,.9)] md:p-7">
-            <div className="flex items-center gap-3 rounded-full border border-black/10 bg-white px-5 py-3 shadow-sm">
+            <div className="flex items-center gap-3 rounded-full border border-black/10 bg-white px-5 py-3 shadow-xs">
               <Icon name="search" className="h-4 w-4 text-black/40" />
               <span className="text-[14px]">{r.query}</span>
             </div>
@@ -370,11 +326,12 @@ export function Seo() {
 /* --------------------------------------------------------------- Insights */
 function Counter({ value, prefix = "", suffix = "" }: { value: number; prefix?: string; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const [n, setN] = useState(0);
+  const [count, setN] = useState(0);
+  const reduced = usePrefersReducedMotion();
+  const n = reduced ? value : count;
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return setN(value);
+    if (!el || reduced) return;
     const io = new IntersectionObserver(([e]) => {
       if (!e.isIntersecting) return;
       io.disconnect();
@@ -388,7 +345,7 @@ function Counter({ value, prefix = "", suffix = "" }: { value: number; prefix?: 
     });
     io.observe(el);
     return () => io.disconnect();
-  }, [value]);
+  }, [value, reduced]);
   return <span ref={ref} dir="ltr">{prefix}{n}{suffix}</span>;
 }
 
@@ -404,7 +361,7 @@ export function Insights() {
   const { t } = useI18n();
   const s = t.insights;
   return (
-    <section id="insights" aria-labelledby="insights-title" className="section border-t border-white/[0.05]">
+    <section id="insights" aria-labelledby="insights-title" className="section border-t border-white/5">
       <div className="container-x">
         <SectionHeading id="insights-title" eyebrow={s.eyebrow} title={s.title} accent={s.titleAccent} intro={s.intro} />
         <div className="reveal surface mt-12 p-4 md:p-6">
@@ -416,26 +373,26 @@ export function Insights() {
           </div>
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
             {s.kpis.map((k) => (
-              <div key={k.label} className="rounded-2xl border border-white/[0.06] bg-ink/60 p-5">
-                <p className="text-[12px] text-bone/45">{k.label}</p>
+              <div key={k.label} className="rounded-2xl border border-white/6 bg-ink/60 p-5">
+                <p className="text-[12px] text-bone/55">{k.label}</p>
                 <p className="mt-3 text-3xl font-light text-bone md:text-4xl"><Counter value={k.value} prefix={k.prefix} suffix={k.suffix} /></p>
                 <p className="mt-2 text-[12px] text-emerald-400" dir="ltr">{k.delta}</p>
               </div>
             ))}
           </div>
           <div className="mt-3 grid gap-3 lg:grid-cols-3">
-            <div className="rounded-2xl border border-white/[0.06] bg-ink/60 p-5">
+            <div className="rounded-2xl border border-white/6 bg-ink/60 p-5">
               <p className="text-[13px] text-bone/70">{s.bookingsTitle}</p>
               <div className="mt-6 flex h-40 items-end gap-2.5" aria-hidden>
                 {WEEK.map((v, i) => (
                   <div key={i} className="flex flex-1 flex-col items-center gap-2">
-                    <div className="w-full origin-bottom rounded-t-lg bg-gradient-to-t from-brand/40 to-brand transition-transform duration-1000 [.is-visible_&]:scale-y-100 scale-y-0" style={{ height: `${v}%`, transitionDelay: `${i * 70}ms` }} />
-                    <span className="text-[10px] text-bone/40">{s.days[i].slice(0, 3)}</span>
+                    <div className="w-full origin-bottom rounded-t-lg bg-linear-to-t from-brand/40 to-brand transition-transform duration-1000 in-[.is-visible]:scale-y-100 scale-y-0" style={{ height: `${v}%`, transitionDelay: `${i * 70}ms` }} />
+                    <span className="text-[10px] text-bone/55">{s.days[i].slice(0, 3)}</span>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="rounded-2xl border border-white/[0.06] bg-ink/60 p-5">
+            <div className="rounded-2xl border border-white/6 bg-ink/60 p-5">
               <p className="text-[13px] text-bone/70">{s.peakTitle}</p>
               <div className="mt-6 grid gap-1.5" aria-hidden dir="ltr">
                 {HEAT.map((row, r) => (
@@ -446,22 +403,22 @@ export function Insights() {
                   </div>
                 ))}
               </div>
-              <div className="mt-4 flex justify-between text-[11px] text-bone/40">
+              <div className="mt-4 flex justify-between text-[11px] text-bone/55">
                 <span>{s.peakLegend[0]}</span>
                 <span>{s.peakLegend[1]}</span>
               </div>
             </div>
-            <div className="rounded-2xl border border-white/[0.06] bg-ink/60 p-5">
+            <div className="rounded-2xl border border-white/6 bg-ink/60 p-5">
               <p className="text-[13px] text-bone/70">{s.sourcesTitle}</p>
               <ul className="mt-5 space-y-3.5">
                 {s.sources.map((x, i) => (
                   <li key={x.label}>
                     <div className="flex justify-between text-[12px]">
                       <span className="text-bone/70">{x.label}</span>
-                      <span className="text-bone/45" dir="ltr">{x.pct}%</span>
+                      <span className="text-bone/55" dir="ltr">{x.pct}%</span>
                     </div>
-                    <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
-                      <div className="h-full origin-left rounded-full bg-bone/80 transition-transform duration-1000 rtl:origin-right [.is-visible_&]:scale-x-100 scale-x-0" style={{ width: `${x.pct * 2.4}%`, transitionDelay: `${200 + i * 80}ms` }} />
+                    <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-white/6">
+                      <div className="h-full origin-left rounded-full bg-bone/80 transition-transform duration-1000 rtl:origin-right in-[.is-visible]:scale-x-100 scale-x-0" style={{ width: `${x.pct * 2.4}%`, transitionDelay: `${200 + i * 80}ms` }} />
                     </div>
                   </li>
                 ))}
@@ -480,15 +437,15 @@ export function Growth() {
   const { t } = useI18n();
   const g = t.growth;
   return (
-    <section id="growth" aria-labelledby="growth-title" className="section border-t border-white/[0.05] bg-neutral-950">
+    <section id="growth" aria-labelledby="growth-title" className="section border-t border-white/5 bg-neutral-950">
       <div className="container-x">
         <SectionHeading id="growth-title" align="center" eyebrow={g.eyebrow} title={g.title} accent={g.titleAccent} intro={g.intro} />
         <div className="mt-14 grid gap-px overflow-hidden rounded-card border border-white/[0.07] bg-white/[0.07] sm:grid-cols-2 lg:grid-cols-4">
           {g.items.map((x, i) => (
             <article key={x.title} style={d((i % 4) * 70)} className="reveal group bg-neutral-950 p-7 transition-colors duration-500 hover:bg-neutral-900">
-              <Icon name={growthIcons[i]} className="h-6 w-6 text-bone/70 transition-colors group-hover:text-brand" />
+              <Icon name={growthIcons[i]} weight="duotone" className="h-6 w-6 text-bone/70 transition-colors group-hover:text-brand" />
               <h3 className="mt-6 text-[16px] font-medium text-bone">{x.title}</h3>
-              <p className="mt-2 text-[14px] leading-relaxed text-bone/50">{x.body}</p>
+              <p className="mt-2 text-[14px] leading-relaxed text-bone/60">{x.body}</p>
             </article>
           ))}
         </div>
@@ -510,7 +467,7 @@ export function Brand() {
   const [s, setS] = useState(0);
   const sw = SWATCHES[s];
   return (
-    <section id="brand" aria-labelledby="brand-title" className="section border-t border-white/[0.05]">
+    <section id="brand" aria-labelledby="brand-title" className="section border-t border-white/5">
       <div className="container-x grid items-center gap-14 lg:grid-cols-2">
         <div>
           <SectionHeading id="brand-title" eyebrow={b.eyebrow} title={b.title} accent={b.titleAccent} intro={b.intro} />
@@ -523,7 +480,7 @@ export function Brand() {
             ))}
           </ul>
           <div className="reveal mt-10">
-            <p className="text-[12px] text-bone/45">{b.swatchLabel}</p>
+            <p className="text-[12px] text-bone/55">{b.swatchLabel}</p>
             <div className="mt-3 flex gap-2">
               {SWATCHES.map((x, i) => (
                 <button key={i} type="button" onClick={() => setS(i)} aria-pressed={s === i} className={`flex items-center gap-2 rounded-full border px-3 py-2 text-[12px] transition-colors ${s === i ? "border-bone text-bone" : "border-white/10 text-bone/55"}`}>
@@ -572,17 +529,17 @@ export function Process() {
   const { t } = useI18n();
   const p = t.process;
   return (
-    <section id="how" aria-labelledby="how-title" className="section border-t border-white/[0.05] bg-neutral-950">
+    <section id="how" aria-labelledby="how-title" className="section border-t border-white/5 bg-neutral-950">
       <div className="container-x">
         <SectionHeading id="how-title" eyebrow={p.eyebrow} title={p.title} accent={p.titleAccent} intro={p.intro} />
         <ol className="relative mt-14 grid gap-10 md:grid-cols-4 md:gap-6">
-          <span className="absolute inset-x-0 top-[22px] hidden h-px bg-gradient-to-r from-brand/60 via-white/10 to-transparent md:block rtl:bg-gradient-to-l" aria-hidden />
+          <span className="absolute inset-x-0 top-[22px] hidden h-px bg-linear-to-r from-brand/60 via-white/10 to-transparent md:block rtl:bg-linear-to-l" aria-hidden />
           {p.steps.map((s, i) => (
             <li key={s.title} style={d(i * 110)} className="reveal relative">
               <span className="relative grid h-11 w-11 place-items-center rounded-full border border-brand/50 bg-ink text-[14px] text-bone">{i + 1}</span>
               <p className="mt-6 text-[12px] uppercase tracking-[0.18em] text-brand">{s.when}</p>
               <h3 className="mt-2 text-lg font-medium text-bone">{s.title}</h3>
-              <p className="mt-2 text-[14px] leading-relaxed text-bone/50">{s.body}</p>
+              <p className="mt-2 text-[14px] leading-relaxed text-bone/60">{s.body}</p>
             </li>
           ))}
         </ol>
@@ -617,7 +574,7 @@ function Mark({ v, first }: { v: V; first?: boolean }) {
           <Icon name="check" className="h-4 w-4" strokeWidth={2.2} />
         </span>
       ) : v === "p" ? (
-        <span className="grid h-7 w-7 place-items-center rounded-full border border-dashed border-white/25 text-bone/50">
+        <span className="grid h-7 w-7 place-items-center rounded-full border border-dashed border-white/25 text-bone/60">
           <Icon name="minus" className="h-3.5 w-3.5" strokeWidth={2} />
         </span>
       ) : (
@@ -630,7 +587,7 @@ export function Compare() {
   const { t } = useI18n();
   const c = t.compare;
   return (
-    <section id="compare" aria-labelledby="compare-title" className="section border-t border-white/[0.05]">
+    <section id="compare" aria-labelledby="compare-title" className="section border-t border-white/5">
       <div className="container-x">
         <SectionHeading id="compare-title" align="center" eyebrow={c.eyebrow} title={c.title} accent={c.titleAccent} intro={c.intro} />
         <div className="reveal no-scrollbar relative -mx-5 mt-14 overflow-x-auto px-5">
@@ -640,7 +597,7 @@ export function Compare() {
               <tr>
                 <th scope="col" className="w-[34%]" />
                 {c.cols.map((col, i) => (
-                  <th key={col} scope="col" className={`px-3 pb-5 text-center align-bottom text-[13px] font-medium ${i === 0 ? "rounded-t-2xl bg-brand/[0.1] pt-5 text-bone" : "text-bone/50"}`}>
+                  <th key={col} scope="col" className={`px-3 pb-5 text-center align-bottom text-[13px] font-medium ${i === 0 ? "rounded-t-2xl bg-brand/10 pt-5 text-bone" : "text-bone/60"}`}>
                     {i === 0 ? <Logo className="mx-auto h-auto w-[104px]" title={col} /> : col}
                   </th>
                 ))}
@@ -649,9 +606,9 @@ export function Compare() {
             <tbody>
               {c.rows.map((row, r) => (
                 <tr key={row} className="group">
-                  <th scope="row" className="border-t border-white/[0.06] py-4 pe-4 text-start font-normal text-bone/75 group-hover:text-bone">{row}</th>
+                  <th scope="row" className="border-t border-white/6 py-4 pe-4 text-start font-normal text-bone/75 group-hover:text-bone">{row}</th>
                   {MATRIX[r].map((v, i) => (
-                    <td key={i} className={`border-t border-white/[0.06] px-3 py-4 text-center ${i === 0 ? "bg-brand/[0.1]" : ""} ${i === 0 && r === c.rows.length - 1 ? "rounded-b-2xl" : ""}`}>
+                    <td key={i} className={`border-t border-white/6 px-3 py-4 text-center ${i === 0 ? "bg-brand/10" : ""} ${i === 0 && r === c.rows.length - 1 ? "rounded-b-2xl" : ""}`}>
                       <Mark v={v} first={i === 0} />
                     </td>
                   ))}
@@ -660,12 +617,12 @@ export function Compare() {
             </tbody>
           </table>
         </div>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-5 text-[12px] text-bone/45">
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-5 text-[12px] text-bone/55">
           <span className="flex items-center gap-2"><Mark v="y" />{c.legend.yes}</span>
           <span className="flex items-center gap-2"><Mark v="p" />{c.legend.part}</span>
           <span className="flex items-center gap-2"><Mark v="n" />{c.legend.no}</span>
         </div>
-        <p className="mt-4 text-center text-[12px] text-bone/35">{c.note}</p>
+        <p className="mt-4 text-center text-[12px] text-bone/55">{c.note}</p>
       </div>
     </section>
   );
@@ -683,7 +640,7 @@ export function Testimonials() {
     el.scrollBy({ left: dir * rtl * (el.clientWidth * 0.8), behavior: "smooth" });
   };
   return (
-    <section id="reviews" aria-labelledby="reviews-title" className="section border-t border-white/[0.05] bg-neutral-950">
+    <section id="reviews" aria-labelledby="reviews-title" className="section border-t border-white/5 bg-neutral-950">
       <div className="container-x">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <SectionHeading id="reviews-title" eyebrow={s.eyebrow} title={s.title} accent={s.titleAccent} intro={s.intro} />
@@ -705,10 +662,10 @@ export function Testimonials() {
               </div>
               <blockquote className="mt-6 flex-1 text-[18px] font-light leading-relaxed text-bone">“{x.quote}”</blockquote>
               <figcaption className="mt-8 flex items-center gap-3 border-t border-white/[0.07] pt-5">
-                <span className="grid h-10 w-10 place-items-center rounded-full bg-white/[0.06]"><Icon name="user" className="h-4 w-4 text-bone/50" /></span>
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-white/6"><Icon name="user" className="h-4 w-4 text-bone/60" /></span>
                 <span className="text-[13px]">
                   <span className="block text-bone/80">{x.name}</span>
-                  <span className="text-bone/45">{x.role}</span>
+                  <span className="text-bone/55">{x.role}</span>
                 </span>
               </figcaption>
             </figure>
@@ -725,7 +682,7 @@ export function Faq() {
   const f = t.faq;
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" aria-labelledby="faq-title" className="section border-t border-white/[0.05]">
+    <section id="faq" aria-labelledby="faq-title" className="section border-t border-white/5">
       <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.6fr]">
         <SectionHeading id="faq-title" eyebrow={f.eyebrow} title={f.title} accent={f.titleAccent} intro={f.intro}>
           <a href={whatsappLink(t.wa.general)} target="_blank" rel="noopener noreferrer" data-track="cta_secondary" data-label="faq" className="btn-ghost mt-8">
@@ -752,7 +709,7 @@ export function Faq() {
                     {x.q}
                     {/* Open scissors = "open me"; closed scissors = "close" */}
                     <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full border transition-colors duration-300 ${isOpen ? "border-brand bg-brand" : "border-white/15 group-hover/faq:border-brand/60"}`}>
-                      <Scissors open={isOpen ? 0 : 1.1} fill={isOpen ? "#202338" : "#FFA985"} className="h-6 w-6 rotate-[33deg] transition-transform duration-500 group-hover/faq:scale-110" />
+                      <Scissors open={isOpen ? 0 : 1.1} fill={isOpen ? "#202338" : "#FFA985"} className="h-6 w-6 rotate-33 transition-transform duration-500 group-hover/faq:scale-110" />
                     </span>
                   </button>
                 </h3>
@@ -783,16 +740,16 @@ export function FinalCta() {
     track("form_submit", { branches: v("branches") });
     window.open(whatsappLink(msg), "_blank", "noopener,noreferrer");
   };
-  const field = "w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3.5 text-[15px] text-bone placeholder:text-bone/35 transition-colors focus:border-brand/70 focus:bg-white/[0.06] focus:outline-none";
+  const field = "w-full rounded-2xl border border-white/10 bg-white/4 px-4 py-3.5 text-[15px] text-bone placeholder:text-bone/35 transition-colors focus:border-brand/70 focus:bg-white/6 focus:outline-hidden";
   return (
-    <section id="contact" aria-labelledby="contact-title" className="grain relative isolate overflow-hidden border-t border-white/[0.05]">
+    <section id="contact" aria-labelledby="contact-title" className="grain relative isolate overflow-hidden border-t border-white/5">
       <div className="absolute inset-0 -z-10">
         <Img name="tools" alt={c.imageAlt} sizes="100vw" className="h-full w-full" imgClassName="opacity-35" parallax={0.12} />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink via-ink/80 to-ink" />
+        <div className="absolute inset-0 bg-linear-to-b from-ink via-ink/80 to-ink" />
       </div>
       <div className="container-x grid items-center gap-14 py-28 md:py-36 lg:grid-cols-2">
         <SectionHeading id="contact-title" eyebrow={c.eyebrow} title={c.title} accent={c.titleAccent} intro={c.sub}>
-          <p className="mt-8 text-[14px] text-bone/50">
+          <p className="mt-8 text-[14px] text-bone/60">
             {c.or}{" "}
             <a href={`mailto:${BRAND.email}`} className="text-bone underline decoration-brand underline-offset-4">{BRAND.email}</a>
           </p>
@@ -805,7 +762,7 @@ export function FinalCta() {
               track("form_start");
             }
           }}
-          className="reveal surface grid gap-3 p-6 backdrop-blur-xl md:p-8"
+          className="reveal surface living-border grid gap-3 p-6 backdrop-blur-xl md:p-8"
         >
           <label className="grid gap-1.5 text-[13px] text-bone/60">{c.form.name}<input name="name" required autoComplete="name" className={field} /></label>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -827,7 +784,7 @@ export function FinalCta() {
             <Icon name="whatsapp" className="h-4 w-4" />
             {c.form.submit}
           </button>
-          <p className="text-center text-[12px] text-bone/35">{c.form.note}</p>
+          <p className="text-center text-[12px] text-bone/55">{c.form.note}</p>
         </form>
       </div>
     </section>
@@ -835,24 +792,53 @@ export function FinalCta() {
 }
 
 /* ----------------------------------------------------------------- Footer */
+/* ------------------------------------------------------------------ About */
+/** A plain, quotable definition of Trimio: what it is, who makes it, what it costs. */
+export function About() {
+  const { t, locale } = useI18n();
+  const a = t.about;
+  const from = formatPrice(PACKAGE_PRICES_EUR.essential.month, "EUR", locale);
+  return (
+    <section id="about" aria-labelledby="about-title" className="border-t border-white/5 py-20 md:py-28">
+      <div className="container-x grid gap-8 md:grid-cols-[1fr_2fr] md:gap-16">
+        <div className="reveal">
+          <p className="eyebrow">
+            <span className="h-px w-8 bg-brand/60" aria-hidden />
+            {a.eyebrow}
+          </p>
+          <h2 id="about-title" className="mt-5 text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-tight tracking-[-0.02em] text-bone">
+            {a.title}
+          </h2>
+        </div>
+        <div className="reveal" style={d(120)}>
+          <p className="about-definition text-[clamp(1.05rem,1.6vw,1.3rem)] leading-relaxed text-bone/80">{fill(a.body, { from })}</p>
+          <p className="mt-5 text-[14px] text-bone/60">
+            {fill(a.who, { email: BRAND.email })}
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function Footer() {
   const { t } = useI18n();
   const f = t.footer;
   return (
-    <footer className="border-t border-white/[0.06] bg-neutral-950 pb-28 pt-16 md:pb-12">
+    <footer className="border-t border-white/6 bg-neutral-950 pb-28 pt-16 md:pb-12">
       <div className="container-x grid gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
         <div>
           <Wordmark />
-          <p className="mt-4 max-w-sm text-[14px] leading-relaxed text-bone/45">{f.tagline}</p>
+          <p className="mt-4 max-w-sm text-[14px] leading-relaxed text-bone/55">{f.tagline}</p>
         </div>
         <nav aria-label={f.product}>
-          <p className="text-[12px] uppercase tracking-[0.2em] text-bone/35">{f.product}</p>
+          <p className="text-[12px] uppercase tracking-[0.2em] text-bone/55">{f.product}</p>
           <ul className="mt-4 space-y-2.5 text-[14px]">
             {t.nav.links.map((l) => <li key={l.href}><a href={l.href} className="text-bone/60 hover:text-bone">{l.label}</a></li>)}
           </ul>
         </nav>
         <div>
-          <p className="text-[12px] uppercase tracking-[0.2em] text-bone/35">{f.contact}</p>
+          <p className="text-[12px] uppercase tracking-[0.2em] text-bone/55">{f.contact}</p>
           <ul className="mt-4 space-y-2.5 text-[14px]">
             <li><a href={whatsappLink(t.wa.general)} target="_blank" rel="noopener noreferrer" className="text-bone/60 hover:text-bone">WhatsApp</a></li>
             <li><a href={`mailto:${BRAND.email}`} className="text-bone/60 hover:text-bone">{BRAND.email}</a></li>
@@ -860,7 +846,8 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="container-x mt-14 flex flex-col justify-between gap-3 border-t border-white/[0.06] pt-6 text-[12px] text-bone/35 sm:flex-row">
+      <Signature />
+      <div className="container-x mt-10 flex flex-col justify-between gap-3 border-t border-white/6 pt-6 text-[12px] text-bone/55 sm:flex-row">
         <p>© {new Date().getFullYear()} {BRAND.company}. {f.rights} {f.byNivx}.</p>
         <p>{f.imageCredit}</p>
       </div>

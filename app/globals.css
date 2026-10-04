@@ -1,6 +1,233 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-ink: #202338;
+  --color-bone: #fff8ef;
+  --color-muted: #b9b9c7;
+
+  --color-brand-300: #ffd3c0;
+  --color-brand-400: #ffbc9f;
+  --color-brand-500: #ffa985;
+  --color-brand-600: #f29470;
+  --color-brand-700: #ad4522;
+  --color-brand: #ffa985;
+
+  --color-neutral-600: #44485f;
+  --color-neutral-700: #383c58;
+  --color-neutral-800: #2d314b;
+  --color-neutral-850: #292d46;
+  --color-neutral-900: #252940;
+  --color-neutral-950: #1b1e31;
+
+  /* next/font exposes --font-manrope and --font-alexandria (see src/lib/seo.tsx). */
+  --font-sans: var(--font-manrope), var(--font-alexandria), system-ui, sans-serif;
+  --font-serif: var(--font-manrope), system-ui, sans-serif;
+
+  --container-container: 1240px;
+
+  --radius-button: 14px;
+  --radius-card: 24px;
+
+  --animate-marquee: marquee 80s linear infinite;
+  --animate-marquee-rtl: marquee-rtl 80s linear infinite;
+  --animate-fade-up: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse2: pulse2 2s ease-in-out infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes marquee-rtl {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(50%);
+    }
+  }
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+  @keyframes pulse2 {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
+  }
+  @keyframes draw {
+    from {
+      stroke-dashoffset: 24;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes grow {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility container-x {
+  @apply mx-auto w-full max-w-container px-5 sm:px-8 lg:px-10;
+}
+
+@utility section {
+  @apply relative py-28 md:py-44;
+}
+
+@utility eyebrow {
+  @apply inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.28em] text-bone/55;
+}
+
+@utility h-display {
+  @apply font-normal leading-[1.06] tracking-[-0.035em];
+}
+
+@utility accent {
+  @apply font-semibold tracking-[-0.035em] text-brand;
+}
+
+@utility lead {
+  @apply max-w-2xl text-[1.0625rem] font-normal leading-relaxed text-bone/60 md:text-lg;
+}
+
+@utility btn {
+  @apply relative isolate inline-flex min-h-[52px] items-center justify-center gap-2.5 overflow-hidden rounded-button px-8 text-[14px] font-semibold tracking-[0.005em]
+      duration-500 ease-out active:scale-[0.98];
+  /* Magnetic drift (set by Atmosphere) rides on `transform`; Tailwind v4's hover lift and
+     press scale use the separate `translate` and `scale` properties, so they compose. */
+  transform: translate3d(var(--mag-x, 0px), var(--mag-y, 0px), 0);
+  transition-property:
+    transform, translate, scale, background-color, border-color, color, box-shadow;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  /* A light sheen sweeps across on hover */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      115deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.38) 48%,
+      transparent 66%
+    );
+    transform: translateX(-130%);
+    transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+  &:hover::after {
+    transform: translateX(130%);
+  }
+}
+
+@utility btn-primary {
+  @apply btn bg-brand text-ink shadow-[0_18px_50px_-18px_rgba(255,169,133,0.7)] hover:-translate-y-0.5 hover:bg-brand-400
+      hover:shadow-[0_22px_60px_-18px_rgba(255,169,133,0.85)];
+}
+
+@utility btn-ghost {
+  @apply btn border border-white/15 bg-white/3 text-bone backdrop-blur-sm hover:border-brand/50 hover:bg-white/6;
+  &::after {
+    background: linear-gradient(
+      115deg,
+      transparent 30%,
+      rgba(255, 169, 133, 0.16) 48%,
+      transparent 66%
+    );
+  }
+}
+
+@utility surface {
+  @apply relative rounded-card border border-white/[0.07] bg-linear-to-b from-white/4.5 to-white/1.5;
+  box-shadow: inset 0 1px 0 rgba(255, 248, 239, 0.06);
+  transition:
+    border-color 0.6s ease,
+    box-shadow 0.6s ease;
+  &:hover {
+    border-color: rgba(255, 169, 133, 0.22);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 248, 239, 0.08),
+      0 30px 80px -40px rgba(255, 169, 133, 0.25);
+  }
+  /* Spotlight that follows the pointer (position set by Atmosphere) */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(255, 169, 133, 0.09),
+      transparent 45%
+    );
+  }
+  &:hover::before {
+    opacity: 1;
+  }
+}
+
+@utility chip {
+  @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/4 px-3 py-1.5 text-xs text-bone/70;
+}
+
+@utility tag-sample {
+  @apply inline-flex items-center gap-1.5 rounded-full border border-dashed border-white/20 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-bone/45;
+}
+
+@utility hairline {
+  @apply h-px w-full bg-linear-to-r from-transparent via-white/10 to-transparent;
+}
 
 @layer base {
   html {
@@ -17,8 +244,14 @@
   }
 
   html[lang="ar"] body {
-    font-family: var(--font-ar), var(--font-sans), system-ui, sans-serif;
+    font-family: var(--font-alexandria), var(--font-manrope), system-ui, sans-serif;
     font-feature-settings: normal;
+  }
+
+  /* Tailwind v4 dropped the pointer cursor on buttons; keep v3 behaviour. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
   }
 
   /* Native smooth scrolling only when Lenis is not driving the page. */
@@ -38,103 +271,6 @@
   }
 }
 
-@layer components {
-  .container-x {
-    @apply mx-auto w-full max-w-container px-5 sm:px-8 lg:px-10;
-  }
-
-  .section {
-    @apply relative py-28 md:py-44;
-  }
-
-  .eyebrow {
-    @apply inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.28em] text-bone/55;
-  }
-
-  .h-display {
-    @apply font-normal leading-[1.06] tracking-[-0.035em];
-  }
-
-  .accent {
-    @apply font-semibold tracking-[-0.035em] text-brand;
-  }
-
-  .lead {
-    @apply max-w-2xl text-[1.0625rem] font-normal leading-relaxed text-bone/60 md:text-lg;
-  }
-
-  .btn {
-    @apply relative isolate inline-flex min-h-[52px] items-center justify-center gap-2.5 overflow-hidden rounded-button px-8 text-[14px] font-semibold tracking-[0.005em]
-      duration-500 ease-out active:scale-[0.98];
-    /* Magnetic drift (set by Atmosphere) rides on `translate`, separate from Tailwind's transform. */
-    translate: var(--mag-x, 0px) var(--mag-y, 0px);
-    transition-property: transform, translate, background-color, border-color, color, box-shadow;
-    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  /* A light sheen sweeps across on hover */
-  .btn::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.38) 48%, transparent 66%);
-    transform: translateX(-130%);
-    transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
-    pointer-events: none;
-  }
-  .btn:hover::after {
-    transform: translateX(130%);
-  }
-
-  .btn-primary {
-    @apply btn bg-brand text-ink shadow-[0_18px_50px_-18px_rgba(255,169,133,0.7)] hover:-translate-y-0.5 hover:bg-brand-400
-      hover:shadow-[0_22px_60px_-18px_rgba(255,169,133,0.85)];
-  }
-
-  .btn-ghost {
-    @apply btn border border-white/15 bg-white/[0.03] text-bone backdrop-blur hover:border-brand/50 hover:bg-white/[0.06];
-  }
-  .btn-ghost::after {
-    background: linear-gradient(115deg, transparent 30%, rgba(255, 169, 133, 0.16) 48%, transparent 66%);
-  }
-
-  .surface {
-    @apply relative rounded-card border border-white/[0.07] bg-gradient-to-b from-white/[0.045] to-white/[0.015];
-    box-shadow: inset 0 1px 0 rgba(255, 248, 239, 0.06);
-    transition: border-color 0.6s ease, box-shadow 0.6s ease;
-  }
-  .surface:hover {
-    border-color: rgba(255, 169, 133, 0.22);
-    box-shadow: inset 0 1px 0 rgba(255, 248, 239, 0.08), 0 30px 80px -40px rgba(255, 169, 133, 0.25);
-  }
-  /* Spotlight that follows the pointer (position set by Atmosphere) */
-  .surface::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 169, 133, 0.09), transparent 45%);
-  }
-  .surface:hover::before {
-    opacity: 1;
-  }
-
-  .chip {
-    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-bone/70;
-  }
-
-  .tag-sample {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-dashed border-white/20 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-bone/45;
-  }
-
-  .hairline {
-    @apply h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent;
-  }
-}
-
 /* Arabic: no letter-spacing, no italics, no uppercase — they break the script. */
 html[lang="ar"] .eyebrow,
 html[lang="ar"] .tag-sample {
@@ -148,7 +284,7 @@ html[lang="ar"] .h-display {
   font-weight: 400;
 }
 html[lang="ar"] .accent {
-  font-family: var(--font-ar), sans-serif;
+  font-family: var(--font-alexandria), sans-serif;
   font-weight: 600;
   letter-spacing: 0;
 }
@@ -294,8 +430,14 @@ main {
 .hero-kenburns {
   animation: kenburns 22s ease-in-out infinite alternate;
 }
-html[data-stage="intro"] :is(.hero-in, .hero-line, .hero-img-in) {
-  animation-play-state: paused;
+/* Under the intro the hero is painted in its final state (so the intro never holds back LCP),
+   but only once the web fonts are in, so a font swap can't shift it. The entrance animation
+   starts fresh at hand-over, while the intro still covers the page. */
+html[data-stage="intro"] :is(.hero-in, .hero-line, .hero-img-in, .hero-word) {
+  animation: none;
+}
+html[data-stage="intro"]:not([data-fonts]) #top {
+  opacity: 0;
 }
 @keyframes hero-rise {
   from {
@@ -331,9 +473,18 @@ html[data-stage="intro"] :is(.hero-in, .hero-line, .hero-img-in) {
 }
 
 /* Site atmosphere (components/Atmosphere.tsx) */
+/* Scroll progress as a slowly turning barber pole */
 .scroll-progress {
-  background: linear-gradient(90deg, #ad4522, #ffa985 55%, #ffd3c0);
-  box-shadow: 0 0 12px rgba(255, 169, 133, 0.6);
+  height: 3px;
+  background: repeating-linear-gradient(-45deg, #ffa985 0 6px, #fff8ef 6px 9px, #ad4522 9px 15px);
+  background-size: 200% 100%;
+  box-shadow: 0 0 12px rgba(255, 169, 133, 0.55);
+  animation: pole 1.6s linear infinite;
+}
+@keyframes pole {
+  to {
+    background-position: -42.4px 0;
+  }
 }
 .atmo-grain {
   opacity: 0.045;
@@ -345,7 +496,7 @@ html[data-stage="intro"] :is(.hero-in, .hero-line, .hero-img-in) {
 .cursor-ring {
   will-change: transform;
 }
-.cursor-ring > span {
+.cursor-ring > .cursor-dot {
   position: absolute;
   left: -17px;
   top: -17px;
@@ -356,17 +507,46 @@ html[data-stage="intro"] :is(.hero-in, .hero-line, .hero-img-in) {
   opacity: 0;
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
-.cursor-ring[data-on="true"] > span {
+.cursor-ring[data-on="true"] > .cursor-dot {
   opacity: 1;
 }
-.cursor-ring[data-mode="link"] > span {
+.cursor-ring[data-mode="link"] > .cursor-dot {
   transform: scale(1.8);
   background-color: rgba(255, 169, 133, 0.1);
   border-color: rgba(255, 169, 133, 0.85);
 }
-.cursor-ring[data-mode="text"] > span {
+.cursor-ring[data-mode="text"] > .cursor-dot {
   transform: scale(0.5);
   opacity: 0.4;
+}
+.cursor-ring[data-mode="label"] > .cursor-dot {
+  transform: scale(2.6);
+  background-color: #ffa985;
+  border-color: #ffa985;
+}
+.cursor-ring > .cursor-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  translate: -50% -50%;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #202338;
+  opacity: 0;
+  scale: 0.6;
+  transition: opacity 0.25s ease, scale 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cursor-ring[data-mode="label"] > .cursor-label {
+  opacity: 1;
+  scale: 1;
+}
+html[lang="ar"] .cursor-ring > .cursor-label {
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 12px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -376,6 +556,174 @@ html[data-stage="intro"] :is(.hero-in, .hero-line, .hero-img-in) {
     clip-path: none;
   }
   .hero-kenburns {
+    animation: none;
+  }
+}
+
+
+/* ------------------------------------------------------------ Flagship finish */
+/* Word-by-word heading reveal (components/ui/SplitWords.tsx) */
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.word,
+.hero-word {
+  display: inline-block;
+  will-change: transform;
+}
+.word {
+  transform: translateY(110%);
+  transition: transform 1.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--wd, 0ms);
+}
+.is-visible .word {
+  transform: none;
+}
+.hero-word {
+  animation: line-rise 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--wd, 0ms);
+}
+
+/* Metallic accent: a slow champagne sheen travels across apricot words */
+.accent {
+  background-image: linear-gradient(100deg, #ffa985 0%, #ffa985 38%, #fff3e8 50%, #ffa985 62%, #f29470 100%);
+  background-size: 260% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: sheen 7s ease-in-out infinite;
+}
+@keyframes sheen {
+  0%,
+  35% {
+    background-position: 100% 0;
+  }
+  70%,
+  100% {
+    background-position: 0% 0;
+  }
+}
+
+/* Living border: a slow apricot light orbiting the edge */
+@property --angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.living-border {
+  isolation: isolate;
+}
+.living-border::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--angle), transparent 0 62%, rgba(255, 169, 133, 0.9) 74%, #fff8ef 79%, rgba(255, 169, 133, 0.9) 84%, transparent 94%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: orbit 7s linear infinite;
+  pointer-events: none;
+}
+@keyframes orbit {
+  to {
+    --angle: 360deg;
+  }
+}
+
+/* Filmstrip frame numbers */
+.frame-num {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 169, 133, 0.9);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Header glass with a warm hairline once scrolled */
+.header-glass {
+  border-bottom: 1px solid transparent;
+  transition: background-color 0.6s ease, backdrop-filter 0.6s ease, border-color 0.6s ease;
+}
+.header-glass.is-scrolled {
+  background-color: rgba(32, 35, 56, 0.58);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border-image: linear-gradient(90deg, transparent, rgba(255, 169, 133, 0.35), transparent) 1;
+}
+
+/* Footer signature (components/ui/Signature.tsx) */
+.signature-outline {
+  fill: none;
+  stroke: rgba(255, 169, 133, 0.32);
+  stroke-width: 0.5;
+}
+.signature-fill {
+  fill: url(#signature-metal);
+  opacity: 0.92;
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 2.2s cubic-bezier(0.77, 0, 0.18, 1) 0.2s;
+}
+.signature.is-visible .signature-fill {
+  clip-path: inset(0 0 0 0);
+}
+@supports (animation-timeline: view()) {
+  .signature-fill {
+    transition: none;
+    animation: sig-fill linear both;
+    animation-timeline: view();
+    /* The footer ends the page, so fill while it enters rather than while it crosses. */
+    animation-range: entry 0% entry 100%;
+  }
+  .signature.is-visible .signature-fill {
+    clip-path: inset(100% 0 0 0);
+  }
+  @keyframes sig-fill {
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+}
+
+/* Language switch via the View Transitions API */
+::view-transition-old(root) {
+  animation: vt-out 0.42s cubic-bezier(0.4, 0, 1, 1) both;
+}
+::view-transition-new(root) {
+  animation: vt-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+    filter: blur(10px);
+    transform: scale(0.985);
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: scale(1.015);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word,
+  .hero-word {
+    transform: none;
+    animation: none;
+  }
+  .accent,
+  .living-border::after {
+    animation: none;
+  }
+  .signature-fill {
+    clip-path: none;
     animation: none;
   }
 }
