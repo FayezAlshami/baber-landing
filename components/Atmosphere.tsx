@@ -80,12 +80,12 @@ export default function Atmosphere() {
       <div
         id="scroll-progress"
         aria-hidden
-        className="scroll-progress pointer-events-none fixed inset-x-0 top-0 z-[70] h-[2px] origin-left rtl:origin-right"
+        className="scroll-progress pointer-events-none fixed inset-x-0 top-0 z-70 h-[2px] origin-left rtl:origin-right"
         style={{ transform: "scaleX(0)" }}
       />
-      <div aria-hidden className="atmo-vignette pointer-events-none fixed inset-0 z-[64]" />
-      <div aria-hidden className="atmo-grain pointer-events-none fixed inset-0 z-[65]" />
-      <div ref={ring} aria-hidden data-on="false" className="cursor-ring pointer-events-none fixed left-0 top-0 z-[120]">
+      <div aria-hidden className="atmo-vignette pointer-events-none fixed inset-0 z-64" />
+      <div aria-hidden className="atmo-grain pointer-events-none fixed inset-0 z-65" />
+      <div ref={ring} aria-hidden data-on="false" className="cursor-ring pointer-events-none fixed left-0 top-0 z-120">
         <span />
       </div>
     </>

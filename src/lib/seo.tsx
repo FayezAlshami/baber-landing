@@ -17,7 +17,7 @@ const manrope = localFont({
     { path: "../../app/fonts/manrope-600.woff", weight: "600" },
     { path: "../../app/fonts/manrope-700.woff", weight: "700" },
   ],
-  variable: "--font-sans",
+  variable: "--font-manrope",
   display: "swap",
   fallback: ["system-ui", "sans-serif"],
 });
@@ -27,7 +27,7 @@ const alexandria = localFont({
     { path: "../../app/fonts/alexandria-600.woff", weight: "600" },
     { path: "../../app/fonts/alexandria-700.woff", weight: "700" },
   ],
-  variable: "--font-ar",
+  variable: "--font-alexandria",
   display: "swap",
   preload: false,
   fallback: ["system-ui", "sans-serif"],

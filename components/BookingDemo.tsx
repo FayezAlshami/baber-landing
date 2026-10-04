@@ -32,7 +32,7 @@ export default function BookingDemo() {
       key={key}
       type="button"
       onClick={onClick}
-      className="group flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-3.5 text-start transition-all hover:border-brand/60 hover:bg-brand/[0.06]"
+      className="group flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/3 p-3.5 text-start transition-all hover:border-brand/60 hover:bg-brand/6"
     >
       <span className="min-w-0 flex-1">
         <span className="block text-[14px] font-medium text-bone">{title}</span>
@@ -52,7 +52,7 @@ export default function BookingDemo() {
             {d.steps.map((s, i) => {
               const state = done || i < step ? "done" : i === step ? "active" : "idle";
               return (
-                <li key={s.title} className={`flex gap-5 rounded-2xl p-4 transition-all duration-500 ${state === "active" ? "bg-white/[0.04]" : ""}`}>
+                <li key={s.title} className={`flex gap-5 rounded-2xl p-4 transition-all duration-500 ${state === "active" ? "bg-white/4" : ""}`}>
                   <span
                     className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border text-[13px] transition-all duration-500 ${
                       state === "done" ? "border-brand bg-brand text-ink" : state === "active" ? "border-brand text-brand" : "border-white/15 text-bone/40"
@@ -168,7 +168,7 @@ export default function BookingDemo() {
                     </span>
                     <p className="mt-6 text-2xl font-light text-bone">{u.confirmedTitle}</p>
                     <p className="mt-2 max-w-[240px] text-[13px] text-bone/55">{u.confirmedBody}</p>
-                    <dl className="mt-7 w-full space-y-2 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-[13px]">
+                    <dl className="mt-7 w-full space-y-2 rounded-2xl border border-white/10 bg-white/3 p-4 text-[13px]">
                       {[
                         [u.stepLabels[0], u.branches[pick.b ?? 0].name],
                         [u.stepLabels[1], `${service.name} · €${service.price}`],

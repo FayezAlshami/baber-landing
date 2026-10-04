@@ -52,3 +52,22 @@ export function useIntroOff(): boolean {
     () => false
   );
 }
+
+const REDUCED = "(prefers-reduced-motion: reduce)";
+
+/**
+ * Hydration-safe reduced-motion preference: false on the server and during hydration, then
+ * the real value. (motion's useReducedMotion reads the preference on the client's first
+ * render, which makes server and client text differ.)
+ */
+export function usePrefersReducedMotion(): boolean {
+  return useSyncExternalStore(
+    (notify) => {
+      const mq = window.matchMedia(REDUCED);
+      mq.addEventListener("change", notify);
+      return () => mq.removeEventListener("change", notify);
+    },
+    () => window.matchMedia(REDUCED).matches,
+    () => false
+  );
+}

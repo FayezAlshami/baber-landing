@@ -30,12 +30,12 @@ export default function Pricing() {
   };
 
   return (
-    <section id="pricing" aria-labelledby="pricing-title" className="section border-t border-white/[0.05]">
+    <section id="pricing" aria-labelledby="pricing-title" className="section border-t border-white/5">
       <div className="container-x">
         <SectionHeading id="pricing-title" align="center" eyebrow={p.eyebrow} title={p.title} accent={p.titleAccent} intro={p.intro} />
 
         <div className="reveal mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <div role="radiogroup" aria-label={p.eyebrow} className="inline-flex rounded-full border border-white/10 bg-white/[0.03] p-1">
+          <div role="radiogroup" aria-label={p.eyebrow} className="inline-flex rounded-full border border-white/10 bg-white/3 p-1">
             {p.periods.map((x) => {
               const id = x.id as PeriodId;
               const active = period === id;
@@ -59,13 +59,13 @@ export default function Pricing() {
               );
             })}
           </div>
-          <label className="relative inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] py-1 pe-3 ps-4 text-[13px] text-bone/60">
+          <label className="relative inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/3 py-1 pe-3 ps-4 text-[13px] text-bone/60">
             <Icon name="globe" className="h-4 w-4" />
             <span className="sr-only">{p.currency}</span>
             <select
               value={currency}
               onChange={(e) => setCurrency(e.target.value as typeof currency)}
-              className="cursor-pointer appearance-none bg-transparent py-1.5 pe-5 text-bone focus:outline-none"
+              className="cursor-pointer appearance-none bg-transparent py-1.5 pe-5 text-bone focus:outline-hidden"
             >
               {CURRENCIES.map((c) => (
                 <option key={c.id} value={c.id} className="bg-neutral-900">
@@ -73,7 +73,7 @@ export default function Pricing() {
                 </option>
               ))}
             </select>
-            <Icon name="down" className="pointer-events-none absolute end-3 h-3.5 w-3.5" />
+            <Icon name="down" className="pointer-events-none absolute inset-e-3 h-3.5 w-3.5" />
           </label>
         </div>
 
@@ -88,11 +88,11 @@ export default function Pricing() {
                 key={id}
                 style={{ ["--d" as string]: `${i * 90}ms` }}
                 className={`reveal relative flex flex-col rounded-card border p-8 transition-transform duration-500 hover:-translate-y-1 ${
-                  popular ? "border-brand/50 bg-gradient-to-b from-brand/[0.12] to-white/[0.02] shadow-[0_40px_100px_-40px_rgba(255,169,133,.6)]" : "border-white/[0.08] bg-white/[0.025]"
+                  popular ? "border-brand/50 bg-linear-to-b from-brand/12 to-white/2 shadow-[0_40px_100px_-40px_rgba(255,169,133,.6)]" : "border-white/8 bg-white/2.5"
                 }`}
               >
                 {popular && (
-                  <span className="absolute -top-3 start-8 rounded-full bg-brand px-3 py-1 text-[11px] font-medium text-ink">{p.popular}</span>
+                  <span className="absolute -top-3 inset-s-8 rounded-full bg-brand px-3 py-1 text-[11px] font-medium text-ink">{p.popular}</span>
                 )}
                 <h3 className="text-xl font-medium text-bone">{pkg.name}</h3>
                 <p className="mt-2 min-h-[48px] text-[14px] leading-relaxed text-bone/55">{pkg.desc}</p>

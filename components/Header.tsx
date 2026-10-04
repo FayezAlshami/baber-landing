@@ -25,7 +25,7 @@ export function LanguageSwitch({ compact = false }: { compact?: boolean }) {
     <div
       role="group"
       aria-label={t.nav.language}
-      className="relative inline-flex items-center rounded-full border border-white/10 bg-white/[0.04] p-1"
+      className="relative inline-flex items-center rounded-full border border-white/10 bg-white/4 p-1"
     >
       {LOCALES.map((l) => {
         const active = l.id === locale;
@@ -83,12 +83,12 @@ export default function Header() {
 
   return (
     <>
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-bone focus:px-4 focus:py-2 focus:text-ink">
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:inset-s-4 focus:top-4 focus:z-100 focus:rounded-full focus:bg-bone focus:px-4 focus:py-2 focus:text-ink">
         {t.nav.skip}
       </a>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-          scrolled ? "border-b border-white/[0.06] bg-ink/70 backdrop-blur-xl" : "border-b border-transparent"
+          scrolled ? "border-b border-white/6 bg-ink/70 backdrop-blur-xl" : "border-b border-transparent"
         }`}
       >
         <div className="container-x flex h-[72px] items-center justify-between gap-6">
@@ -143,7 +143,7 @@ export default function Header() {
         role="dialog"
         aria-modal="true"
         aria-hidden={!open}
-        className={`fixed inset-0 z-[60] bg-ink/95 backdrop-blur-2xl transition-[opacity,visibility] duration-500 lg:hidden ${
+        className={`fixed inset-0 z-60 bg-ink/95 backdrop-blur-2xl transition-[opacity,visibility] duration-500 lg:hidden ${
           open ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
@@ -171,7 +171,7 @@ export default function Header() {
                   href={l.href}
                   onClick={() => setOpen(false)}
                   tabIndex={open ? 0 : -1}
-                  className="flex items-center justify-between border-b border-white/[0.06] py-4 text-2xl font-light text-bone"
+                  className="flex items-center justify-between border-b border-white/6 py-4 text-2xl font-light text-bone"
                 >
                   {l.label}
                   <Icon name="arrow" className="h-5 w-5 text-bone/30 rtl:-scale-x-100" />
