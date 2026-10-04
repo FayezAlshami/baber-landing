@@ -26,7 +26,7 @@ export function Proof() {
         {t.proof.items.map((p, i) => (
           <div key={p.v} style={d(i * 80)} className="reveal bg-neutral-950 px-2 py-8 sm:px-6">
             <p className="text-4xl font-light tracking-tight text-bone" dir="ltr">{p.k}</p>
-            <p className="mt-2 text-[13px] leading-snug text-bone/50">{p.v}</p>
+            <p className="mt-2 text-[13px] leading-snug text-bone/60">{p.v}</p>
           </div>
         ))}
       </div>
@@ -69,10 +69,10 @@ export function Problem() {
         </div>
         <div className="mt-6 grid gap-4 lg:grid-cols-2">
           <div className="reveal rounded-card border border-white/[0.07] p-8">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-bone/40">{p.beforeLabel}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-bone/55">{p.beforeLabel}</p>
             <ul className="mt-6 space-y-4">
               {p.before.map((b) => (
-                <li key={b} className="flex gap-3 text-[15px] text-bone/45">
+                <li key={b} className="flex gap-3 text-[15px] text-bone/55">
                   <Icon name="x" className="mt-0.5 h-4 w-4 shrink-0 text-bone/30" />
                   {b}
                 </li>
@@ -115,7 +115,7 @@ export function Platform() {
             </span>
             <span className="text-[13px] leading-snug">
               <span className="block text-bone">{t.hero.phone.confirmed}</span>
-              <span className="text-bone/50">{t.hero.phone.service} · 14:30</span>
+              <span className="text-bone/60">{t.hero.phone.service} · 14:30</span>
             </span>
           </div>
         </div>
@@ -234,7 +234,7 @@ export function Team() {
             </div>
           </div>
           <div className="surface p-6 md:p-7">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-bone/40">{m.teamLabel}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-bone/55">{m.teamLabel}</p>
             <ul key={b} className="mt-5 space-y-2.5">
               {m.staff.slice(0, 4 - (b === 2 ? 1 : 0)).map((s, i) => (
                 <li key={s.name} style={{ animationDelay: `${i * 70}ms` }} className="group flex animate-fade-up items-center gap-4 rounded-2xl border border-white/6 bg-white/2 p-3.5 transition-colors hover:border-brand/40">
@@ -243,9 +243,9 @@ export function Team() {
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-[14px] font-medium text-bone">{s.name}</span>
-                    <span className="block text-[12px] text-bone/45">{s.role} · {s.specialty}</span>
+                    <span className="block text-[12px] text-bone/55">{s.role} · {s.specialty}</span>
                   </span>
-                  <span className="text-end text-[11px] text-bone/40">
+                  <span className="text-end text-[11px] text-bone/55">
                     {m.nextFree}
                     <span className="block text-[13px] text-bone" dir="ltr">{["13:30", "14:15", "15:00", "16:45"][(i + b) % 4]}</span>
                   </span>
@@ -273,7 +273,7 @@ export function Seo() {
             {s.points.map((p, i) => (
               <div key={p.title} style={d(i * 80)} className="reveal border-s border-white/10 ps-5">
                 <dt className="text-[15px] font-medium text-bone">{p.title}</dt>
-                <dd className="mt-1.5 text-[14px] leading-relaxed text-bone/50">{p.body}</dd>
+                <dd className="mt-1.5 text-[14px] leading-relaxed text-bone/60">{p.body}</dd>
               </div>
             ))}
           </dl>
@@ -374,7 +374,7 @@ export function Insights() {
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
             {s.kpis.map((k) => (
               <div key={k.label} className="rounded-2xl border border-white/6 bg-ink/60 p-5">
-                <p className="text-[12px] text-bone/45">{k.label}</p>
+                <p className="text-[12px] text-bone/55">{k.label}</p>
                 <p className="mt-3 text-3xl font-light text-bone md:text-4xl"><Counter value={k.value} prefix={k.prefix} suffix={k.suffix} /></p>
                 <p className="mt-2 text-[12px] text-emerald-400" dir="ltr">{k.delta}</p>
               </div>
@@ -387,7 +387,7 @@ export function Insights() {
                 {WEEK.map((v, i) => (
                   <div key={i} className="flex flex-1 flex-col items-center gap-2">
                     <div className="w-full origin-bottom rounded-t-lg bg-linear-to-t from-brand/40 to-brand transition-transform duration-1000 in-[.is-visible]:scale-y-100 scale-y-0" style={{ height: `${v}%`, transitionDelay: `${i * 70}ms` }} />
-                    <span className="text-[10px] text-bone/40">{s.days[i].slice(0, 3)}</span>
+                    <span className="text-[10px] text-bone/55">{s.days[i].slice(0, 3)}</span>
                   </div>
                 ))}
               </div>
@@ -403,7 +403,7 @@ export function Insights() {
                   </div>
                 ))}
               </div>
-              <div className="mt-4 flex justify-between text-[11px] text-bone/40">
+              <div className="mt-4 flex justify-between text-[11px] text-bone/55">
                 <span>{s.peakLegend[0]}</span>
                 <span>{s.peakLegend[1]}</span>
               </div>
@@ -415,7 +415,7 @@ export function Insights() {
                   <li key={x.label}>
                     <div className="flex justify-between text-[12px]">
                       <span className="text-bone/70">{x.label}</span>
-                      <span className="text-bone/45" dir="ltr">{x.pct}%</span>
+                      <span className="text-bone/55" dir="ltr">{x.pct}%</span>
                     </div>
                     <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-white/6">
                       <div className="h-full origin-left rounded-full bg-bone/80 transition-transform duration-1000 rtl:origin-right in-[.is-visible]:scale-x-100 scale-x-0" style={{ width: `${x.pct * 2.4}%`, transitionDelay: `${200 + i * 80}ms` }} />
@@ -445,7 +445,7 @@ export function Growth() {
             <article key={x.title} style={d((i % 4) * 70)} className="reveal group bg-neutral-950 p-7 transition-colors duration-500 hover:bg-neutral-900">
               <Icon name={growthIcons[i]} weight="duotone" className="h-6 w-6 text-bone/70 transition-colors group-hover:text-brand" />
               <h3 className="mt-6 text-[16px] font-medium text-bone">{x.title}</h3>
-              <p className="mt-2 text-[14px] leading-relaxed text-bone/50">{x.body}</p>
+              <p className="mt-2 text-[14px] leading-relaxed text-bone/60">{x.body}</p>
             </article>
           ))}
         </div>
@@ -480,7 +480,7 @@ export function Brand() {
             ))}
           </ul>
           <div className="reveal mt-10">
-            <p className="text-[12px] text-bone/45">{b.swatchLabel}</p>
+            <p className="text-[12px] text-bone/55">{b.swatchLabel}</p>
             <div className="mt-3 flex gap-2">
               {SWATCHES.map((x, i) => (
                 <button key={i} type="button" onClick={() => setS(i)} aria-pressed={s === i} className={`flex items-center gap-2 rounded-full border px-3 py-2 text-[12px] transition-colors ${s === i ? "border-bone text-bone" : "border-white/10 text-bone/55"}`}>
@@ -539,7 +539,7 @@ export function Process() {
               <span className="relative grid h-11 w-11 place-items-center rounded-full border border-brand/50 bg-ink text-[14px] text-bone">{i + 1}</span>
               <p className="mt-6 text-[12px] uppercase tracking-[0.18em] text-brand">{s.when}</p>
               <h3 className="mt-2 text-lg font-medium text-bone">{s.title}</h3>
-              <p className="mt-2 text-[14px] leading-relaxed text-bone/50">{s.body}</p>
+              <p className="mt-2 text-[14px] leading-relaxed text-bone/60">{s.body}</p>
             </li>
           ))}
         </ol>
@@ -574,7 +574,7 @@ function Mark({ v, first }: { v: V; first?: boolean }) {
           <Icon name="check" className="h-4 w-4" strokeWidth={2.2} />
         </span>
       ) : v === "p" ? (
-        <span className="grid h-7 w-7 place-items-center rounded-full border border-dashed border-white/25 text-bone/50">
+        <span className="grid h-7 w-7 place-items-center rounded-full border border-dashed border-white/25 text-bone/60">
           <Icon name="minus" className="h-3.5 w-3.5" strokeWidth={2} />
         </span>
       ) : (
@@ -597,7 +597,7 @@ export function Compare() {
               <tr>
                 <th scope="col" className="w-[34%]" />
                 {c.cols.map((col, i) => (
-                  <th key={col} scope="col" className={`px-3 pb-5 text-center align-bottom text-[13px] font-medium ${i === 0 ? "rounded-t-2xl bg-brand/10 pt-5 text-bone" : "text-bone/50"}`}>
+                  <th key={col} scope="col" className={`px-3 pb-5 text-center align-bottom text-[13px] font-medium ${i === 0 ? "rounded-t-2xl bg-brand/10 pt-5 text-bone" : "text-bone/60"}`}>
                     {i === 0 ? <Logo className="mx-auto h-auto w-[104px]" title={col} /> : col}
                   </th>
                 ))}
@@ -617,12 +617,12 @@ export function Compare() {
             </tbody>
           </table>
         </div>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-5 text-[12px] text-bone/45">
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-5 text-[12px] text-bone/55">
           <span className="flex items-center gap-2"><Mark v="y" />{c.legend.yes}</span>
           <span className="flex items-center gap-2"><Mark v="p" />{c.legend.part}</span>
           <span className="flex items-center gap-2"><Mark v="n" />{c.legend.no}</span>
         </div>
-        <p className="mt-4 text-center text-[12px] text-bone/35">{c.note}</p>
+        <p className="mt-4 text-center text-[12px] text-bone/55">{c.note}</p>
       </div>
     </section>
   );
@@ -662,10 +662,10 @@ export function Testimonials() {
               </div>
               <blockquote className="mt-6 flex-1 text-[18px] font-light leading-relaxed text-bone">“{x.quote}”</blockquote>
               <figcaption className="mt-8 flex items-center gap-3 border-t border-white/[0.07] pt-5">
-                <span className="grid h-10 w-10 place-items-center rounded-full bg-white/6"><Icon name="user" className="h-4 w-4 text-bone/50" /></span>
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-white/6"><Icon name="user" className="h-4 w-4 text-bone/60" /></span>
                 <span className="text-[13px]">
                   <span className="block text-bone/80">{x.name}</span>
-                  <span className="text-bone/45">{x.role}</span>
+                  <span className="text-bone/55">{x.role}</span>
                 </span>
               </figcaption>
             </figure>
@@ -749,7 +749,7 @@ export function FinalCta() {
       </div>
       <div className="container-x grid items-center gap-14 py-28 md:py-36 lg:grid-cols-2">
         <SectionHeading id="contact-title" eyebrow={c.eyebrow} title={c.title} accent={c.titleAccent} intro={c.sub}>
-          <p className="mt-8 text-[14px] text-bone/50">
+          <p className="mt-8 text-[14px] text-bone/60">
             {c.or}{" "}
             <a href={`mailto:${BRAND.email}`} className="text-bone underline decoration-brand underline-offset-4">{BRAND.email}</a>
           </p>
@@ -784,7 +784,7 @@ export function FinalCta() {
             <Icon name="whatsapp" className="h-4 w-4" />
             {c.form.submit}
           </button>
-          <p className="text-center text-[12px] text-bone/35">{c.form.note}</p>
+          <p className="text-center text-[12px] text-bone/55">{c.form.note}</p>
         </form>
       </div>
     </section>
@@ -812,7 +812,7 @@ export function About() {
         </div>
         <div className="reveal" style={d(120)}>
           <p className="about-definition text-[clamp(1.05rem,1.6vw,1.3rem)] leading-relaxed text-bone/80">{fill(a.body, { from })}</p>
-          <p className="mt-5 text-[14px] text-bone/50">
+          <p className="mt-5 text-[14px] text-bone/60">
             {fill(a.who, { email: BRAND.email })}
           </p>
         </div>
@@ -829,16 +829,16 @@ export function Footer() {
       <div className="container-x grid gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
         <div>
           <Wordmark />
-          <p className="mt-4 max-w-sm text-[14px] leading-relaxed text-bone/45">{f.tagline}</p>
+          <p className="mt-4 max-w-sm text-[14px] leading-relaxed text-bone/55">{f.tagline}</p>
         </div>
         <nav aria-label={f.product}>
-          <p className="text-[12px] uppercase tracking-[0.2em] text-bone/35">{f.product}</p>
+          <p className="text-[12px] uppercase tracking-[0.2em] text-bone/55">{f.product}</p>
           <ul className="mt-4 space-y-2.5 text-[14px]">
             {t.nav.links.map((l) => <li key={l.href}><a href={l.href} className="text-bone/60 hover:text-bone">{l.label}</a></li>)}
           </ul>
         </nav>
         <div>
-          <p className="text-[12px] uppercase tracking-[0.2em] text-bone/35">{f.contact}</p>
+          <p className="text-[12px] uppercase tracking-[0.2em] text-bone/55">{f.contact}</p>
           <ul className="mt-4 space-y-2.5 text-[14px]">
             <li><a href={whatsappLink(t.wa.general)} target="_blank" rel="noopener noreferrer" className="text-bone/60 hover:text-bone">WhatsApp</a></li>
             <li><a href={`mailto:${BRAND.email}`} className="text-bone/60 hover:text-bone">{BRAND.email}</a></li>
@@ -847,7 +847,7 @@ export function Footer() {
         </div>
       </div>
       <Signature />
-      <div className="container-x mt-10 flex flex-col justify-between gap-3 border-t border-white/6 pt-6 text-[12px] text-bone/35 sm:flex-row">
+      <div className="container-x mt-10 flex flex-col justify-between gap-3 border-t border-white/6 pt-6 text-[12px] text-bone/55 sm:flex-row">
         <p>© {new Date().getFullYear()} {BRAND.company}. {f.rights} {f.byNivx}.</p>
         <p>{f.imageCredit}</p>
       </div>

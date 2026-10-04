@@ -297,7 +297,7 @@ export default function Intro() {
       <button
         type="button"
         tabIndex={-1}
-        className="absolute bottom-6 inset-e-6 z-10 text-[11px] font-semibold uppercase tracking-[0.24em] text-bone/45 transition-colors hover:text-bone"
+        className="absolute bottom-6 inset-e-6 z-10 text-[11px] font-semibold uppercase tracking-[0.24em] text-bone/55 transition-colors hover:text-bone"
       >
         {t.intro.skip}
       </button>

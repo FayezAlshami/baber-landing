@@ -430,8 +430,14 @@ main {
 .hero-kenburns {
   animation: kenburns 22s ease-in-out infinite alternate;
 }
-html[data-stage="intro"] :is(.hero-in, .hero-line, .hero-img-in) {
-  animation-play-state: paused;
+/* Under the intro the hero is painted in its final state (so the intro never holds back LCP),
+   but only once the web fonts are in, so a font swap can't shift it. The entrance animation
+   starts fresh at hand-over, while the intro still covers the page. */
+html[data-stage="intro"] :is(.hero-in, .hero-line, .hero-img-in, .hero-word) {
+  animation: none;
+}
+html[data-stage="intro"]:not([data-fonts]) #top {
+  opacity: 0;
 }
 @keyframes hero-rise {
   from {
@@ -580,9 +586,6 @@ html[lang="ar"] .cursor-ring > .cursor-label {
 .hero-word {
   animation: line-rise 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: var(--wd, 0ms);
-}
-html[data-stage="intro"] .hero-word {
-  animation-play-state: paused;
 }
 
 /* Metallic accent: a slow champagne sheen travels across apricot words */

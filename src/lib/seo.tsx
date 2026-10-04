@@ -236,9 +236,10 @@ function jsonLd(locale: Locale) {
 /**
  * Runs before first paint. Reduced-motion users skip the intro; everyone else gets
  * data-stage="intro", which holds the hero entrance until the intro hands over (with a
- * timer as a failsafe that does not depend on React).
+ * timer as a failsafe that does not depend on React). data-fonts marks the moment the web
+ * fonts are in, so the hero can be painted under the intro without a font-swap shift.
  */
-const INTRO_GATE = `try{var d=document.documentElement;if(matchMedia("(prefers-reduced-motion: reduce)").matches){d.dataset.intro="off"}else{d.dataset.stage="intro";setTimeout(function(){d.dataset.stage="ready"},9000)}}catch(e){}`;
+const INTRO_GATE = `try{var d=document.documentElement;if(matchMedia("(prefers-reduced-motion: reduce)").matches){d.dataset.intro="off"}else{d.dataset.stage="intro";setTimeout(function(){d.dataset.stage="ready"},9000)}var f=function(){d.dataset.fonts="1"};setTimeout(f,1800);document.fonts.ready.then(f)}catch(e){}`;
 
 export function Document({ locale, children }: { locale: Locale; children: React.ReactNode }) {
   return (

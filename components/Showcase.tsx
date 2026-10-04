@@ -61,7 +61,7 @@ function Social() {
           </span>
           <span>
             <span className="block text-[15px] font-medium text-bone">{x.title}</span>
-            <span className="block text-[13px] text-bone/50">{x.body}</span>
+            <span className="block text-[13px] text-bone/60">{x.body}</span>
           </span>
         </div>
       ))}

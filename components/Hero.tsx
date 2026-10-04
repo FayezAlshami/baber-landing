@@ -69,13 +69,13 @@ function PhoneMock() {
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="text-[13px] font-medium text-bone">{p.service}</p>
-                      <p className="text-[11px] text-bone/50">{p.barber} · 40 min</p>
+                      <p className="text-[11px] text-bone/60">{p.barber} · 40 min</p>
                     </div>
                     <span className="text-[13px] font-medium text-bone" dir="ltr">€35</span>
                   </div>
                 </div>
 
-                <p className="mt-5 text-[11px] uppercase tracking-[0.2em] text-bone/40">{p.today}</p>
+                <p className="mt-5 text-[11px] uppercase tracking-[0.2em] text-bone/55">{p.today}</p>
                 <div className="mt-2.5 grid grid-cols-3 gap-2" dir="ltr">
                   {TIMES.map((time, i) => {
                     const on = stage >= 2 && i === 3;
@@ -94,7 +94,7 @@ function PhoneMock() {
 
                 <div
                   className={`mt-6 flex h-12 items-center justify-center rounded-2xl text-[13px] font-medium transition-all duration-500 ${
-                    stage >= 2 ? "bg-brand text-ink" : "bg-white/6 text-bone/40"
+                    stage >= 2 ? "bg-brand text-ink" : "bg-white/6 text-bone/55"
                   }`}
                 >
                   {p.confirm}
@@ -109,7 +109,7 @@ function PhoneMock() {
                   </svg>
                 </span>
                 <p className="mt-5 text-xl font-light text-bone">{p.confirmed}</p>
-                <p className="mt-2 text-[12px] text-bone/50" dir="auto">
+                <p className="mt-2 text-[12px] text-bone/60" dir="auto">
                   {p.service} · 14:30
                 </p>
                 <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-1.5 text-[11px] text-bone/60">
@@ -254,7 +254,7 @@ export default function Hero() {
               </span>
               <span className="text-[12px] leading-tight">
                 <span className="block text-bone">+1 · {h.phone.service}</span>
-                <span className="text-bone/45">{h.phone.today} · 14:30</span>
+                <span className="text-bone/55">{h.phone.today} · 14:30</span>
               </span>
             </div>
             <div className="surface absolute -inset-e-1 bottom-20 hidden items-center gap-3 px-4 py-3 backdrop-blur-xl [transform:translateZ(110px)] sm:flex lg:-inset-e-4">

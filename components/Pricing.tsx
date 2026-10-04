@@ -100,9 +100,9 @@ export default function Pricing() {
                   <span key={price} className="animate-fade-up text-5xl font-light tracking-tight text-bone">
                     {price}
                   </span>
-                  <span className="text-[13px] text-bone/45">{per.suffix}</span>
+                  <span className="text-[13px] text-bone/55">{per.suffix}</span>
                 </p>
-                <p className="mt-2 h-4 text-[11px] text-bone/35">{currency !== "EUR" ? fill(p.indicative, { cur: currency }) : ""}</p>
+                <p className="mt-2 h-4 text-[11px] text-bone/55">{currency !== "EUR" ? fill(p.indicative, { cur: currency }) : ""}</p>
                 <a
                   href={whatsappLink(fill(t.wa.pkg, { pkg: pkg.name, period: per.msg, price }))}
                   target="_blank"
@@ -137,7 +137,7 @@ export default function Pricing() {
             {p.custom.cta}
           </a>
         </div>
-        <p className="mt-6 text-center text-[12px] text-bone/35">{p.note}</p>
+        <p className="mt-6 text-center text-[12px] text-bone/55">{p.note}</p>
       </div>
     </section>
   );
