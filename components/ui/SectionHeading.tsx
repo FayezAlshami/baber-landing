@@ -21,11 +21,17 @@ export default function SectionHeading({
   return (
     <div className={`reveal ${center ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}`}>
       <p className={`eyebrow ${center ? "justify-center" : ""}`}>
-        <span className="h-px w-6 bg-brand" aria-hidden />
+        {/* Editorial section number from a CSS counter on <main> */}
+        <span className="eyebrow-num" aria-hidden />
+        <span className="h-px w-8 bg-brand/60" aria-hidden />
         {eyebrow}
       </p>
       <h2 id={id} className="h-display mt-6 text-[clamp(2.25rem,5.2vw,4.25rem)] text-bone">
-        {title} <span className="accent">{accent}</span>
+        <span className="line-mask">
+          <span className="line-inner">
+            {title} <span className="accent">{accent}</span>
+          </span>
+        </span>
       </h2>
       {intro && <p className={`lead mt-6 ${center ? "mx-auto" : ""}`}>{intro}</p>}
       {children}

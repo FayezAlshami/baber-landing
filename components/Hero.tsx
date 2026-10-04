@@ -125,36 +125,23 @@ function PhoneMock() {
 export default function Hero() {
   const { t } = useI18n();
   const h = t.hero;
-  const bg = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let raf = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        const y = window.scrollY;
-        if (bg.current && y < window.innerHeight * 1.2) bg.current.style.transform = `translate3d(0, ${y * 0.18}px, 0) scale(1.06)`;
-      });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
+  // Entrance classes (.hero-in, .hero-line, .hero-img-in) are held by html[data-stage="intro"]
+  // until the intro hands over; --d staggers them.
+  const at = (ms: number) => ({ ["--d" as string]: `${ms}ms` });
 
   return (
     <section id="top" aria-labelledby="hero-title" className="grain relative isolate overflow-hidden">
-      <div ref={bg} className="absolute inset-0 -z-10 will-change-transform" style={{ transform: "scale(1.06)" }}>
-        <Img name="hero" alt={h.imageAlt} sizes="100vw" priority className="h-full w-full" imgClassName="opacity-60" />
+      <div className="absolute inset-0 -z-10" data-parallax="0.18" data-parallax-scale="1.06" data-parallax-free style={{ transform: "scale(1.06)" }}>
+        <div className="hero-img-in h-full w-full">
+          <Img name="hero" alt={h.imageAlt} sizes="100vw" priority className="h-full w-full" imgClassName="hero-kenburns opacity-60" />
+        </div>
       </div>
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink/80 via-ink/60 to-ink" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/70 to-ink/10 rtl:bg-gradient-to-l" />
 
       <div className="container-x grid min-h-[100svh] items-center gap-14 pb-20 pt-32 lg:grid-cols-[1.25fr_1fr] lg:gap-10 lg:pb-24 lg:pt-36">
         <div>
-          <p className="eyebrow animate-fade-up">
+          <p className="eyebrow hero-in" style={at(150)}>
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
@@ -162,16 +149,20 @@ export default function Hero() {
             {h.eyebrow}
           </p>
 
-          <h1 id="hero-title" className="h-display mt-7 text-[clamp(2.9rem,7.6vw,6.4rem)] text-bone">
-            <span className="block animate-fade-up [animation-delay:80ms]">{h.titleA}</span>
-            <span className="block animate-fade-up [animation-delay:180ms]">
-              {h.titleB} <span className="accent">{h.titleAccent}</span>
+          <h1 id="hero-title" className="h-display mt-7 text-[clamp(2.9rem,7.6vw,6.6rem)] text-bone">
+            <span className="line-mask">
+              <span className="hero-line" style={at(250)}>{h.titleA}</span>
+            </span>
+            <span className="line-mask">
+              <span className="hero-line" style={at(420)}>
+                {h.titleB} <span className="accent">{h.titleAccent}</span>
+              </span>
             </span>
           </h1>
 
-          <p className="lead mt-7 animate-fade-up [animation-delay:280ms]">{h.sub}</p>
+          <p className="lead hero-in mt-7" style={at(700)}>{h.sub}</p>
 
-          <div className="mt-10 flex animate-fade-up flex-col gap-3 [animation-delay:380ms] sm:flex-row sm:items-center">
+          <div className="hero-in mt-10 flex flex-col gap-3 sm:flex-row sm:items-center" style={at(850)}>
             <a
               href={whatsappLink(t.wa.general)}
               target="_blank"
@@ -189,7 +180,7 @@ export default function Hero() {
             </a>
           </div>
 
-          <ul className="mt-10 flex animate-fade-up flex-wrap gap-x-6 gap-y-3 [animation-delay:480ms]">
+          <ul className="hero-in mt-10 flex flex-wrap gap-x-6 gap-y-3" style={at(1000)}>
             {h.trust.map((item) => (
               <li key={item} className="flex items-center gap-2 text-[13px] text-bone/60">
                 <Icon name="check" className="h-4 w-4 text-brand" strokeWidth={2} />
@@ -199,7 +190,7 @@ export default function Hero() {
           </ul>
         </div>
 
-        <div className="relative animate-fade-up [animation-delay:300ms]">
+        <div className="hero-in relative" style={at(900)}>
           <div className="lg:animate-float">
             <PhoneMock />
           </div>

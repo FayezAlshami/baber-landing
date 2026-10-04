@@ -44,8 +44,8 @@ const config: Config = {
         grow: { from: { transform: "scaleY(0)" }, to: { transform: "scaleY(1)" } },
       },
       animation: {
-        marquee: "marquee 45s linear infinite",
-        "marquee-rtl": "marquee-rtl 45s linear infinite",
+        marquee: "marquee 80s linear infinite",
+        "marquee-rtl": "marquee-rtl 80s linear infinite",
         "fade-up": "fade-up .9s cubic-bezier(.16,1,.3,1) both",
         float: "float 6s ease-in-out infinite",
         pulse2: "pulse2 2s ease-in-out infinite",

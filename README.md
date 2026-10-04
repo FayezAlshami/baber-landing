@@ -64,15 +64,22 @@ gerenderd door `components/ui/Logo.tsx`; de schaar is een los component
 
 ## Intro & interacties
 
-- **Intro** (`components/Intro.tsx`): een knipbeurt. Haarlokken hangen over het
-  scherm, een kam glijdt erdoor, de schaar knipt ze op één lijn af en het
-  afgeknipte haar valt naar beneden. Daarna verschijnt het logo en wordt de
-  "kapmantel" weggetrokken (met barber-pole-zoom). Speelt bij elke
-  paginalading, overslaan met klik of Esc, en automatisch uit bij
-  `prefers-reduced-motion`.
+- **Intro** (`components/Intro.tsx`): een filmische knipbeurt van ~5 s.
+  Letterbox-balken, filmkorrel en vignet; haar in twee dieptelagen onder een
+  langzame camera-push; een warme lichtbundel en een grote kam glijden door het
+  haar; de schaar knipt met een glinstering per knip en een "blade light" langs
+  de kniplijn; het afgeknipte haar zweeft naar beneden. Daarna een titelkaart
+  (logo + tagline `intro.tagline`) en de "kapmantel" wordt weggetrokken.
+  Speelt bij elke paginalading, overslaan met klik of Esc, uit bij
+  `prefers-reduced-motion`. De hero-entree wacht via `html[data-stage]`.
+- **Smooth scroll** (`components/SmoothScroll.tsx`): Lenis, traag en zacht
+  (duration 1.6, expo-ease), plus parallax via `data-parallax` en de
+  voortgangslijn bovenaan.
+- **Afwerking** (`components/Atmosphere.tsx`): filmkorrel en vignet over de
+  site, cursor-ring, magnetische knoppen en een spotlight op kaarten (alleen
+  bij muis/trackpad). Koppen rijzen op uit een masker, secties zijn genummerd
+  ("01"), beelden openen met een wipe (`<Img wipe parallax={0.08} />`).
 - **FAQ**: open schaar = antwoord tonen, gesloten schaar = antwoord sluiten.
-- **Smooth scroll** met Lenis (`components/SmoothScroll.tsx`), uit bij
-  reduced motion.
 
 ---
 

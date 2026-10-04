@@ -32,7 +32,7 @@ const en = {
     home: "Trimio home",
   },
 
-  intro: { skip: "Skip intro" },
+  intro: { skip: "Skip intro", tagline: "A little less admin. A lot more craft." },
 
   hero: {
     eyebrow: "Trimio by Nivx · Built for barbershops",

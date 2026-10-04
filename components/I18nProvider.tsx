@@ -123,6 +123,24 @@ export default function I18nProvider({
     );
     document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 
+    // Image wipes start fully clipped, and Chromium counts a target's own clip-path when
+    // measuring intersection, so watch each wipe's frame instead of the wipe itself.
+    const wipes = new Map<Element, Element[]>();
+    const wipeIO = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          wipes.get(e.target)?.forEach((w) => w.classList.add("is-visible"));
+          wipeIO.unobserve(e.target);
+        }),
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+    );
+    document.querySelectorAll(".wipe").forEach((el) => {
+      const host = el.parentElement ?? el;
+      wipes.set(host, [...(wipes.get(host) ?? []), el]);
+      wipeIO.observe(host);
+    });
+
     const seen = new Set<string>();
     const sectionIO = new IntersectionObserver(
       (entries) =>
@@ -164,6 +182,7 @@ export default function I18nProvider({
 
     return () => {
       io.disconnect();
+      wipeIO.disconnect();
       sectionIO.disconnect();
       document.removeEventListener("click", onClick);
       window.removeEventListener("scroll", onScroll);

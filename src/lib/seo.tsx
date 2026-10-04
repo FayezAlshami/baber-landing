@@ -118,7 +118,12 @@ function jsonLd(locale: Locale) {
   };
 }
 
-const INTRO_GATE = `try{if(matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.intro="off"}catch(e){}`;
+/**
+ * Runs before first paint. Reduced-motion users skip the intro; everyone else gets
+ * data-stage="intro", which holds the hero entrance until the intro hands over (with a
+ * timer as a failsafe that does not depend on React).
+ */
+const INTRO_GATE = `try{var d=document.documentElement;if(matchMedia("(prefers-reduced-motion: reduce)").matches){d.dataset.intro="off"}else{d.dataset.stage="intro";setTimeout(function(){d.dataset.stage="ready"},9000)}}catch(e){}`;
 
 export function Document({ locale, children }: { locale: Locale; children: React.ReactNode }) {
   return (
@@ -129,11 +134,11 @@ export function Document({ locale, children }: { locale: Locale; children: React
       className={`${manrope.variable} ${alexandria.variable}`}
     >
       <body>
-        {/* Skip the intro before first paint for reduced-motion users. */}
+        {/* Intro gate: see INTRO_GATE. */}
         <script dangerouslySetInnerHTML={{ __html: INTRO_GATE }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(locale)) }} />
         <noscript>
-          <style>{`.reveal{opacity:1!important;transform:none!important}.intro{display:none!important}`}</style>
+          <style>{`.reveal{opacity:1!important;transform:none!important}.intro{display:none!important}.wipe{clip-path:none!important}.line-inner{transform:none!important}`}</style>
         </noscript>
         {children}
       </body>
