@@ -34,7 +34,7 @@ const tr: Dict = {
     home: "Trimio ana sayfa",
   },
 
-  intro: { skip: "Girişi geç" },
+  intro: { skip: "Girişi geç", tagline: "Daha az evrak. Daha çok ustalık." },
 
   hero: {
     eyebrow: "Trimio by Nivx · Berberler için tasarlandı",

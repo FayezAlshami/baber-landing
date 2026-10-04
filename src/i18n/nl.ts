@@ -34,7 +34,7 @@ const nl: Dict = {
     home: "Trimio home",
   },
 
-  intro: { skip: "Intro overslaan" },
+  intro: { skip: "Intro overslaan", tagline: "Minder administratie. Meer vakmanschap." },
 
   hero: {
     eyebrow: "Trimio door Nivx · Gemaakt voor barbershops",

@@ -28,12 +28,17 @@ export function Proof() {
           </div>
         ))}
       </div>
-      <div className="mask-fade-x overflow-hidden border-t border-white/[0.06] py-5" aria-hidden>
-        <div className={`flex w-max gap-10 ${locale === "ar" ? "animate-marquee-rtl" : "animate-marquee"} hover:[animation-play-state:paused]`}>
+      <div className="mask-fade-x overflow-hidden border-t border-white/[0.06] py-8 md:py-10" aria-hidden>
+        <div className={`flex w-max gap-12 ${locale === "ar" ? "animate-marquee-rtl" : "animate-marquee"} hover:[animation-play-state:paused]`}>
           {items.map((m, i) => (
-            <span key={i} className="flex items-center gap-10 whitespace-nowrap text-[13px] uppercase tracking-[0.2em] text-bone/35">
+            <span
+              key={i}
+              className={`flex items-center gap-12 whitespace-nowrap text-[clamp(1.75rem,3.4vw,3.25rem)] font-semibold leading-none tracking-[-0.03em] ${
+                i % 2 ? "marquee-outline" : "text-bone/85"
+              }`}
+            >
               {m}
-              <span className="h-1 w-1 rounded-full bg-brand/70" />
+              <Scissors className="h-7 w-7 opacity-80 md:h-9 md:w-9" />
             </span>
           ))}
         </div>
@@ -100,7 +105,7 @@ export function Platform() {
     <section id="platform" aria-labelledby="platform-title" className="section border-t border-white/[0.05] bg-neutral-950">
       <div className="container-x grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:items-center">
         <div className="reveal relative order-2 aspect-[4/5] overflow-hidden rounded-[32px] lg:order-1">
-          <Img name="fade" alt={p.imageAlt} sizes="(min-width:1024px) 45vw, 100vw" className="h-full w-full" />
+          <Img name="fade" alt={p.imageAlt} sizes="(min-width:1024px) 45vw, 100vw" className="h-full w-full" wipe parallax={0.08} />
           <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
           <div className="surface absolute inset-x-5 bottom-5 flex items-center gap-4 p-4 backdrop-blur-xl">
             <span className="grid h-11 w-11 place-items-center rounded-full bg-brand text-ink">
@@ -202,7 +207,7 @@ export function Team() {
           <div className="relative min-h-[360px] overflow-hidden rounded-card">
             {branchImgs.map((img, i) => (
               <div key={img} className={`absolute inset-0 transition-opacity duration-700 ${i === b ? "opacity-100" : "opacity-0"}`}>
-                <Img name={img} alt={m.imageAlts[i]} sizes="(min-width:1024px) 55vw, 100vw" className="h-full w-full" />
+                <Img name={img} alt={m.imageAlts[i]} sizes="(min-width:1024px) 55vw, 100vw" className="h-full w-full" parallax={0.06} />
               </div>
             ))}
             <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent" />
@@ -271,7 +276,7 @@ export function Showcase() {
         <div className="mt-12 grid auto-rows-[180px] grid-cols-2 gap-3 md:auto-rows-[230px] md:grid-cols-3">
           {gallery.map((g, i) => (
             <figure key={g.n} style={d(i * 70)} className={`reveal group relative overflow-hidden rounded-3xl ${g.c}`}>
-              <Img name={g.n} alt={s.alts[g.k]} sizes="(min-width:768px) 33vw, 50vw" className="h-full w-full" imgClassName="transition-transform duration-[1.2s] ease-out group-hover:scale-105" />
+              <Img name={g.n} alt={s.alts[g.k]} sizes="(min-width:768px) 33vw, 50vw" className="h-full w-full" wipe imgClassName="transition-transform duration-[1.6s] ease-out group-hover:scale-105" />
             </figure>
           ))}
         </div>
@@ -782,7 +787,7 @@ export function FinalCta() {
   return (
     <section id="contact" aria-labelledby="contact-title" className="grain relative isolate overflow-hidden border-t border-white/[0.05]">
       <div className="absolute inset-0 -z-10">
-        <Img name="tools" alt={c.imageAlt} sizes="100vw" className="h-full w-full" imgClassName="opacity-35" />
+        <Img name="tools" alt={c.imageAlt} sizes="100vw" className="h-full w-full" imgClassName="opacity-35" parallax={0.12} />
         <div className="absolute inset-0 bg-gradient-to-b from-ink via-ink/80 to-ink" />
       </div>
       <div className="container-x grid items-center gap-14 py-28 md:py-36 lg:grid-cols-2">

@@ -34,7 +34,7 @@ const ar: Dict = {
     home: "الصفحة الرئيسية لـ Trimio",
   },
 
-  intro: { skip: "تخطَّ المقدمة" },
+  intro: { skip: "تخطَّ المقدمة", tagline: "وقتك للحلاقة، والباقي علينا." },
 
   hero: {
     eyebrow: "Trimio من Nivx · صُمّم لصالونات الحلاقة",

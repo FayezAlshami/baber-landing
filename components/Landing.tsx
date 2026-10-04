@@ -7,6 +7,7 @@ import BookingDemo from "./BookingDemo";
 import Pricing from "./Pricing";
 import Intro from "./Intro";
 import SmoothScroll from "./SmoothScroll";
+import Atmosphere from "./Atmosphere";
 import {
   Brand,
   Compare,
@@ -31,33 +32,36 @@ import type { Dict, Locale } from "@/src/i18n";
 function Page() {
   const { switching } = useI18n();
   return (
-    <div className={`locale-fade ${switching ? "is-switching" : ""}`}>
-      <SmoothScroll />
-      <Intro />
-      <Header />
-      <main id="main">
-        <Hero />
-        <Proof />
-        <Problem />
-        <Platform />
-        <BookingDemo />
-        <Features />
-        <Team />
-        <Showcase />
-        <Seo />
-        <Insights />
-        <Growth />
-        <Brand />
-        <Process />
-        <Compare />
-        <Testimonials />
-        <Pricing />
-        <Faq />
-        <FinalCta />
-      </main>
-      <Footer />
-      <MobileCta />
-    </div>
+    <>
+      <Atmosphere />
+      <div className={`locale-fade ${switching ? "is-switching" : ""}`}>
+        <SmoothScroll />
+        <Intro />
+        <Header />
+        <main id="main">
+          <Hero />
+          <Proof />
+          <Problem />
+          <Platform />
+          <BookingDemo />
+          <Features />
+          <Team />
+          <Showcase />
+          <Seo />
+          <Insights />
+          <Growth />
+          <Brand />
+          <Process />
+          <Compare />
+          <Testimonials />
+          <Pricing />
+          <Faq />
+          <FinalCta />
+        </main>
+        <Footer />
+        <MobileCta />
+      </div>
+    </>
   );
 }
 
