@@ -1,3 +1,4 @@
+import SplitWords from "./SplitWords";
 import type { ReactNode } from "react";
 
 export default function SectionHeading({
@@ -27,11 +28,7 @@ export default function SectionHeading({
         {eyebrow}
       </p>
       <h2 id={id} className="h-display mt-6 text-[clamp(2.25rem,5.2vw,4.25rem)] text-bone">
-        <span className="line-mask">
-          <span className="line-inner">
-            {title} <span className="accent">{accent}</span>
-          </span>
-        </span>
+        <SplitWords parts={[{ text: title }, { text: accent, accent: true }]} start={120} />
       </h2>
       {intro && <p className={`lead mt-6 ${center ? "mx-auto" : ""}`}>{intro}</p>}
       {children}

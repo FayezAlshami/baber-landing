@@ -88,7 +88,7 @@ export default function Header() {
       </a>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-          scrolled ? "border-b border-white/6 bg-ink/70 backdrop-blur-xl" : "border-b border-transparent"
+          scrolled ? "header-glass is-scrolled" : "header-glass"
         }`}
       >
         <div className="container-x flex h-[72px] items-center justify-between gap-6">

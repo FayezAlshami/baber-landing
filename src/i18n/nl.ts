@@ -36,6 +36,8 @@ const nl: Dict = {
 
   intro: { skip: "Intro overslaan", tagline: "Minder administratie. Meer vakmanschap." },
 
+  cursor: { view: "Bekijk", try: "Probeer", book: "Boek" },
+
   hero: {
     eyebrow: "Trimio door Nivx · Gemaakt voor barbershops",
     titleA: "Elke stoel geboekt.",
@@ -336,6 +338,16 @@ const nl: Dict = {
       craft: "Barbers aan het werk in een drukke, warm verlichte zaak",
       razor: "Open scheermes en schaar op donker marmer",
     },
+    frames: [
+      { title: "Knippen met de schaar", note: "Textuur bovenop, strakke lijnen in de nek." },
+      { title: "Scheren met het mes", note: "Hete handdoek, verse zeep, geen haast." },
+      { title: "Baard in model", note: "Gevolgd op de kaaklijn, niet op een sjabloon." },
+      { title: "Zaterdag, 11:00", note: "Elke stoel bezet, niemand die bij de deur staat te wachten." },
+      { title: "Het gereedschap", note: "Schaar, mes en tondeuse klaar voor de eerste klant." },
+      { title: "De stoel", note: "Waar de vaste klanten steeds voor terugkomen." },
+      { title: "De gevel", note: "Gevonden op Google, geboekt voordat ze langslopen." },
+      { title: "Sluitingstijd", note: "De agenda van morgen staat al vol." },
+    ],
     social: [
       { title: "Instagram", body: "Je nieuwste posts, live op je site." },
       { title: "TikTok", body: "Laat de transformatie zien, niet alleen het resultaat." },

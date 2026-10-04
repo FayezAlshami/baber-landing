@@ -73,7 +73,7 @@ export default function BookingDemo() {
         <div className="reveal relative mx-auto w-full max-w-[380px]">
           <div className="glow absolute -inset-20 -z-10" />
           <p className="tag-sample mb-4 w-fit">{d.demoBadge}</p>
-          <div className="rounded-[44px] border border-white/15 bg-neutral-950 p-[10px] shadow-[0_60px_120px_-30px_rgba(0,0,0,.9)]">
+          <div data-cursor="try" className="living-border relative rounded-[44px] border border-white/15 bg-neutral-950 p-[10px] shadow-[0_60px_120px_-30px_rgba(0,0,0,.9)]">
             <div className="min-h-[560px] overflow-hidden rounded-[35px] bg-neutral-900 p-5" aria-live="polite">
               <div className="flex items-center justify-between">
                 <span className="text-[13px] font-medium text-bone" dir="ltr">Studio Noir</span>

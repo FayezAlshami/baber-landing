@@ -9,6 +9,7 @@ import Img, { type ImageName } from "./ui/Img";
 import { Wordmark } from "./Header";
 import Logo from "./ui/Logo";
 import Scissors from "./ui/Scissors";
+import Signature from "./ui/Signature";
 import { fill } from "@/src/i18n";
 import { track } from "@/src/lib/track";
 import { BRAND, whatsappLink } from "@/src/config/site";
@@ -252,52 +253,6 @@ export function Team() {
               ))}
             </ul>
           </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* --------------------------------------------------------------- Showcase */
-const gallery: { n: ImageName; k: "fade" | "cut" | "shave" | "beard" | "craft" | "razor"; c: string }[] = [
-  { n: "cut", k: "cut", c: "row-span-2" },
-  { n: "shave", k: "shave", c: "" },
-  { n: "craft", k: "craft", c: "" },
-  { n: "razor", k: "razor", c: "col-span-2 md:col-span-1" },
-  { n: "beard", k: "beard", c: "hidden md:block" },
-];
-const socialIcons: IconName[] = ["instagram", "tiktok", "google"];
-export function Showcase() {
-  const { t } = useI18n();
-  const s = t.showcase;
-  return (
-    <section id="gallery" aria-labelledby="gallery-title" className="section border-t border-white/5">
-      <div className="container-x">
-        <SectionHeading id="gallery-title" eyebrow={s.eyebrow} title={s.title} accent={s.titleAccent} intro={s.intro} />
-        <div className="mt-12 grid auto-rows-[180px] grid-cols-2 gap-3 md:auto-rows-[230px] md:grid-cols-3">
-          {gallery.map((g, i) => (
-            <figure key={g.n} style={d(i * 70)} className={`reveal group relative overflow-hidden rounded-3xl ${g.c}`}>
-              <Img name={g.n} alt={s.alts[g.k]} sizes="(min-width:768px) 33vw, 50vw" className="h-full w-full" wipe imgClassName="transition-transform duration-[1.6s] ease-out group-hover:scale-105" />
-            </figure>
-          ))}
-        </div>
-        <div className="mt-4 grid gap-3 md:grid-cols-3">
-          {s.social.map((x, i) => (
-            <div key={x.title} style={d(i * 80)} className="reveal surface flex items-center gap-4 p-5">
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white/6">
-                <Icon name={socialIcons[i]} weight="duotone" className="h-5 w-5 text-bone" />
-              </span>
-              <span>
-                <span className="block text-[15px] font-medium text-bone">{x.title}</span>
-                <span className="block text-[13px] text-bone/50">{x.body}</span>
-              </span>
-              {i === 2 && (
-                <span className="ms-auto flex text-brand" aria-hidden>
-                  {[0, 1, 2, 3, 4].map((k) => <Icon key={k} name="star" className="h-3.5 w-3.5 fill-current" />)}
-                </span>
-              )}
-            </div>
-          ))}
         </div>
       </div>
     </section>
@@ -807,7 +762,7 @@ export function FinalCta() {
               track("form_start");
             }
           }}
-          className="reveal surface grid gap-3 p-6 backdrop-blur-xl md:p-8"
+          className="reveal surface living-border grid gap-3 p-6 backdrop-blur-xl md:p-8"
         >
           <label className="grid gap-1.5 text-[13px] text-bone/60">{c.form.name}<input name="name" required autoComplete="name" className={field} /></label>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -862,7 +817,8 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="container-x mt-14 flex flex-col justify-between gap-3 border-t border-white/6 pt-6 text-[12px] text-bone/35 sm:flex-row">
+      <Signature />
+      <div className="container-x mt-10 flex flex-col justify-between gap-3 border-t border-white/6 pt-6 text-[12px] text-bone/35 sm:flex-row">
         <p>© {new Date().getFullYear()} {BRAND.company}. {f.rights} {f.byNivx}.</p>
         <p>{f.imageCredit}</p>
       </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { flushSync } from "react-dom";
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { DEFAULT_LOCALE, dirOf, loaders, localeHref, type Dict, type Locale } from "@/src/i18n";
 import { CURRENCIES, type CurrencyId } from "@/src/config/site";
@@ -74,19 +75,29 @@ export default function I18nProvider({
     cache.current[next] = dict;
     current.current = next;
     const animate = !silent && !reducedMotion();
-    if (animate) {
+    const commit = () => {
+      setLocaleState(next);
+      setT(dict);
+      const html = document.documentElement;
+      html.lang = next;
+      html.dir = dirOf(next);
+      document.title = dict.meta.title;
+    };
+
+    if (animate && typeof document.startViewTransition === "function") {
+      // View Transitions API: the browser snapshots the old page and blurs it into the new
+      // language (see ::view-transition rules in globals.css).
+      await document.startViewTransition(() => flushSync(commit)).finished.catch(() => {});
+    } else if (animate) {
       setSwitching(true);
       await new Promise((r) => setTimeout(r, 200));
+      commit();
+      requestAnimationFrame(() => requestAnimationFrame(() => setSwitching(false)));
+    } else {
+      commit();
     }
-    setLocaleState(next);
-    setT(dict);
-    const html = document.documentElement;
-    html.lang = next;
-    html.dir = dirOf(next);
-    document.title = dict.meta.title;
     window.history.replaceState(window.history.state, "", localeHref(next) + window.location.hash);
     store(LOCALE_KEY, next);
-    if (animate) requestAnimationFrame(() => requestAnimationFrame(() => setSwitching(false)));
     if (!silent) track("language_switch", { from: prev, to: next });
   }, []);
 
@@ -128,7 +139,6 @@ export default function I18nProvider({
         }),
       { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
     );
-    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 
     // Image wipes start fully clipped, and Chromium counts a target's own clip-path when
     // measuring intersection, so watch each wipe's frame instead of the wipe itself.
@@ -142,11 +152,27 @@ export default function I18nProvider({
         }),
       { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
     );
-    document.querySelectorAll(".wipe").forEach((el) => {
-      const host = el.parentElement ?? el;
-      wipes.set(host, [...(wipes.get(host) ?? []), el]);
-      wipeIO.observe(host);
+    const watched = new WeakSet<Element>();
+    const scan = (root: ParentNode) => {
+      root.querySelectorAll(".reveal").forEach((el) => {
+        if (watched.has(el)) return;
+        watched.add(el);
+        io.observe(el);
+      });
+      root.querySelectorAll(".wipe").forEach((el) => {
+        if (watched.has(el)) return;
+        watched.add(el);
+        const host = el.parentElement ?? el;
+        wipes.set(host, [...(wipes.get(host) ?? []), el]);
+        wipeIO.observe(host);
+      });
+    };
+    scan(document);
+    // Sections that mount after hydration (e.g. the pinned gallery on desktop) get watched too.
+    const mo = new MutationObserver((records) => {
+      for (const r of records) r.addedNodes.forEach((n) => n instanceof Element && scan(n.parentElement ?? n));
     });
+    mo.observe(document.body, { childList: true, subtree: true });
 
     const seen = new Set<string>();
     const sectionIO = new IntersectionObserver(
@@ -190,6 +216,7 @@ export default function I18nProvider({
     return () => {
       io.disconnect();
       wipeIO.disconnect();
+      mo.disconnect();
       sectionIO.disconnect();
       document.removeEventListener("click", onClick);
       window.removeEventListener("scroll", onScroll);

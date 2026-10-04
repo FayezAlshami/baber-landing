@@ -34,6 +34,8 @@ const en = {
 
   intro: { skip: "Skip intro", tagline: "A little less admin. A lot more craft." },
 
+  cursor: { view: "View", try: "Try it", book: "Book" },
+
   hero: {
     eyebrow: "Trimio by Nivx · Built for barbershops",
     titleA: "Every chair booked.",
@@ -334,6 +336,16 @@ const en = {
       craft: "Barbers at work in a busy, warm-lit shop",
       razor: "Straight razor and shears on dark marble",
     },
+    frames: [
+      { title: "Scissor work", note: "Texture on top, clean lines at the neck." },
+      { title: "Straight-razor shave", note: "Hot towel, fresh lather, no rush." },
+      { title: "Beard shaping", note: "Shaped to the jawline, not to a template." },
+      { title: "Saturday, 11:00", note: "Every chair taken, nobody waiting at the door." },
+      { title: "The tools", note: "Shears, razor and clippers, laid out before the first client." },
+      { title: "The chair", note: "Where the regulars keep coming back to." },
+      { title: "The shopfront", note: "Found on Google, booked before they even walk past." },
+      { title: "Closing up", note: "Tomorrow's schedule is already full." },
+    ],
     social: [
       { title: "Instagram", body: "Your latest posts, live on your site." },
       { title: "TikTok", body: "Show the transformation, not just the result." },

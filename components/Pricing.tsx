@@ -88,7 +88,7 @@ export default function Pricing() {
                 key={id}
                 style={{ ["--d" as string]: `${i * 90}ms` }}
                 className={`reveal relative flex flex-col rounded-card border p-8 transition-transform duration-500 hover:-translate-y-1 ${
-                  popular ? "border-brand/50 bg-linear-to-b from-brand/12 to-white/2 shadow-[0_40px_100px_-40px_rgba(255,169,133,.6)]" : "border-white/8 bg-white/2.5"
+                  popular ? "living-border border-brand/50 bg-linear-to-b from-brand/12 to-white/2 shadow-[0_40px_100px_-40px_rgba(255,169,133,.6)]" : "border-white/8 bg-white/2.5"
                 }`}
               >
                 {popular && (

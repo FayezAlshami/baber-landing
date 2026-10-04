@@ -36,6 +36,8 @@ const tr: Dict = {
 
   intro: { skip: "Girişi geç", tagline: "Daha az evrak. Daha çok ustalık." },
 
+  cursor: { view: "İncele", try: "Dene", book: "Randevu" },
+
   hero: {
     eyebrow: "Trimio by Nivx · Berberler için tasarlandı",
     titleA: "Her koltuk dolu.",
@@ -336,6 +338,16 @@ const tr: Dict = {
       craft: "Kalabalık, sıcak ışıklı bir dükkânda çalışan berberler",
       razor: "Koyu mermer üzerinde ustura ve makas",
     },
+    frames: [
+      { title: "Makas işçiliği", note: "Üstte doku, ensede temiz çizgiler." },
+      { title: "Ustura tıraşı", note: "Sıcak havlu, taze köpük, acele yok." },
+      { title: "Sakal şekillendirme", note: "Şablona göre değil, çene hattına göre." },
+      { title: "Cumartesi, 11:00", note: "Bütün koltuklar dolu, kapıda bekleyen yok." },
+      { title: "Aletler", note: "Makas, ustura ve makine ilk müşteriden önce hazır." },
+      { title: "Koltuk", note: "Müdavimlerin tekrar tekrar döndüğü yer." },
+      { title: "Vitrin", note: "Google'da bulundu, önünden geçmeden randevu alındı." },
+      { title: "Kapanış", note: "Yarının programı şimdiden dolu." },
+    ],
     social: [
       { title: "Instagram", body: "En son gönderileriniz, sitenizde canlı." },
       { title: "TikTok", body: "Sadece sonucu değil, dönüşümü gösterin." },

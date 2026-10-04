@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useI18n } from "./I18nProvider";
 
 /**
  * Site-wide finish: film grain, a soft vignette, the scroll-progress hairline (driven by
@@ -9,7 +10,14 @@ import { useEffect, useRef } from "react";
  * reduced-motion users.
  */
 export default function Atmosphere() {
+  const { t } = useI18n();
   const ring = useRef<HTMLDivElement>(null);
+  const label = useRef<HTMLSpanElement>(null);
+  // Cursor labels follow the active language without re-running the pointer effect.
+  const labels = useRef(t.cursor);
+  useEffect(() => {
+    labels.current = t.cursor;
+  }, [t.cursor]);
 
   useEffect(() => {
     if (!window.matchMedia("(pointer: fine)").matches) return;
@@ -28,17 +36,22 @@ export default function Atmosphere() {
       magnet = null;
     };
 
-    const onMove = (e: PointerEvent) => {
-      tx = e.clientX;
-      ty = e.clientY;
-      el.dataset.on = "true";
-      const target = e.target as Element | null;
-
+    // What sits under the pointer decides the ring's mode. Re-checked on scroll too, since the
+    // page moves under a still mouse.
+    const inspect = (target: Element | null, e?: PointerEvent) => {
+      const tagged = target?.closest<HTMLElement>("[data-cursor]");
+      const key = tagged?.dataset.cursor as keyof typeof labels.current | undefined;
       const hit = target?.closest("a, button, [role='button'], input, select, textarea, label");
-      el.dataset.mode = !hit ? "" : hit.matches("input, select, textarea") ? "text" : "link";
+      if (key && labels.current[key]) {
+        el.dataset.mode = "label";
+        if (label.current && label.current.textContent !== labels.current[key]) label.current.textContent = labels.current[key];
+      } else {
+        el.dataset.mode = !hit ? "" : hit.matches("input, select, textarea") ? "text" : "link";
+      }
 
       const btn = target?.closest<HTMLElement>(".btn") ?? null;
       if (btn !== magnet) release();
+      if (!e) return;
       if (btn) {
         const r = btn.getBoundingClientRect();
         btn.style.setProperty("--mag-x", `${((e.clientX - r.left - r.width / 2) * 0.22).toFixed(1)}px`);
@@ -53,6 +66,15 @@ export default function Atmosphere() {
         card.style.setProperty("--my", `${e.clientY - r.top}px`);
       }
     };
+    const onMove = (e: PointerEvent) => {
+      tx = e.clientX;
+      ty = e.clientY;
+      el.dataset.on = "true";
+      inspect(e.target as Element | null, e);
+    };
+    const onScroll = () => {
+      if (el.dataset.on === "true") inspect(document.elementFromPoint(tx, ty));
+    };
     const onLeave = () => {
       el.dataset.on = "false";
       release();
@@ -66,10 +88,12 @@ export default function Atmosphere() {
     };
     raf = requestAnimationFrame(loop);
     window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     document.documentElement.addEventListener("pointerleave", onLeave);
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("scroll", onScroll);
       document.documentElement.removeEventListener("pointerleave", onLeave);
       release();
     };
@@ -86,7 +110,8 @@ export default function Atmosphere() {
       <div aria-hidden className="atmo-vignette pointer-events-none fixed inset-0 z-64" />
       <div aria-hidden className="atmo-grain pointer-events-none fixed inset-0 z-65" />
       <div ref={ring} aria-hidden data-on="false" className="cursor-ring pointer-events-none fixed left-0 top-0 z-120">
-        <span />
+        <span className="cursor-dot" />
+        <span ref={label} className="cursor-label" />
       </div>
     </>
   );

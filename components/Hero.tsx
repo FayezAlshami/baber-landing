@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { motion, useMotionTemplate, useMotionValue, useSpring } from "motion/react";
 import { useI18n } from "./I18nProvider";
-import { usePrefersReducedMotion } from "@/src/lib/stores";
+import { useMediaQuery, usePrefersReducedMotion } from "@/src/lib/stores";
 import Img from "./ui/Img";
+import SplitWords from "./ui/SplitWords";
 import Icon from "./ui/Icon";
 import { whatsappLink } from "@/src/config/site";
 
@@ -123,6 +125,58 @@ function PhoneMock() {
   );
 }
 
+/**
+ * Pointer-driven 3D tilt for the hero's phone and floating chips, with a soft glare that
+ * follows the pointer. Chips sit on their own depth layers (translateZ) for parallax.
+ * Precise pointers only; still for touch and reduced motion.
+ */
+function TiltStage({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduced = usePrefersReducedMotion();
+  const fine = useMediaQuery("(pointer: fine)");
+  const rx = useSpring(0, { stiffness: 110, damping: 18, mass: 0.8 });
+  const ry = useSpring(0, { stiffness: 110, damping: 18, mass: 0.8 });
+  const gx = useMotionValue(50);
+  const gy = useMotionValue(30);
+  const glare = useMotionTemplate`radial-gradient(380px circle at ${gx}% ${gy}%, rgba(255,248,239,0.16), transparent 55%)`;
+
+  useEffect(() => {
+    const stage = ref.current;
+    const section = stage?.closest("section");
+    if (reduced || !fine || !stage || !section) return;
+    const onMove = (e: PointerEvent) => {
+      const r = stage.getBoundingClientRect();
+      const px = Math.min(1.2, Math.max(-0.2, (e.clientX - r.left) / r.width));
+      const py = Math.min(1.2, Math.max(-0.2, (e.clientY - r.top) / r.height));
+      ry.set((px - 0.5) * 16);
+      rx.set(-(py - 0.5) * 12);
+      gx.set(px * 100);
+      gy.set(py * 100);
+    };
+    const onLeave = () => {
+      rx.set(0);
+      ry.set(0);
+    };
+    section.addEventListener("pointermove", onMove);
+    section.addEventListener("pointerleave", onLeave);
+    return () => {
+      section.removeEventListener("pointermove", onMove);
+      section.removeEventListener("pointerleave", onLeave);
+    };
+  }, [reduced, fine, rx, ry, gx, gy]);
+
+  return (
+    <motion.div ref={ref} style={{ rotateX: rx, rotateY: ry, transformPerspective: 1100, transformStyle: "preserve-3d" }} className="relative">
+      {children}
+      <motion.div
+        aria-hidden
+        style={{ background: glare }}
+        className="pointer-events-none absolute inset-y-0 left-1/2 w-[280px] -translate-x-1/2 rounded-[46px] mix-blend-screen sm:w-[300px]"
+      />
+    </motion.div>
+  );
+}
+
 export default function Hero() {
   const { t } = useI18n();
   const h = t.hero;
@@ -151,13 +205,11 @@ export default function Hero() {
           </p>
 
           <h1 id="hero-title" className="h-display mt-7 text-[clamp(2.9rem,7.6vw,6.6rem)] text-bone">
-            <span className="line-mask">
-              <span className="hero-line" style={at(250)}>{h.titleA}</span>
+            <span className="block">
+              <SplitWords parts={[{ text: h.titleA }]} mode="hero" start={250} step={80} />
             </span>
-            <span className="line-mask">
-              <span className="hero-line" style={at(420)}>
-                {h.titleB} <span className="accent">{h.titleAccent}</span>
-              </span>
+            <span className="block">
+              <SplitWords parts={[{ text: h.titleB }, { text: h.titleAccent, accent: true }]} mode="hero" start={480} step={80} />
             </span>
           </h1>
 
@@ -192,24 +244,26 @@ export default function Hero() {
         </div>
 
         <div className="hero-in relative" style={at(900)}>
-          <div className="lg:animate-float">
-            <PhoneMock />
-          </div>
-          <div className="surface absolute -inset-s-2 top-16 hidden items-center gap-3 px-4 py-3 backdrop-blur-xl sm:flex lg:-inset-s-10">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-brand/15">
-              <Icon name="calendar" className="h-4 w-4 text-brand" />
-            </span>
-            <span className="text-[12px] leading-tight">
-              <span className="block text-bone">+1 · {h.phone.service}</span>
-              <span className="text-bone/45">{h.phone.today} · 14:30</span>
-            </span>
-          </div>
-          <div className="surface absolute -inset-e-1 bottom-20 hidden items-center gap-3 px-4 py-3 backdrop-blur-xl sm:flex lg:-inset-e-4">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-white/6">
-              <Icon name="bell" className="h-4 w-4 text-bone" />
-            </span>
-            <span className="max-w-[150px] text-[12px] leading-tight text-bone/70">{h.phone.reminder}</span>
-          </div>
+          <TiltStage>
+            <div className="lg:animate-float">
+              <PhoneMock />
+            </div>
+            <div className="surface absolute -inset-s-2 top-16 hidden items-center gap-3 px-4 py-3 backdrop-blur-xl [transform:translateZ(70px)] sm:flex lg:-inset-s-10">
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-brand/15">
+                <Icon name="calendar" className="h-4 w-4 text-brand" />
+              </span>
+              <span className="text-[12px] leading-tight">
+                <span className="block text-bone">+1 · {h.phone.service}</span>
+                <span className="text-bone/45">{h.phone.today} · 14:30</span>
+              </span>
+            </div>
+            <div className="surface absolute -inset-e-1 bottom-20 hidden items-center gap-3 px-4 py-3 backdrop-blur-xl [transform:translateZ(110px)] sm:flex lg:-inset-e-4">
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-white/6">
+                <Icon name="bell" className="h-4 w-4 text-bone" />
+              </span>
+              <span className="max-w-[150px] text-[12px] leading-tight text-bone/70">{h.phone.reminder}</span>
+            </div>
+          </TiltStage>
         </div>
       </div>
     </section>
