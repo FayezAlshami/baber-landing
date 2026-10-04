@@ -213,7 +213,7 @@ export default function Hero() {
             </span>
           </h1>
 
-          <p className="lead hero-in mt-7" style={at(700)}>{h.sub}</p>
+          <p className="lead hero-sub hero-in mt-7" style={at(700)}>{h.sub}</p>
 
           <div className="hero-in mt-10 flex flex-col gap-3 sm:flex-row sm:items-center" style={at(850)}>
             <a
