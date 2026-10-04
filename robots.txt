@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://FayezAlshami.github.io/baber-landing/sitemap.xml
