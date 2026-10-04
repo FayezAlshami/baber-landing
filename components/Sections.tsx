@@ -60,7 +60,7 @@ export function Problem() {
         <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {p.pains.map((x, i) => (
             <article key={x.title} style={d(i * 80)} className="reveal surface p-7">
-              <Icon name={painIcons[i]} className="h-6 w-6 text-brand" />
+              <Icon name={painIcons[i]} weight="duotone" className="h-6 w-6 text-brand" />
               <h3 className="mt-6 text-[17px] font-medium text-bone">{x.title}</h3>
               <p className="mt-3 text-[14px] leading-relaxed text-bone/55">{x.body}</p>
             </article>
@@ -124,7 +124,7 @@ export function Platform() {
             {p.pillars.map((x, i) => (
               <div key={x.title} style={d(i * 90)} className="reveal">
                 <span className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-white/4">
-                  <Icon name={pillarIcons[i]} className="h-5 w-5 text-brand" />
+                  <Icon name={pillarIcons[i]} weight="duotone" className="h-5 w-5 text-brand" />
                 </span>
                 <h3 className="mt-5 text-[17px] font-medium text-bone">{x.title}</h3>
                 <p className="mt-2 text-[14px] leading-relaxed text-bone/55">{x.body}</p>
@@ -162,7 +162,7 @@ export function Features() {
                 active === i ? "border-bone bg-bone text-ink" : "border-white/10 text-bone/60 hover:border-white/25 hover:text-bone"
               }`}
             >
-              <Icon name={tabIcons[i]} className="h-4 w-4" />
+              <Icon name={tabIcons[i]} weight="duotone" className="h-4 w-4" />
               {x.label}
             </button>
           ))}
@@ -171,7 +171,7 @@ export function Features() {
           <div key={tab.id} className="grid animate-fade-up gap-10 p-8 md:p-12 lg:grid-cols-[1fr_1.2fr]">
             <div>
               <span className="grid h-14 w-14 place-items-center rounded-2xl bg-brand/10 ring-1 ring-brand/30">
-                <Icon name={tabIcons[active]} className="h-6 w-6 text-brand" />
+                <Icon name={tabIcons[active]} weight="duotone" className="h-6 w-6 text-brand" />
               </span>
               <h3 className="mt-7 text-2xl font-light leading-snug text-bone md:text-3xl">{tab.title}</h3>
               <p className="mt-4 text-[15px] leading-relaxed text-bone/55">{tab.body}</p>
@@ -285,7 +285,7 @@ export function Showcase() {
           {s.social.map((x, i) => (
             <div key={x.title} style={d(i * 80)} className="reveal surface flex items-center gap-4 p-5">
               <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white/6">
-                <Icon name={socialIcons[i]} className="h-5 w-5 text-bone" />
+                <Icon name={socialIcons[i]} weight="duotone" className="h-5 w-5 text-bone" />
               </span>
               <span>
                 <span className="block text-[15px] font-medium text-bone">{x.title}</span>
@@ -488,7 +488,7 @@ export function Growth() {
         <div className="mt-14 grid gap-px overflow-hidden rounded-card border border-white/[0.07] bg-white/[0.07] sm:grid-cols-2 lg:grid-cols-4">
           {g.items.map((x, i) => (
             <article key={x.title} style={d((i % 4) * 70)} className="reveal group bg-neutral-950 p-7 transition-colors duration-500 hover:bg-neutral-900">
-              <Icon name={growthIcons[i]} className="h-6 w-6 text-bone/70 transition-colors group-hover:text-brand" />
+              <Icon name={growthIcons[i]} weight="duotone" className="h-6 w-6 text-bone/70 transition-colors group-hover:text-brand" />
               <h3 className="mt-6 text-[16px] font-medium text-bone">{x.title}</h3>
               <p className="mt-2 text-[14px] leading-relaxed text-bone/50">{x.body}</p>
             </article>
