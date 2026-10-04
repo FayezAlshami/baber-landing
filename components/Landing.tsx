@@ -10,6 +10,7 @@ import Intro from "./Intro";
 import SmoothScroll from "./SmoothScroll";
 import Atmosphere from "./Atmosphere";
 import {
+  About,
   Brand,
   Compare,
   Faq,
@@ -57,6 +58,7 @@ function Page() {
           <Pricing />
           <Faq />
           <FinalCta />
+          <About />
         </main>
         <Footer />
         <MobileCta />

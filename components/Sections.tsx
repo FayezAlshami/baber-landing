@@ -12,7 +12,7 @@ import Scissors from "./ui/Scissors";
 import Signature from "./ui/Signature";
 import { fill } from "@/src/i18n";
 import { track } from "@/src/lib/track";
-import { BRAND, whatsappLink } from "@/src/config/site";
+import { BRAND, PACKAGE_PRICES_EUR, formatPrice, whatsappLink } from "@/src/config/site";
 
 const d = (ms: number) => ({ ["--d" as string]: `${ms}ms` });
 
@@ -792,6 +792,35 @@ export function FinalCta() {
 }
 
 /* ----------------------------------------------------------------- Footer */
+/* ------------------------------------------------------------------ About */
+/** A plain, quotable definition of Trimio: what it is, who makes it, what it costs. */
+export function About() {
+  const { t, locale } = useI18n();
+  const a = t.about;
+  const from = formatPrice(PACKAGE_PRICES_EUR.essential.month, "EUR", locale);
+  return (
+    <section id="about" aria-labelledby="about-title" className="border-t border-white/5 py-20 md:py-28">
+      <div className="container-x grid gap-8 md:grid-cols-[1fr_2fr] md:gap-16">
+        <div className="reveal">
+          <p className="eyebrow">
+            <span className="h-px w-8 bg-brand/60" aria-hidden />
+            {a.eyebrow}
+          </p>
+          <h2 id="about-title" className="mt-5 text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-tight tracking-[-0.02em] text-bone">
+            {a.title}
+          </h2>
+        </div>
+        <div className="reveal" style={d(120)}>
+          <p className="about-definition text-[clamp(1.05rem,1.6vw,1.3rem)] leading-relaxed text-bone/80">{fill(a.body, { from })}</p>
+          <p className="mt-5 text-[14px] text-bone/50">
+            {fill(a.who, { email: BRAND.email })}
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function Footer() {
   const { t } = useI18n();
   const f = t.footer;
