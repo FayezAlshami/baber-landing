@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useReducedMotion } from "motion/react";
 import { useI18n } from "./I18nProvider";
 import SectionHeading from "./ui/SectionHeading";
 import Icon, { type IconName } from "./ui/Icon";
@@ -370,11 +371,12 @@ export function Seo() {
 /* --------------------------------------------------------------- Insights */
 function Counter({ value, prefix = "", suffix = "" }: { value: number; prefix?: string; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const [n, setN] = useState(0);
+  const [count, setN] = useState(0);
+  const reduced = useReducedMotion();
+  const n = reduced ? value : count;
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return setN(value);
+    if (!el || reduced) return;
     const io = new IntersectionObserver(([e]) => {
       if (!e.isIntersecting) return;
       io.disconnect();
@@ -388,7 +390,7 @@ function Counter({ value, prefix = "", suffix = "" }: { value: number; prefix?: 
     });
     io.observe(el);
     return () => io.disconnect();
-  }, [value]);
+  }, [value, reduced]);
   return <span ref={ref} dir="ltr">{prefix}{n}{suffix}</span>;
 }
 

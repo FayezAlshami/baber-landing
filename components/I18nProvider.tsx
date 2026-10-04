@@ -4,6 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState, ty
 import { DEFAULT_LOCALE, dirOf, loaders, localeHref, type Dict, type Locale } from "@/src/i18n";
 import { CURRENCIES, type CurrencyId } from "@/src/config/site";
 import { track } from "@/src/lib/track";
+import { useStored, writeStored } from "@/src/lib/stores";
 
 type Ctx = {
   locale: Locale;
@@ -58,7 +59,6 @@ export default function I18nProvider({
   const [locale, setLocaleState] = useState(initialLocale);
   const [t, setT] = useState(initialDict);
   const [switching, setSwitching] = useState(false);
-  const [currency, setCurrencyState] = useState<CurrencyId>("EUR");
   const cache = useRef<Partial<Record<Locale, Dict>>>({ [initialLocale]: initialDict });
   const current = useRef(initialLocale);
 
@@ -92,21 +92,28 @@ export default function I18nProvider({
 
   const setLocale = useCallback((l: Locale) => void apply(l), [apply]);
 
+  const savedCurrency = useStored(CURRENCY_KEY);
+  const currency: CurrencyId = CURRENCIES.find((c) => c.id === savedCurrency)?.id ?? "EUR";
   const setCurrency = useCallback((c: CurrencyId) => {
-    setCurrencyState(c);
-    store(CURRENCY_KEY, c);
+    writeStored(CURRENCY_KEY, c);
     track("currency_switch", { currency: c });
   }, []);
 
-  // Restore saved preferences.
+  // On the root page, honour a saved language first, then the browser's language on a first
+  // visit. The dictionary is fetched before switching, so the swap happens in one step.
   useEffect(() => {
-    const savedCur = store(CURRENCY_KEY) as CurrencyId | null;
-    if (savedCur && CURRENCIES.some((c) => c.id === savedCur)) setCurrencyState(savedCur);
-    // On the root page, honour a saved choice first, then the browser's language on a first visit.
     if (initialLocale !== DEFAULT_LOCALE) return;
     const savedLocale = store(LOCALE_KEY) as Locale | null;
     const preferred = savedLocale ?? browserLocale();
-    if (preferred && preferred !== DEFAULT_LOCALE && preferred in loaders) apply(preferred, true);
+    if (!preferred || preferred === DEFAULT_LOCALE || !(preferred in loaders)) return;
+    let cancelled = false;
+    loaders[preferred]().then((dict) => {
+      cache.current[preferred] = dict;
+      if (!cancelled) apply(preferred, true);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [apply, initialLocale]);
 
   // Scroll reveal, conversion tracking, scroll depth, section views.

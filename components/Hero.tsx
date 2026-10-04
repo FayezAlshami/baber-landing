@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "motion/react";
 import { useI18n } from "./I18nProvider";
 import Img from "./ui/Img";
 import Icon from "./ui/Icon";
@@ -11,25 +12,25 @@ const TIMES = ["10:30", "11:15", "13:00", "14:30", "15:45", "17:00"];
 function PhoneMock() {
   const { t } = useI18n();
   const p = t.hero.phone;
-  const [stage, setStage] = useState(0);
+  const [step, setStep] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
+  // Reduced motion: hold the booking flow on its "time picked" frame.
+  const stage = reduced ? 2 : step;
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setStage(2);
-      return;
-    }
+    if (reduced) return;
     let timer: ReturnType<typeof setInterval> | undefined;
     const io = new IntersectionObserver(([e]) => {
       clearInterval(timer);
-      if (e.isIntersecting) timer = setInterval(() => setStage((s) => (s + 1) % 4), 2200);
+      if (e.isIntersecting) timer = setInterval(() => setStep((s) => (s + 1) % 4), 2200);
     });
     if (ref.current) io.observe(ref.current);
     return () => {
       io.disconnect();
       clearInterval(timer);
     };
-  }, []);
+  }, [reduced]);
 
   const confirmed = stage === 3;
 

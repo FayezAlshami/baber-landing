@@ -36,7 +36,7 @@ export default function Img({ name, alt, sizes, className = "", imgClassName = "
         height={m.h}
         loading={priority ? "eager" : "lazy"}
         decoding={priority ? "sync" : "async"}
-        {...(priority ? { fetchpriority: "high" } : {})}
+        {...(priority ? { fetchPriority: "high" as const } : {})}
         {...(parallax ? { "data-parallax": parallax, style: { transform: "scale(1.14)" } } : {})}
         className={`h-full w-full object-cover ${imgClassName}`}
       />

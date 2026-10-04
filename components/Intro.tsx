@@ -6,6 +6,7 @@ import { useI18n } from "./I18nProvider";
 import Logo from "./ui/Logo";
 import { ScissorsShape } from "./ui/Scissors";
 import { setScrollLock } from "./SmoothScroll";
+import { useIntroOff } from "@/src/lib/stores";
 
 type Bezier = [number, number, number, number];
 const EASE_SWEEP: Bezier = [0.45, 0, 0.25, 1];
@@ -146,13 +147,11 @@ export default function Intro() {
   const [scope, animate] = useAnimate<HTMLDivElement>();
   const [done, setDone] = useState(false);
   const [snip, setSnip] = useState(false);
+  const introOff = useIntroOff();
 
   useEffect(() => {
     const html = document.documentElement;
-    if (html.dataset.intro === "off") {
-      setDone(true);
-      return;
-    }
+    if (html.dataset.intro === "off") return;
     setScrollLock(true);
     const timers = [setTimeout(() => setSnip(true), 1950), setTimeout(() => setSnip(false), 3250)];
     const root = scope.current!;
@@ -223,7 +222,7 @@ export default function Intro() {
     };
   }, [animate, scope]);
 
-  if (done) return null;
+  if (done || introOff) return null;
 
   return (
     <div ref={scope} className="intro fixed inset-0 z-[100] cursor-pointer overflow-hidden" aria-hidden="true">

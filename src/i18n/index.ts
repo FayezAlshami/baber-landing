@@ -13,6 +13,9 @@ export const LOCALES: { id: Locale; label: string; short: string; dir: "ltr" | "
 
 export const DEFAULT_LOCALE: Locale = "nl";
 
+/** Narrow a route segment to a supported locale (routes only build for known locales). */
+export const asLocale = (value: string): Locale => (LOCALES.some((l) => l.id === value) ? (value as Locale) : DEFAULT_LOCALE);
+
 export const dirOf = (l: Locale) => (l === "ar" ? "rtl" : "ltr");
 
 /** Path of a locale's page, without base path. */

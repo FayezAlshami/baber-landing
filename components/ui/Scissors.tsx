@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { animate, useSpring } from "motion/react";
 
 /*
@@ -30,7 +30,7 @@ export function ScissorsShape({ open = 1, snip = false, fill = "#FFA985" }: Shap
   const refs = [useRef<SVGGElement>(null), useRef<SVGGElement>(null)];
   const value = useSpring(open, { stiffness: 420, damping: 22, mass: 0.6 });
   // First paint (incl. server HTML) matches the initial state; later changes are painted by the spring.
-  const initial = useRef(open).current;
+  const [initial] = useState(open);
 
   useEffect(() => {
     const paint = (v: number) =>
